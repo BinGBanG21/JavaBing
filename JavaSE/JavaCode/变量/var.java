@@ -9,3 +9,7 @@
 //关于程序中+号的使用
 //1.当左右两边都是数值 就是加法运算
 //2.当左右两边有一方是字符串 则是字符串的拼接运算
+
+
+//System.out.println("hello"+100+3) "hello1003"
+//System.out.println(100+3+"hello") "103hello"

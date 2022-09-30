@@ -49,12 +49,26 @@
 	影响。【float 4个字节 double是8个字节】
 	2.Java的浮点型常量（具体值）默认为double型，声明float型常量，须后加'f'或'F'
 	3.浮点型常量有两种表示形式
-	十进制数形式∶如∶5.12   512.0f   .512 （必须有小数点）
-	科学计数法形式∶如∶5.12e2【5.12*10的2次方】5.12E-2 【5.12/10的2次方】
+	十进制数形式∶如∶ 5.12   512.0f   .512 （必须有小数点）
+	科学计数法形式∶如∶ 5.12e2【5.12*10的2次方】 5.12E-2 【5.12/10的2次方】
 	4. 通常情况下， 应该使用double型， 因为它比float型更精确
 	5.浮点数使用陷阱2.7和8.1/3比较
 	if(Math.abs(num7-num8)<0.00001)[
 	System.out.println（"相等~~")
+
+	API查询方法
+	按照 包->类->方法
+	直接索引 ：显示->索引->Math
+
+	字符类型(char)
+	注意！！！！！！！：
+	字符类型要用''  ""是字符串不是字符
+	字符类型可以表示单个字符,字符类型是 char，char 是两个字节(可以存放汉字)，多个字符我们用字符串 String
+	1.字符常量是用单引号（'）括起来的单个字符。例如∶charc1='a'；charc2='中'；charc3='9'；Java中还允许使用转义字符 V来将其后的字符转变为
+	2.特殊字符型常量。例如charc3=*\n’//’\n’表示换行符
+	3.在java中，char的本质是一个整数，在输出时，是unicode码对应的字符。
+	4.http://tool.chinaz.com/Tools/Unicode.aspx 可以直接给char赋一个整数，然后输出时，会按照对应的unicode字符输出【97->a】
+	5. char类型是可以进行运算的，相当于一个整数， 因为它都对应有Unicode码.
 
 
 */
@@ -63,5 +77,37 @@ public class DataType {
 		int a = 1
 		int b = 1L //报错  long类型不能赋值给int类型 （不兼容的类型）
 		long c = 1L 
-	}
+		float num1 = 1.1; //错误 
+		float num2 = 1.1F; //对的 
+		double num3 = 1.1; //对 
+		double num4 = 1.1f; //对
+
+		//浮点数使用陷阱: 2.7 和 8.1 / 3 比较
+		double num11 = 2.7
+		double num12 = 8.1 / 3 //接近2.7的一个小数 
+		//得到一个重要的使用点: 当我们对运算结果是小数的进行相等判断是，要小心 
+		//拿到结果不要直接比较 要abs差值去比较
+		//应该是以两个数的差值的绝对值，在某个精度范围类判断 
+		//赋值或者查询到的小数可以直接比较  运算得到的不可以
+		if ( num11 == num12) { 
+			System.out.println("num11 == num12 相等"); 
+		}
+		//正确的写法
+		if ( Math.abs(num11 - num12) < 0.000001 ) { 
+			System.out.println("差值非常小，到我的规定精度，认为相等...");
+
+		//在 java 中，char 的本质是一个整数，在默认输出时，是 unicode 码对应的字符 
+		//要输出对应的数字，可以(int)字符 
+		char c1 = 97; 
+		System.out.println(c1); // a
+
+		char c2 = 'a'; //输出'a' 对应的 数字 
+		System.out.println((int)c2)
+
+		char c3 = '王';
+		System.out.println((int)c3);//29579 
+		char c4 = 29579; System.out.println(c4);//王
+
+		//char 类型是可以进行运算的，相当于一个整数，因为它都对应有 Unicode 码. 
+		System.out.println('a' + 10);//107
 }

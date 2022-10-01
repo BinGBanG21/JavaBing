@@ -69,8 +69,22 @@
 	3.在java中，char的本质是一个整数，在输出时，是unicode码对应的字符。
 	4.http://tool.chinaz.com/Tools/Unicode.aspx 可以直接给char赋一个整数，然后输出时，会按照对应的unicode字符输出【97->a】
 	5. char类型是可以进行运算的，相当于一个整数， 因为它都对应有Unicode码.
-
-
+	
+	字符型存储到计算机中，需要将字符对应的码值（整数）找出来
+	比如	'a'存储'a'==>码值97==>二进制（1100001）==>存储
+		 读取∶二进制（1100001）=>97===>'a'=>显示
+	
+	ASCII（ASCII 编码表一个字节表示，一个128个字符，实际上一个字节可以表示256个字符，只用128个）
+	Unicode（Unicode 编码表 固定大小的编码 使用两个字节来表示字符，字母和汉字统一都是占用两个字节这样浪费空间）
+	utf-8（编码表，大小可变的编码字母使用1个字节，汉字使用3个字节）
+	qbk （可以表示汉字，而且范围广，字母使用1个字节，汉字2个字节）qb2312（可以表示汉字，gb2312<gbk）big5码（繁体中文，台湾，香港）
+	字符型存储到计算机中，需要将字符对应的码值（整数）找出来，比如'a'
+	ASCII（ASCII 编码表一个字节表示，一个128个字符，实际上一个字节可以表示256个字符，只用128个）
+	Unicode（Unicode 编码表 固定大小的编码 使用两个字节来表示字符，字母和汉字统一都是占用两个字节
+	这样浪费空间）
+	utf-8（编码表，大小可变的编码字母使用1个字节，汉字使用3个字节）
+	qbk （可以表示汉字，而且范围广，字母使用1个字节，汉字2个字节）
+	qb2312（可以表示汉字，gb2312<gbk
 */
 public class DataType {
 	public static void main (String[] args){
@@ -109,5 +123,15 @@ public class DataType {
 		char c4 = 29579; System.out.println(c4);//王
 
 		//char 类型是可以进行运算的，相当于一个整数，因为它都对应有 Unicode 码. 
+		//注意 是单引号 '' 所以a是字符不是字符串
 		System.out.println('a' + 10);//107
+
+
+		//定义一个布尔变量 
+		boolean isPass = true;
+		if(isPass == true) { 
+			System.out.println("考试通过，恭喜"); 
+		} else { 
+			System.out.println("考试没有通过，下次努力"); 
+		}
 }

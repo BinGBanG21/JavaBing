@@ -12,7 +12,7 @@
 			Boolean.parseBoolean("true")
 			Byte.parseByte("12");
 			怎么把字符串转成字符 char -> 把字符串的第一个字符得到 调用charAt(0) 得到 s5 字符串的第一个字符 '1' 
-			
+			如果格式不正确，就会抛出异常，程序就会终止
 
 */
 

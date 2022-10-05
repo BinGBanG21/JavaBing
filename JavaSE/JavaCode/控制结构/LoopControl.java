@@ -37,16 +37,23 @@
 					1) 循环条件是返回一个布尔值的表达式 
 					2) for(;循环判断条件;) 中的初始化和变量迭代可以写到其它地方，但是两边的分号不能省略。
 					3) 循环初始值可以有多条初始化语句，但要求类型一样，并且中间用逗号隔开，循环变量迭代也可以有多条变量迭代 语句，中间用逗号隔开
-
-
-
-
-
-
-
-
-
-
+			while循环
+				1) 循环条件是返回一个布尔值的表达式 
+				2) while 循环是先判断再执行语句
+			do while循环
+				1. do while 是关键字 也有循环四要素, 只是位置不一样 
+				2. 先执行，再判断，也就是说，一定会至少执行一次 
+				3. 最后 有一个 分号 
+				4. while 和 do..while 区别举例:
+					while 一直做某事 直到xxxx
+					do while 先做一次某事 然后判断是否继续做
+				注意事项
+					1) 循环条件是返回一个布尔值的表达式 
+					2) do..while 循环是先执行，再判断， 因此它至少执行一次
+			多重循环控制
+				1) 将一个循环放在另一个循环体内，就形成了嵌套循环。其中，for ,while ,do…while 均可以作为外层循环和内层循环。 【建议一般使用两层，最多不要超过 3 层, 否则，代码的可读性很差】 
+				2) 实质上，嵌套循环就是把内层循环当成外层循环的循环体。当只有内层循环的循环条件为 false 时，才会完全跳出内 层循环，才可结束外层的当次循环，开始下一次的循环[听不懂，走案例]。 
+				3) 设外层循环次数为 m 次，内层为 n 次，则内层循环体实际上需要执行 m*n 次。
 */
 
 
@@ -61,5 +68,50 @@ public class LoopControl {
 			}
 		}
 		System.out.println("个数为"+i",和为"+total)
-	}	
+
+		//统计 3 个班成绩情况，每个班有 5 名同学， 
+		//求出各个班的平均分和所有班级的平均分[学生的成绩从键盘输入]。 
+		//统计三个班及格人数，每个班有 5 名同学。
+		Scanner myScanner = new Scanner(System.in); 
+		double totalScore = 0; 
+		//累积所有学生的成绩 
+		int passNum = 0;
+		//累积 及格人数 
+		int classNum = 3; 
+		//班级个数 
+		int stuNum = 5;
+		//学生个数 
+		for( int i = 1; i <= classNum; i++) {//i 表示班级 
+		double sum = 0; 
+		//一个班级的总分 
+		for( int j = 1; j <= stuNum; j++) {//j 表示学生 
+			System.out.println("请数第"+i+"个班的第"+j+"个学生的成绩"); 
+			double score = myScanner.nextDouble();
+			//当有一个学生成绩>=60, passNum++ 
+			if(score >= 60) {
+			 	passNum++; 
+			 }
+			 	sum += score; 
+			 	//累积 
+				 System.out.println("成绩为" + score); 
+			 }
+			 	//因为 sum 是 5 个学生的总成绩 
+				 System.out.println("sum=" + sum + " 平均分=" + (sum / stuNum)); 
+			 	//把 sum 累积到 totalScore 
+				 totalScore += sum;
+			 }
+				 System.out.println("三个班总分="+ totalScore + " 平均分=" + totalScore / (classNum*stuNum));
+				 System.out.println("及格人数=" + passNum); 
+			}
+		
+		//九九乘法表 
+			for(int i=0;i<=9;i++){
+    			 for (int j=1;j<=i;j++){
+       				 System.out.print(i+"*"+j+"="+i*j+" ");
+     		 }
+ 				System.out.println();
+			}
+		//打印空心金字塔
+			
+	
 }

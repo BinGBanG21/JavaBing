@@ -28,4 +28,34 @@ public class Practice03 {
 		int n2 = n % 100 / 10 // 十位
 		int n3 = n % 10 // 个位
 		boolean flag  = ( n == n1 * n1 * n1 + n2 * n2 * n2 + n3 * n3 * n3)
+
+		//输出1-100之间不能被5整除的数 5个一行
+		int count = 0 
+		int num = 0
+		while (num <= 100) {
+			if (num % 5 != 0) {
+				count++
+				System.out.print("num"+\t)	
+				if (count % 5 == 0) {
+					System.out.println()
+				}
+			}
+		}
+		//输出a-z Z-A 字符可以运算 在运算的时候转成整数
+		for (char c1 ='a'; c1 <= 'z' ; c1++ ) {
+			System.out.println( c1 + "" )
+		}
+		for (char c1 ='Z'; c1 >= 'A' ; c1-- ) {
+			System.out.println( c1 + "" )
+		}
+		//求出1-1/2+1/3-1/4……1/100的和 
+		//注意的点： 1 / i 永远 = 1 要变成1.0才能正确运算
+		double sum  = 1 
+		for ( i =2; i <= 100 ; i++ ) {
+			if ( i % 2 == 0) {
+				sum -= 1.0 / i
+			} else {
+				sum += 1.0 / i
+			}
+		}
 }

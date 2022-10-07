@@ -17,7 +17,9 @@
 			3 使用数组 
 		5) 数组的下标是从 0 开始的。 
 		6) 数组下标必须在指定范围内使用，否则报：下标越界异常
-
+	数组赋值机制
+		1) 基本数据类型赋值，这个值就是具体的数据，而且相互不影响。
+		2) 数组在默认情况下是引用传递，赋的值是地址。
 */
 
 public class Array {
@@ -26,6 +28,38 @@ public class Array {
 		char[] letterArr = new char[26]
 		for (int i = 0 ; i < letterArr.length ; i++) {
 			letterArr[i] = (char)('A' + i)
+		}
+		//请求出一个数组 int[]的最大值 {4,-1,9, 10,23}，并得到对应的下标
+		double max = 0
+		int[] arr = { 4,-1,9,10,23 }
+		int maxIndex = 0
+		for (int i = 0; i < arr.length; i++ ) {
+			 if (arr[i] > max) {
+			 	max = arr[i]
+			 	maxIndex = i
+			 }
+		}
+		//数组拷贝
+		int[] arr1 = { 1,2,3,4,5 }
+		int[] arr2 = new int[arr1.length]
+		for (int i =0 ; i<arr1.length ; i++ ) {
+			arr2[i] = arr1[i]
+		}
+		//数组反转
+		int[] arr3 =new int[arr1.length]
+		int index = arr1.length - 1
+		for ( int i = 0; i<arr1.length ; i++ ) {
+			arr3[index] = arr[i]
+			index -- 
+		}
+		//如果反转不返回新数组
+		int temp = 0 
+		int len = arr1.length / 2 
+		for (int i = 0 ; i < len; i++ ) {
+			double temp = 0
+			temp = arr1[i]
+			arr1[i] = arr[len-i]
+			arr1[len-i] = temp
 		}
 	}
 }

@@ -53,6 +53,8 @@ public class Array {
 			index -- 
 		}
 		//如果反转不返回新数组
+		// int[] arr2 = new int[arr.length];
+		// for(int i = arr.length - 1, j = 0; i >= 0; i--, j++) { arr2[j] = arr[i]; }
 		int temp = 0 
 		int len = arr1.length / 2 
 		for (int i = 0 ; i < len; i++ ) {

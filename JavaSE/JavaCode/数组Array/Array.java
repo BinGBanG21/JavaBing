@@ -19,3 +19,13 @@
 		6) 数组下标必须在指定范围内使用，否则报：下标越界异常
 
 */
+
+public class Array {
+	public static void main (String[] args) {
+		//创建A-Z的数组 并打印
+		char[] letterArr = new char[26]
+		for (int i = 0 ; i < letterArr.length ; i++) {
+			letterArr[i] = (char)('A' + i)
+		}
+	}
+}

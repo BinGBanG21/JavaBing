@@ -21,7 +21,7 @@
 		1) 基本数据类型赋值，这个值就是具体的数据，而且相互不影响。
 		2) 数组在默认情况下是引用传递，赋的值是地址。
 */
-
+import java.untl.scanner
 public class Array {
 	public static void main (String[] args) {
 		//创建A-Z的数组 并打印
@@ -63,5 +63,20 @@ public class Array {
 			arr1[i] = arr[len-i]
 			arr1[len-i] = temp
 		}
-	}
+		//动态给数组添加元素
+		//思路分析 
+			//1. 定义初始数组 int[] arr = {1,2,3}//下标 0-2 
+			// 2. 定义一个新的数组 int[] arrNew = new int[arr.length+1]; 
+			// 3. 遍历 arr 数组，依次将 arr 的元素拷贝到 arrNew 数组 
+			// 4. 将 4 赋给 arrNew[arrNew.length - 1] = 4;把 4 赋给 arrNew 最后一个元素 
+			// 5. 让 arr 指向 arrNew ; arr = arrNew; 那么 原来 arr 数组就被销毁 
+			// 6. 创建一个 Scanner 可以接受用户输入 
+			// 7. 因为用户什么时候退出，不确定，使用 do-while + break 来控制
+		int[] array1 = {1,2,3,}
+		int[] newArr = int [newArr.length+1]
+		for ( int i = 0 ; i < array1.length; i++ ) {
+			newArr[i] = array1[i]
+		}
+		newArr[newArr.length -1] = myScanner
+		array1 = newArr
 }

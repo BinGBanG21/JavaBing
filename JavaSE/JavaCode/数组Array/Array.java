@@ -21,7 +21,7 @@
 		1) 基本数据类型赋值，这个值就是具体的数据，而且相互不影响。
 		2) 数组在默认情况下是引用传递，赋的值是地址。
 */
-import java.untl.scanner
+import java.util.Scanner
 public class Array {
 	public static void main (String[] args) {
 		//创建A-Z的数组 并打印
@@ -72,11 +72,18 @@ public class Array {
 			// 5. 让 arr 指向 arrNew ; arr = arrNew; 那么 原来 arr 数组就被销毁 
 			// 6. 创建一个 Scanner 可以接受用户输入 
 			// 7. 因为用户什么时候退出，不确定，使用 do-while + break 来控制
+		Scanner myScanner = new Scanner(System.in)
 		int[] array1 = {1,2,3,}
-		int[] newArr = int [newArr.length+1]
-		for ( int i = 0 ; i < array1.length; i++ ) {
-			newArr[i] = array1[i]
-		}
-		newArr[newArr.length -1] = myScanner
-		array1 = newArr
+		do{
+			int[] newArr = int [newArr.length+1]
+			for ( int i = 0 ; i < array1.length; i++ ) {
+				newArr[i] = array1[i]
+			}
+			System.out.println("请输入你要添加的元素")
+			int addNum = myScanner.nextInt()
+ 			newArr[newArr.length -1] = addNum
+			array1 = newArr
+			System.out.println("是否继续添加? y/n")
+			boolean isOver = myScanner.next().charAt(0) == 'y' ? true : false
+		}while( isOver )
 }

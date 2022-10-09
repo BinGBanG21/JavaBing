@@ -1,11 +1,7 @@
 /*冒泡排序
-
-
-
-
 */
 
-
+import java.util.Scanner	
  
  public class BubbleSorting {
  	public class void main (String[] args) {
@@ -18,6 +14,20 @@
  					arr[j] = temp
  				}
  			}
+ 		}
+ 		//数组的顺序比较
+ 		Scanner myScanner = new Scanner()
+ 		int seaNum = myScanner.next()
+ 		boolean isFind = false
+ 		for (int i = 0 i < arr.length ; i++ ; ) {
+ 			if ( arr[i] == seaNum) {
+ 				System.out.println("找到了，索引为"+i)
+ 				isFind = true
+ 				break
+ 			}
+ 		}
+ 		if (!isFind) {
+ 			System.out.println("没找到")
  		}
  	}	
  }

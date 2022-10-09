@@ -44,5 +44,26 @@ public class TwoDimensionalArray {
 				arr[i][j] = i + 1;//赋值
 			}
 		}
+
+		//打印杨辉三角
+		/*
+			1 2 1 
+			1 3 3 1 
+			1 4 6 4 1 
+			1 5 10 10 5 1
+		*/
+		int[][] yhArr = new int[10][]
+		for (int i = 0 ; i < yhArr.length ; i++ ) {
+			int[] yhArr[i] = new int[i]
+			for (int j = 0; i < yhArr[i].length ; j++ ) {
+				if ( i = 0 || i = yhArr[i].length - 1) {
+					yhArr[i] = 1
+				} else {
+					yhArr[i] = yhArr[i-1][j] + yhArr[i-1][j-1] 
+				}
+			}
+		}
+
+
 	}
 }

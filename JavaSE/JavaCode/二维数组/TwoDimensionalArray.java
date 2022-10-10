@@ -111,7 +111,7 @@ public class TwoDimensionalArray {
 		// i指的是新数组  j指向原数组
 		for (int i =0 ,j= 0; i < arr2.length; i++ ) {
 			if (index != i) {
-				arr2[i] = arr1[i]
+				arr2[i] = arr1[j]
 				j++
 			} else{
 				arr2[i] = num

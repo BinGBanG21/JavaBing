@@ -59,3 +59,26 @@
 			3.方法定义时的参数称为形式参数，简称形参；方法调用时的传入参数称为实际参数，简称实参
 			4.实参和形参的类型要一致或兼容、个数、顺序必须一致
 */
+public class Object  {
+	public static void main (String[] args){
+		Person p = new Person()
+		p.name = "wangbing"
+		p.age = 22
+		MyTools p1 = new MyTools()
+		Person p2 = p1.copyPerson(p)
+	}
+}
+//编写一个方法 copyPerson，可以复制一个 Person 对象，返回复制的对象。克隆对象
+//注意要求得到新对象和原来的 对象是两个独立的对象，只是他们的属性相同
+class Person {
+	String name
+	int age
+}
+class MyTools {
+	public Person copyPerson(Person p){
+		Person p1 = new Person()
+		p1.name = p.name
+		p1.age = p.age
+		return p1
+	}
+}

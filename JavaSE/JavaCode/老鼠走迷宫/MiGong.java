@@ -18,3 +18,6 @@ public class MiGong {
 		int[3][2] = 1
 	}
 }
+class Find {
+	public boolean FindWay(int[][] map ,int i, int j){}
+}

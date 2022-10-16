@@ -19,5 +19,35 @@ public class MiGong {
 	}
 }
 class Find {
-	public boolean FindWay(int[][] map ,int i, int j){}
+	/*
+		思路：
+			1.关于参数 map是一个8*7的二维数组 i j 可以看成是坐标一样的 
+			2.规定几种状态  0为路  1为障碍物 2为当前走过的路线（轨迹） 3为当前路线尽头（即为死路 当前位置的上下左右都是障碍物）
+			3.如何确定老鼠走出了迷宫 即 map[6][5] 为2
+			4.找路规律 上->右->下->左
+			5.最终返回布尔值 是否找到了路
+	*/
+	public boolean FindWay(int[][] map ,int i, int j){
+		if (map[6][5] == 2) {
+			return true
+		}else {
+			//小老鼠的起始路线要在路上我们才做出处理 不能在障碍物上或者边界上面
+			if (map[i][j] == 0) {
+			//把当前这个格子记录为行走路线
+				map[i][j] = 2
+				//开始按照找路规律递归 因为FindWay本身返回布尔值 所以if else 判断会一直走 知道最后找到路或者没找到路
+				if ( FindWay ( map, i - 1, j ) ) { //上
+					return true
+				} else if (FindWay(map, i , j+1)) { // 右
+					return true
+				} else if (FindWay(map,i+1, j)) { //下
+					return true
+				} else if (FindWay(map, i-1, j)) { //左
+					return true
+				}
+			}else { // 因为起始的时候数组只有0和1 如果不是0那我们不做处理
+				return false
+			}
+		}
+	}
 }

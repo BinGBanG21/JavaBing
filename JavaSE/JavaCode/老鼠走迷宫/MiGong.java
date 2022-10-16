@@ -32,10 +32,14 @@ class Find {
 			return true
 		}else {
 			//小老鼠的起始路线要在路上我们才做出处理 不能在障碍物上或者边界上面
+			//而且保证map[i][j] = 0是为了保证不再走我们走过的路（更改找路策略时不发生死循环）
+			//但是这里要考虑回溯现象 就是优先向下走后是死路  在回到上一步往右边走 
 			if (map[i][j] == 0) {
 			//把当前这个格子记录为行走路线
 				map[i][j] = 2
-				//开始按照找路规律递归 因为FindWay本身返回布尔值 所以if else 判断会一直走 知道最后找到路或者没找到路
+				//开始按照找路规律递归 
+				//因为FindWay本身返回布尔值 所以在判断中的递归 会发生回溯现象 
+				//if else 判断会一直走 直到最后找到路或者没找到路
 				if ( FindWay ( map, i - 1, j ) ) { //上
 					return true
 				} else if (FindWay(map, i , j+1)) { // 右
@@ -44,6 +48,9 @@ class Find {
 					return true
 				} else if (FindWay(map, i-1, j)) { //左
 					return true
+				} else { //如果判断来到了这里 就说明迷宫是死路 出不去
+					map[i][j] = 3
+					return false 
 				}
 			}else { // 因为起始的时候数组只有0和1 如果不是0那我们不做处理
 				return false

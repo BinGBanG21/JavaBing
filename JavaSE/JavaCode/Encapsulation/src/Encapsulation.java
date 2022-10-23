@@ -19,22 +19,58 @@
 //不能随便查看人的年龄，工资等隐私，并对设置的年龄进行合理的验证。
 //年龄合理就设置，否则给默认年龄，必须在1-120
 //年龄，工资不能直接查看 name的长度在2-6字符之间
+
 public class Encapsulation {
     public static void main(String[] args) {
-        Practice practice = new Practice("wangbing",28,1000);
+        Practice practice = new Practice();
+        practice.setName("wangbing");
+        practice.setAge(20);
+        practice.setSalary(1000.0);
+        System.out.println();
     }
 }
+
 class Practice {
-    public String name ;
+    public String name;
     private int age;
     private double salary;
-    public Practice(String name, int age ,double sal) {
-        this.name = name;
-        this.age = age;
-        
-    }
+
 
     public String getName() {
         return name;
     }
+
+    public void setName(String name) {
+        if (name.length() >= 2 && name.length() <= 6) {
+            this.name = name;
+        } else {
+            System.out.println("输入的用户名有误 长度在2-6之间");
+        }
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        if (age >= 1 && age <= 120) {
+            this.age = age;
+        } else {
+            System.out.println("设置的年龄不对 要在合理的年龄范围内");
+            this.age = 18;
+        }
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+
+    public void info() {
+        System.out.println("姓名：" + name + "，年龄：" + age + ",薪水：" + salary);
+    }
+
 }

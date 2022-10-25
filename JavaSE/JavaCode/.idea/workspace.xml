@@ -19,7 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d5f5ff9-e207-4c4a-82a4-ef2bfe7383d7" name="Default Changelist" comment="" />
+    <list default="true" id="2d5f5ff9-e207-4c4a-82a4-ef2bfe7383d7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/Extend/src/Extend.java" beforeDir="false" afterPath="$PROJECT_DIR$/Extend/src/Extend.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,19 +47,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-  </component>
-  <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -68,6 +58,7 @@
       <option name="presentableId" value="Default" />
       <updated>1666312491828</updated>
       <workItem from="1666312492868" duration="125000" />
+      <workItem from="1666687892089" duration="28000" />
     </task>
     <servers />
   </component>
@@ -84,15 +75,16 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="738" y="267" key="FileChooserDialogImpl" timestamp="1666312600092">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="738" y="267" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1666312600092" />
-    <state x="333" y="101" key="new project wizard" timestamp="1666312617136">
+    <state x="333" y="101" key="new project wizard" timestamp="1666687917565">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="333" y="101" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1666312617136" />
+    <state x="333" y="101" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1666687917565" />
   </component>
 </project>

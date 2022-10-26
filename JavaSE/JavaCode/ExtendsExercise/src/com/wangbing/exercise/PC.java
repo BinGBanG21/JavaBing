@@ -15,7 +15,8 @@ public class PC extends Computer {
     public void setBrand(String brand) {
         this.brand = brand;
     }
-    public void showInfo(){
-        System.out.println(getDetails()+"brand"+this.brand);
+
+    public void showInfo() {
+        System.out.println(getDetails() + "brand" + this.brand);
     }
 }

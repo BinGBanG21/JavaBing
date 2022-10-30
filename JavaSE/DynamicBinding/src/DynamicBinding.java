@@ -10,4 +10,51 @@
 *           方法定义的形参类型为父类类型，实参类型允许为子类类型
 * */
 public class DynamicBinding {
+    public static void main(String[] args) {
+
+    }
+}
+class Employee {
+    private String name;
+    private double salary;
+
+    public Employee(String name, double salary) {
+        this.name = name;
+        this.salary = salary;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+
+    //得到年工资的方法
+    public double getAnnual(){
+        return this.salary * 12;
+    }
+}
+
+class Worker extends Employee {
+    public Worker(String name, double salary) {
+        super(name, salary);
+    }
+    public String work(){
+        return "员工"+this.getName()+"is working";
+    }
+
+    @Override
+    public double getAnnual() {
+        return super.getAnnual();
+    }
 }

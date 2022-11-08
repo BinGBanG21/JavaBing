@@ -39,6 +39,12 @@
         个人理解：一句话 interface是对java单继承机制的一种补充
                 继承是天生就会的 出生就自带的 interface是后天学习的
                 当我们发现继承过来的类的方法不满足我们的需求 可以同过implements继续拓展
+    接口的多态特性
+        多态参数
+            1）在前面的Usb接口案例，Usblnterface usb，既可以接收手机对象，又可以接收相机对象
+            就体现了接口多态（接口引用可以指向实现了接口的类的对象）
+            2）多态数组
+            3）接口存在多态传递现象
 * */
 public class Interface {
     public static void main(String[] args) {
@@ -85,5 +91,24 @@ class LittleMonkey extends Monkey implements Fishable,Birdable {
     @Override
     public void flying() {
         System.out.println(getName() + " 通过学习，可以像鸟儿一样飞翔...");
+    }
+}
+
+interface A {
+    int x = 0; //等价 public static final int x = 0;
+}
+class B {
+    int x = 1; //普通属性
+}
+class C extends B implements A {
+    public void pX() {
+        //System.out.println(x); //错误，原因不明确 x
+        //可以明确的指定 x
+        //访问接口的 x 就使用 A.x
+        //访问父类的 x 就使用 super.x
+        System.out.println(A.x + " " + super.x);
+    }
+    public static void main(String[] args) {
+        new C().pX();
     }
 }

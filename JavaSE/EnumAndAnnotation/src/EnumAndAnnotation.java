@@ -32,11 +32,17 @@
         4) values：返回当前枚举类中所有的常量
         5) valueOf：将字符串转换成枚举对象，要求字符串必须为已有的常量名，否则报异常！
         6) compareTo：比较两个枚举常量，比较的就是编号！
+     enum 实现接口
+        1) 使用 enum 关键字后，就不能再继承其它类了，因为 enum 会隐式继承 Enum，而 Java 是单继承机制。
+        2) 枚举类和普通类一样，可以实现接口
 */
 
 public class EnumAndAnnotation {
     public static void main(String[] args) {
-
+        Week[] weeks = Week.values();
+        for (Week week : weeks ) {
+            System.out.println(week);
+        }
     }
 }
 
@@ -74,5 +80,24 @@ enum Season2 {
                 "name='" + name + '\'' +
                 ", desc='" + desc + '\'' +
                 '}';
+    }
+}
+
+//声明 Week 枚举类，其中包含星期一至星期日的定义；
+//MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY;
+//使用 values 返回所有的枚举数组, 并遍历输出
+
+enum  Week {
+    MONDAY("星期一"), TUESDAY("星期二"), WEDNESDAY("星期三"),
+    THURSDAY("星期四"), FRIDAY("星期五"), SATURDAY("星期六"), SUNDAY("星期日");
+    private String name ;
+
+    Week(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

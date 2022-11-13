@@ -39,9 +39,28 @@
         · concat
         · replace替换字符串中的字符
         · split 分割字符串，对于某些分割字符，我们需要转义比如|\\等
-            案例String poem = "锄禾日当午，汗滴禾下土，谁知盘中餐，粒粒皆辛苦"；和文件路径.
+            案例String poem = "锄禾日当午，汗滴禾下土，谁知盘中餐，粒粒皆辛苦" ；和文件路径.
         · compareTo //比较两个字符串的大小toCharArray//转换成字符数组
         · format //格式字符串，%s字符串%c字符串%c.字符%d整型%.2f浮点型案例，将一个人的信息格式化输出.
+   StringBuffer类
+        · StringBuffer代表可变的字符序列，可以对字符串内容进行增删。
+        · 很多方法与String相同，但StringBuffer是可变长度的。
+        · StringBuffer是一个容器。
+        解读：
+            1. StringBuffer 的直接父类 是 AbstractStringBuilder
+            2. StringBuffer 实现了 Serializable, 即 StringBuffer 的对象可以串行化
+            3. 在父类中 AbstractStringBuilder 有属性 char[] value,不是 final
+               该 value 数组存放 字符串内容，引出存放在堆中的
+            4. StringBuffer 是一个 final 类，不能被继承
+            5. 因为 StringBuffer 字符内容是存在 char[] value, 所有在变化(增加/删除)
+               不用每次都更换地址(即不是每次创建新对象)， 所以效率高于 String
+    String VS StringBuffer
+        1）String保存的是字符串常量，里面的值不能更改，每次String类的更新实际
+           上就是更改地址， 效率较低 //private final char value【】；
+        2）StringBuffer保存的是字符串变量，里面的值可以更改，每次StringBuffer的更新实际上可以更新内容，不用每次更新地址，效率较高
+           char【】value；//这个放在堆.
+    StringBuffer 类常用方法
+
 * */
 
 public class String01 {
@@ -55,6 +74,50 @@ public class String01 {
         //2.String a="hello"+"abc";=> String a="helloabc";
 
 
+        //String——>StringBuffer
+        String str = "hello tom";
+        //方式 1 使用构造器
+        //注意： 返回的才是 StringBuffer 对象，对 str 本身没有影响
+        StringBuffer stringBuffer = new StringBuffer(str);
+        //方式 2 使用的是 append 方法
+        StringBuffer stringBuffer1 = new StringBuffer();
+        stringBuffer1 = stringBuffer1.append(str);
+        //看看 StringBuffer ->String
+        StringBuffer stringBuffer3 = new StringBuffer("韩顺平教育");
+        //方式 1 使用 StringBuffer 提供的 toString 方法
+        String s = stringBuffer3.toString();
+        //方式 2: 使用构造器来搞定
+        String s1 = new String(stringBuffer3);
+
+
+        //StringBuffer常见方法
+        StringBuffer s8 = new StringBuffer("hello");
+        //增
+        s8.append(',');// "hello,"
+        s8.append("张三丰");//"hello,张三丰"
+        s8.append("赵敏").append(100).append(true).append(10.5);//"hello,张三丰赵敏 100true10.5" System.out.println(s);//"hello,张三丰赵敏 100true10.5"
+        //删
+        /*
+         * 删除索引为>=start && <end 处的字符
+         * 解读: 删除 11~14 的字符 [11, 14)
+         */
+        s8.delete(11, 14);
+        System.out.println(s8);//"hello,张三丰赵敏 true10.5"
+        //改
+        //老韩解读，使用 周芷若 替换 索引 9-11 的字符 [9,11)
+        s8.replace(9, 11, "周芷若");
+        System.out.println(s8);//"hello,张三丰周芷若 true10.5"
+        //查找指定的子串在字符串第一次出现的索引，如果找不到返回-1
+        int indexOf = s8.indexOf("张三丰");
+        System.out.println(indexOf);//6
+        //插
+
+        //在索引为 9 的位置插入 "赵敏",原来索引为 9 的内容自动后移
+        s8.insert(9, "赵敏");
+        System.out.println(s8);//"hello,张三丰赵敏周芷若 true10.5"
+        //长度
+        System.out.println(s8.length());//22
+        System.out.println(s8);
     }
 }
 

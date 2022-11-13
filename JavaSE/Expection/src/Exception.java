@@ -83,7 +83,10 @@
         1）定义类∶自定义异常类名（程序员自己写）继承Exception或RuntimeException
         2）如果继承Exception，属于编译异常
         3）如果继承RuntimeException，属于运行异常（一般来说，继承RuntimeException）
-
+            1. 一般情况下，我们自定义异常是继承 RuntimeException
+            2. 即把自定义异常做成 运行时异常，好处时，我们可以使用默认的处理机制
+            3. 即比较方便
+    throw 和 throws 的区别
 
 * */
 

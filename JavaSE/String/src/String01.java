@@ -59,9 +59,39 @@
            上就是更改地址， 效率较低 //private final char value【】；
         2）StringBuffer保存的是字符串变量，里面的值可以更改，每次StringBuffer的更新实际上可以更新内容，不用每次更新地址，效率较高
            char【】value；//这个放在堆.
-    StringBuffer 类常用方法
+    StringBuilder类
+        1）一个可变的字符序列。此类提供一个与StringBuffer兼容的API，但不保证同步（StringBuilder 存在多线程的安全问题的情况）
+           该类被设计用作StringBuffer的一个简易替换，用在字符串缓冲区被单个线程使用的时候。如果可能，建议优先采用该类
+           因为在大多数实现中，它比StringBuffer要快。
+        2）在StringBuilder上的主要操作是append和insert方法，可重载这些方法，以接受任意类型的数据。
+        解读：
+            1. StringBuffer 的直接父类 是 AbstractStringBuilder
+            2. StringBuffer 实现了 Serializable, 即 StringBuffer 的对象可以串行化
+            3. 在父类中 AbstractStringBuilder 有属性 char[] value,不是final  该 value 数组存放 字符串内容，引出存放在堆中的
+            4. StringBuffer 是一个 final 类，不能被继承
+            5. 因为 StringBuffer 字符内容是存在 char[] value, 所有在变化(增加/删除)
+               不用每次都更换地址(即不是每次创建新对象)， 所以效率高于 String
+    String、StringBuffer 和 StringBuilder 的比较
+        1）StringBuilder和StringBuffer非常类似，均代表可变的字符序列，而且方法也一样
+        2）String∶不可变字符序列，效率低，但是复用率高(在常量池中可以被多个value引用)。
+        3）StringBuffer∶可变字符序列、效率较高（增删）、线程安全
+        4）StringBuilder∶可变字符序列、效率最高、线程不安全
+        5）String使用注意说明∶
+            string s="a"；//创建了一个字符串
+            S+=”b“；//实际上原来的“a”字符串对象已经丢弃了，现在又产生了一个字符串s+"b"（也就是"ab"）
+            如果多次执行这些改变串内容的操作，会导致大量副本字符串对象存留在内存中，降低效率。
+            如果这样的操作放到循环中，会极大影响程序的性能
+            结论∶如果我们对String做大量修改，不要使用String
+            效率排行：StringBuilder > StringBuffer > String
+    使用原则
+        1.如果字符串存在大量的修改操作，一般使用StringBuffer或StringBuilder
+        2.如果字符串存在大量的修改操作，并在单线程的情况，使用StringBuilder
+        3.如果字符串存在大量的修改操作，并在多线程的情况，使用StringBuffer
+        4.如果我们字符串很少修改，被多个对象引用，使用String，比如配置信息等，StringBuilder的方法使用和StringBuffer一样
 
 * */
+
+import java.util.Scanner;
 
 public class String01 {
     public static void main(String[] args) {
@@ -137,4 +167,24 @@ class String02 {
     //重要规则:
     //    String c1="ab"+"cd"；常量相加，看的是池。
     //    String c1=a+b；变量相加，是在堆中
+}
+
+//输入商品名称和商品价格，要求打印效果示例，使用前面学习的方法完成∶商品名商品价格
+//手机  123，564.59  比如价格3，456，789.88
+//要求∶价格的小数点前面每三位用逗号隔开，在输出。
+class OutPrice {
+    String str = "123456.57";
+
+    public void OutPrice01(String str) {
+        //Scanner接受传入的str
+        //将str转为StringBuffer
+        //使用计数器 循环 insert方法 完成字符串的处理
+        //Scanner scanner = new Scanner(System.in);
+        StringBuffer stringBuffer = new StringBuffer(str);
+
+        //找到小数点 然后每3个索引放一个逗号
+        for (int i = stringBuffer.indexOf(".") - 3; i > 0; i -= 3) {
+            stringBuffer = stringBuffer.insert(i,",");
+        }
+    }
 }

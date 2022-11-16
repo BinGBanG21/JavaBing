@@ -19,6 +19,14 @@ import java.util.Date;
     >LocalDate（日期/年月日）、LocalTime（时间/时分秒）、LocalDateTime（日期时间/年月日时分秒）JDK8加入
         LocalDate只包含日期，可以获取日期字段LocalTime只包含时间，可以获取时间字段
         LocalDateTime包含日期+时间，可以获取日期和时间字段
+     第三代日期类常用方法
+        ·使用DateTimeFormatter来格式化日期
+        ·LocalDateTime类
+        ·MonthDay类∶检查重复事件
+        ·是否是闰年
+        ·增加日期的某个部分
+        ·使用plus方法测试增加时间的某个部分
+        ·使用minus方法测试查看一年前和一年后的日期
 * */
 public class Date01 {
     public static void main(String[] args) {

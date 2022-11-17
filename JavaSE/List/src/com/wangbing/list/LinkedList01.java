@@ -11,6 +11,14 @@ package com.wangbing.list;/*
         3）每个节点（Node对象），里面又维护了prev、next、item三个属性，其中通过
            prev指向前一个，通过next指向后一个节点。最终实现双向链表.
         4）所以LinkedList的元素的添加和删除，不是通过数组完成的，相对来说效率较高。
+    ArrayList 和 LinkedList 的比较
+        如何选择ArrayList和LinkedList∶
+        1）如果我们改查的操作多，选择ArrayList
+        2）如果我们增删的操作多，选择LinkedList
+        3）一般来说，在程序中，80%-90%都是查询，因此大部分情况下会选择ArrayList
+        4）在一个项目中，根据业务灵活选择，也可能这样，一个模块使用的是ArrayList，另外一个模块是LinkedList
+           也就是说，要根据业务来进行选择
+
 
  **/
 
@@ -44,7 +52,7 @@ public class LinkedList01 {
             last = last.pre;
         }
         //演示链表的添加对象/数据，是多么的方便
-        //要求，是在 tom --------- 老韩直接，插入一个对象 smith
+        //要求，是在 tom --------- WangBing之间插入一个对象 smith
         //1. 先创建一个 Node 结点，name 就是 smith
         Node smith = new Node("smith");
         //下面就把 smith 加入到双向链表了
@@ -61,7 +69,7 @@ public class LinkedList01 {
             first = first.next;
         }
         last = WangBing; //让 last 重新指向最后一个结点
-        //演示，从尾到头的遍历
+        //从尾到头的遍历
         System.out.println("====从尾到头的遍历====");
         while (last != null) {
             //输出 last 信息

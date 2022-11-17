@@ -17,6 +17,12 @@ package com.wangbing.collection;/*
                 在调用iterator.next（）方法之前必须要调用iterator.hasNext（）进行检测。
                 若不调用，且下一条记录无效，直接调用it.next（）会抛出NoSuchElementException异常。
    Collection 接口遍历对象方式 2-for 循环增强
+        增强for循环，可以代替iterator迭代器
+        特点∶增强for就是简化版的iterator，本质一样。只能用于遍历集合或数组。
+        基本语法:
+        for（元素类型元素名∶集合名或数组名）（
+            访问元素
+        }
  **/
 
 import java.util.ArrayList;

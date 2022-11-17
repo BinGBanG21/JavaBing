@@ -11,6 +11,14 @@ package com.wangbing.set;/*
         1.可以使用迭代器
         2.增强for
         3.不能使用索引的方式来获取
+    HashSet 底层机制
+        1.HashSet底层是HashMap
+        2.添加一个元素时，先得到hash值-会转成->索引值
+        3.找到存储数据表table，看这个索引位置是否已经存放的有元素
+        4.如果没有，直接加入
+        5.如果有，调用equals比较，如果相同，就放弃添加，如果不相同，则添加到最后
+        6.在Java8中，如果一条链表的元素个数到达TREEIFY_THRESHOLD（默认是8），并且table的大小>=MIN TREEIFY CAPACITY（默认64），
+          就会进行树化（红黑树）
 
  **/
 
@@ -26,6 +34,7 @@ public class set01 {
         //2. set 接口的实现类的对象(Set 接口对象), 不能存放重复的元素, 可以添加一个 null
         //3. set 接口对象存放数据是无序(即添加的顺序和取出的顺序不一致)
         //4. 注意：取出的顺序的顺序虽然不是添加的顺序，但是他的固定.
+
         Set set = new HashSet();
         set.add("john");
         set.add("lucy");
@@ -53,5 +62,6 @@ public class set01 {
             System.out.println("o=" + o);
         }
         //set 接口对象，不能通过索引来获取
+
     }
 }

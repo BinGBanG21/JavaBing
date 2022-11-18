@@ -30,7 +30,25 @@ package com.wangbing.map;/*
                如果添加时发现容量不够，则需要扩容。
             4）第1次添加，则需要扩容table容量为16，临界值（threshold）为12（16*0.75）
             5）以后再扩客，则需要扩容table容量为原来的2倍（32），临界值为原来的2倍，即24，依次类推
-            6）在Java8中，如果一条链表的元素个数超过TREEIFY THRESHOLD（默认是8），并且table的大小>=MIN_TREEIFY_CAPACITY（默认64），就会进行树化（红黑树）
+            6）在Java8中，如果一条链表的元素个数超过TREEIFY THRESHOLD（默认是8），并且table的大小>=MIN_TREEIFY_CAPACITY（默认64），
+            就会进行树化（红黑树）
+
+    开发中如何选择集合实现类
+        在开发中，选择什么集合实现类，主要取决于业务操作特点，然后根据集合实现类特性进行选择，分析如下∶
+            1）先判断存储的类型（一组对象【单列或一组键值对【双列）
+            2）一组对象【单列】Collection接口
+               允许重复List
+                   增删多LinkedList底层维护了一个双向链表
+                   改查多ArrayList底层维护Object类型的可变数组
+               不允许重复Set
+                   无序HashSet 【底层是HashMap，维护了一个哈希表即（数组+链表+红黑树）】
+                   排序TreeSet
+               插入和取出顺序一致LinkedHashSet，维护数组+双向链表
+            3）一组键值对【双列】∶Map
+               键无序HashMap 【底层是哈希表 jdk7数组+链表，jdk8∶数组+链表+红黑树】
+               键排序∶TreeMap
+               键插入和取出顺序一致LinkedHashMap
+               读取文件PropertiesII
  **/
 
 import java.util.HashMap;

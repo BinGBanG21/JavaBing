@@ -42,7 +42,29 @@ package com.wangbing.generic;/*
                 3）静态方法中不能使用类的泛型
                 4）泛型类的类型， 是在创建对象时确定的（因为创建对象时， 需要指定确定类型）
                 5）如果在创建对象时，没有指定类型，默认为Object
+        自定义泛型接口
+            >基本语法
+                interface接口名<T，R…>{}
+                >注意细节
+                    1）接口中，静态成员也不能使用泛型（这个和泛型类规定一样）
+                    2）泛型接口的类型，在继承接口或者实现接口时确定
+                    3）没有指定类型，默认为Object
+       自定义泛型方法
+            基本语法
+                修饰符<T，R.>返回类型方法名（参数列表）
+                >注意细节
+                    1.泛型方法，可以定义在普通类中，也可以定义在泛型类
+                    2.当泛型方法被调用时，类型会确定
+                    3.public void eat（E e）0，修饰符后没有<T，R.> eat方法不是泛型方法，而是使用了泛型
+       泛型的继承和通配符
+            1）泛型不具备继承性
+                List<Object> list = new ArrayList<String>()；//错误
+            2）<?>∶支持任意泛型类型
+            3）<? extends A>∶支持A类以及A类的子类，规定了泛型的上限
+            4）<? super A>∶支持A类以及A类的父类，不限于直接父类，规定了泛型的下限
  **/
+
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -158,7 +180,7 @@ class Tiger<T, R, M> {
         this.t = t;
     }
 
-    //因为静态是和类相关的，在类加载时，对象还没有创建
+//因为静态是和类相关的，在类加载时，对象还没有创建
 //所以，如果静态方法和静态属性使用了泛型，JVM 就无法完成初始化
 // static R r2;
 // public static void m1(M m) {

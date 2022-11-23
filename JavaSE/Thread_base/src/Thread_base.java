@@ -74,6 +74,24 @@
             public synchronized void m (String name){
                  //需要被同步的代码
             }
+        互斥锁
+            1.Java语言中，引入了对象互斥锁的概念，来保证共享数据操作的完整性。
+            2.每个对象都对应于一个可称为“互斥锁”的标记，这个标记用来保证在任一时刻，只能有一个线程访问该对象。
+            3.关键字synchronized来与对象的互斥锁联系。当某个对象用synchronized修饰时，表明该对象在任一时刻只能由一个线程访问
+            4.同步的局限性导致程序的执行效率要降低
+            5.同步方法（非静态的）的锁可以是this，也可以是其他对象（要求是同一个对象）
+            6.同步方法（静态的）的锁为当前类本身。
+        线程的死锁
+            多个线程都占用了对方的锁资源，但不肯相让，导致了死锁，在编程是一定要避免死锁的发生.
+        释放锁
+            1.当前线程的同步方法、同步代码块执行结束
+            2.当前线程在同步代码块、同步方法中遇到break、return。
+            3.当前线程在同步代码块、同步方法中出现了未处理的Error或Exception，导致异常结束
+            4.当前线程在同步代码块、同步方法中执行了线程对象的wait（）方法，当前线程暂停，并释放锁。
+        下面的操作不会释放锁
+            1.线程执行同步代码块或同步方法时，程序调用Thread，sleep（）、Thread.yield（）方法暂停当前线程的执行，不会释放锁
+            2.线程执行同步代码块时，其他线程调用了该线程的suspend（）方法将该线程挂起，该线程不会释放锁。
+              提示应尽量避免使用suspend（）和resume（）来控制线程，方法不再推荐使用
 
 * */
 
@@ -82,5 +100,48 @@ public class Thread_base {
         Runtime runtime = Runtime.getRuntime();
         int cpus = runtime.availableProcessors();
         System.out.println(cpus);
+
+
+        //模拟死锁现象
+        DeadLockDemo A = new DeadLockDemo(true);
+        A.setName("A 线程");
+        DeadLockDemo B = new DeadLockDemo(false);
+        B.setName("B 线程");
+        A.start();
+        B.start();
+    }
+}
+
+class DeadLockDemo extends Thread {
+    static Object o1 = new Object();// 保证多线程，共享一个对象,这里使用 static
+    static Object o2 = new Object();
+    boolean flag;
+
+    public DeadLockDemo(boolean flag) {//构造器
+        this.flag = flag;
+    }
+
+    @Override
+    public void run() {
+        //下面业务逻辑的分析
+        //1. 如果 flag 为 T, 线程 A 就会先得到/持有 o1 对象锁, 然后尝试去获取 o2 对象锁
+        //2. 如果线程 A 得不到 o2 对象锁，就会 Blocked
+        //3. 如果 flag 为 F, 线程 B 就会先得到/持有 o2 对象锁, 然后尝试去获取 o1 对象锁
+        //4. 如果线程 B 得不到 o1 对象锁，就会 Blocked
+        if (flag) {
+            synchronized (o1) {//对象互斥锁, 下面就是同步代码
+                System.out.println(Thread.currentThread().getName() + " 进入 1");
+                synchronized (o2) { // 这里获得 li 对象的监视权
+                    System.out.println(Thread.currentThread().getName() + " 进入 2");
+                }
+            }
+        } else {
+            synchronized (o2) {
+                System.out.println(Thread.currentThread().getName() + " 进入 3");
+                synchronized (o1) { // 这里获得 li 对象的监视权
+                    System.out.println(Thread.currentThread().getName() + " 进入 4");
+                }
+            }
+        }
     }
 }

@@ -17,6 +17,8 @@ import java.io.IOException;
                     createNewFile                            //创建新文件
         获取文件的相关信息
             getName、getAbsolutePath、getParent、length、exists、isFile、isDirectory
+        目录的操作和文件删除
+            mkdir创建一级目录、mkdirs创建多级目录、delete删除空目录或文件
 * */
 public class File_base {
     public static void main(String[] args) {

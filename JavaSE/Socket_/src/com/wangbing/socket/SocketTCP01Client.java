@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
+
 
 public class SocketTCP01Client {
     public static void main(String[] args) throws IOException {

@@ -23,6 +23,13 @@ import java.util.Properties;
             2.java.lang.reflect.Method∶代表类的方法，Method对象表示某个类的方法
             3.java.lang.reflect.Field∶代表类的成员变量，Field对象表示某个类的成员变量
             4.java.lang.reflect.Constructor∶代表类的构造方法，Constructor对象表示
+        反射优点和缺点
+            1. 优点∶可以动态的创建和使用对象（也是框架底层核心），使用灵活，没有反射机制，框架技术就失去底层支撑。
+            2.缺点∶使用反射基本是解释执行，对执行速度有影响.
+        反射调用优化-关闭访问检查
+            1. Method和Field、Constructor对象都有setAccessible（）方法
+            2. setAccessible作用是启动和禁用访问安全检查的开关
+            3. 参数值为true表示反射的对象在使用时取消访问检查，提高反射的效率。参数值为false则表示反射的对象执行访问检查
 构造器
 * */
 @SuppressWarnings({"all"})

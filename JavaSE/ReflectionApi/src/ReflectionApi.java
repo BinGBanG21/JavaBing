@@ -28,6 +28,32 @@
             1.getModifiers∶以int形式返回修饰符
             2.getName∶返回构造器名（全类名）
             3.getParameterTypes∶以Class【】返回参数类型数组
+   通过反射创建对象
+       1.方式一∶调用类中的public修饰的无参构造器
+       2.方式二∶调用类中的指定构造器
+       3.Class类相关方法
+        　·newInstance∶调用类中的无参构造器，获取对应类的对象
+        　·getConstructor（Class…clazz）∶根据参数列表，获取对应的public构造器对象
+        　·getDecalaredConstructor（Class…clazz）∶根据参数列表，获取对应的所有构造器对象
+      　4.Constructor类相关方法
+        　·setAccessible∶暴破
+        　·newInstance（Object…obj）∶调用构造器
+    通过反射访问类中的成员
+        访问属性
+            1.根据属性名获取Field对象
+            　　Field f = clazz对象.getDeclared Field（属性名）；
+            2. 暴破∶ f.setAccessible（true）；　//f是Field
+            3.访问
+                f.set（o，值）；//o表示对象
+                syso（f.get（o））；//o表示对象
+            4.注意如果是静态属性，则set和get中的参数o，可以写成null
+       访问方法
+           1.根据方法名和参数列表获取Method方法对象
+            　Method　=　clazz.getDeclaredMethod（方法名，XX.class）；//得到本类的所有方法
+           2.获取对象∶Object o=clazz.newInstance（）；
+           3.暴破m.setAccessible（true）；
+           4.访问Object returnValue=m.invoke（o，实参列表）∶//o就是对象
+           5.注意∶如果是静态方法，则invoke的参数o，可以写成null!
 * */
 
 import org.junit.jupiter.api.Test;

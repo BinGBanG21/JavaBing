@@ -23,9 +23,53 @@
 
 * */
 
+import java.util.Scanner;
+
 public class RingQueue {
     public static void main(String[] args) {
+        CircleArray CircleArray = new CircleArray(3);
+        char key = ' ';//接收用户输入
+        Scanner scanner = new Scanner(System.in);
+        boolean loop = true;
+        while (loop) {
+            System.out.println("s(show):显示队列");
+            System.out.println("e(exit):退出程序");
+            System.out.println("a(add):添加数据到队列");
+            System.out.println("g(get):从队列取出数据");
+            System.out.println("h(head):查看队列头的数据");
+            key = scanner.next().charAt(0);
+            switch (key){
+                case 's':
+                    CircleArray.showQueue();
+                    break;
+                case 'a':
+                    System.out.println("请输入你要添加的数据");
+                    int value = scanner.nextInt();
+                    CircleArray.addQueue(value);
+                    break;
+                case 'g':
+                    try {
+                        int res =CircleArray.getQueueData();
+                        System.out.println(res);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 'h':
+                    try {
+                        int res =CircleArray.headQueue();
+                        System.out.println(res);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 'e':
+                    scanner.close();
+                    loop=false;
 
+            }
+        }
+        System.out.println("程序已退出~");
     }
 }
 
@@ -83,14 +127,12 @@ class CircleArray {
         if (isEmpty()) {
             System.out.println("当前队列为空");
         } else {
-//            for (int i = 0; i < this.queue.length; i++) {
-//                System.out.println();
-//                System.out.printf("arr[%d]=%d", i, queue[i]);
-//                System.out.println();
-//            }
-            for (int i : this.queue) {
-                System.out.println(i);
+            for (int i = front; i < size(); i++) {
+                System.out.println();
+                System.out.printf("arr[%d]=%d", i % maxSize, queue[i % maxSize]);
+                System.out.println();
             }
+
         }
 
     }
@@ -100,6 +142,13 @@ class CircleArray {
         if (isEmpty()) {
             throw new RuntimeException("当前队列为空");
         }
-        return this.queue[++front];
+        return this.queue[front];
+    }
+
+
+    //求出当前队列有效数据的个数
+    public int size(){
+        //防止rear环形后小于front
+        return (rear + maxSize -front) % maxSize;
     }
 }

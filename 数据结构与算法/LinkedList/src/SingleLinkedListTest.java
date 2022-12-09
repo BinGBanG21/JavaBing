@@ -48,6 +48,62 @@ class SingleLinkedList {
 
     }
 
+    //指定位置插入
+    public void addByNo(int no, HeroNode node) {
+        HeroNode current = head; //这里前后两个变量就用current 和 current.next
+        boolean flag = false;
+        while (true) {
+            if (current.next == null) {
+                break;
+            }
+            if (current.next.no > no) {
+                break;
+            } else if (current.next.no == no) {
+                flag = true;
+                break;
+            }
+            current = current.next;
+        }
+        if (flag) {
+            System.out.println("武将已存在");
+        } else {
+            node.next = current.next;
+            current.next = node;
+        }
+
+    }
+
+    //根据no,修改武将的信息
+    public void modifyByNo(int no, String nickName) {
+        //对链表进行非空判断
+        if (head == null){
+            System.out.println("链表为空");
+            return;
+        }
+        //还是要先找到要修改的元素
+        HeroNode temp = head;
+        boolean isModify = false;
+
+        //while循环就是负责找到目标元素 没找到就向下走 找到了就改标识符 到最后就停掉
+        while (true) {
+            if (temp.next == null) {
+                break;
+            }
+            if (temp.next.no != no) {
+                temp = temp.next;
+            }
+            if (temp.next.no == no) {
+                isModify = true;
+            }
+        }
+        //走出循环 证明找到了目标元素
+        if (!isModify) {
+            System.out.println("不存在对应的武将");
+        } else {
+            temp.nickName = nickName;
+        }
+    }
+
 
     //遍历链表 链表的操作都离不开辅助变量
     public void list() {
@@ -65,7 +121,6 @@ class SingleLinkedList {
         }
     }
 }
-
 
 class HeroNode {
     public int no;

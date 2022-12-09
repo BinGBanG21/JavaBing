@@ -30,6 +30,10 @@ class SingleLinkedList {
     //初始化链表的头
     private HeroNode head = new HeroNode(0, "", "");
 
+    public HeroNode getHead() {
+        return head;
+    }
+
     //向单向链表中添加数据
     public void add(HeroNode node) {
         //其实就是递归找到next = null 的节点 进行赋值 需要注意的是 head节点不能动
@@ -73,10 +77,67 @@ class SingleLinkedList {
 
     }
 
+    //查找链表中倒数第K个节点
+    public HeroNode findLastIndexNode(HeroNode head, int lastIndex) {
+        int size = SingleLinkedList.linkedSize(head);
+        if (head.next == null || lastIndex > size || lastIndex <= 0) {
+            System.out.println("链表为空或者超出了链表的范围");
+            return null;
+        }
+        HeroNode temp = head.next;
+        int index = size - lastIndex;
+        for (int i = 0; i < index; i++) {
+            temp = temp.next;
+        }
+        return temp;
+    }
+
+    //获取链表内有效节点的个数（如果带有头节点 则去掉头节点）
+    public static int linkedSize(HeroNode head) {
+        if (head.next == null) {
+            System.out.println("链表为空");
+            return -1;
+        }
+        int size = 0;
+        HeroNode temp = head.next; //去掉了头节点
+        while (temp != null) {
+            size++;
+            temp = temp.next;
+        }
+        return size;
+    }
+
+
+    //指定位置删除元素
+    public void removeByNo(int no) {
+        //对链表进行非空判断
+        if (head == null) {
+            System.out.println("链表为空 不能删除武将");
+        }
+        HeroNode temp = head;
+        boolean flag = false;
+        while (true) {
+            if (temp == null) {
+                break;
+            }
+            if (temp.next.no == no) {
+                flag = true;
+            }
+            temp = temp.next;
+        }
+        if (!flag) {
+            System.out.println("武将本身不存在，无法删除");
+        } else {
+            temp.next = temp.next.next;
+            temp.next.next = null; //他引用别人不用管 只要没有引用指向他 就会被GC回收
+        }
+    }
+
+
     //根据no,修改武将的信息
     public void modifyByNo(int no, String nickName) {
         //对链表进行非空判断
-        if (head == null){
+        if (head == null) {
             System.out.println("链表为空");
             return;
         }

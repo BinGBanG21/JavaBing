@@ -181,6 +181,55 @@ class SingleLinkedList {
             }
         }
     }
+
+
+    //链表的反转(建议使用双指针和递归的写法)
+    public HeroNode reserve(HeroNode rawHead) {
+
+        //双指针写法 关于初始化
+        //pre = null  cur = head  反转过后  head会变成最后一个节点 里应指向null 所以pre初始为null
+        //如果链表为空或者只有一个节点 那么无需反转 直接返回
+        HeroNode newHead = new HeroNode(0, "", "");
+        HeroNode cur = rawHead; //指向当前节点
+        HeroNode pre = null; //指向当前节点的前一个节点 方便cur指向当前变量
+        if (cur.next == null || cur.next.next == null) {
+            return newHead = cur;
+        }
+        //关于循环条件的判断 当cur.next == null 表示pre已经到原链表的头节点 代表链表遍历完毕
+        while (cur.next != null) {
+            //因为单链表 节点之间只有一条引用 现在我们想更改cur的指向 就要先把它后面的节点存一下 不然改了找不到了
+            HeroNode temp = cur.next;
+            //将当前节点向后指 然后将两个指针向后移动（如果指向是箭头 那么等号右边就是箭头的起点）
+            cur.next = pre;
+            //移动的时候注意要先移动后一个节点 因为cur会移动到cur.next 已经把那个值存下来了 不会丢 所以先动cur
+            pre = cur;
+            cur = temp;
+        }
+        //链表改完后 让
+        return newHead = pre;
+
+
+    }
+
+    //递归写法
+    public HeroNode reserve2(HeroNode rawHead) {
+        //如果链表为空或者只有一个节点 那么无需反转 直接返回
+        HeroNode newHead = new HeroNode(0, "", "");
+        HeroNode cur = rawHead; //指向当前节点
+        HeroNode pre = null; //指向当前节点的前一个节点 方便cur指向当前变量
+        return reserve3(cur, pre);
+    }
+
+    public HeroNode reserve3(HeroNode cur, HeroNode pre) {
+        HeroNode temp = null;
+        if (cur == null) {
+            return pre;
+        }
+        //更改指向 递归调用
+        temp = cur.next;
+        cur.next = pre;
+        return reserve3(temp, pre);
+    }
 }
 
 class HeroNode {

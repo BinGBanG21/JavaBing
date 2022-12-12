@@ -9,6 +9,8 @@
 
 * */
 
+import java.util.Stack;
+
 public class SingleLinkedListTest {
     public static void main(String[] args) {
         HeroNode hero1 = new HeroNode(1, "宋江", "及时雨");
@@ -229,6 +231,23 @@ class SingleLinkedList {
         temp = cur.next;
         cur.next = pre;
         return reserve3(temp, pre);
+    }
+
+    //逆序打印单链表（借助栈打印 不破坏结构）
+    public void reservePrint(HeroNode rawHead){
+        if (head.next ==null){
+            System.out.println("链表为空，先去添加些数据吧~");
+        }
+        Stack<HeroNode> heroNodes = new Stack<>();
+        HeroNode cur = rawHead.next;
+        while (cur!= null){
+            heroNodes.push(cur);
+            cur = cur.next;
+        }
+        //循环打印
+        while (heroNodes.size()>0){
+            System.out.println(heroNodes.pop());
+        }
     }
 }
 

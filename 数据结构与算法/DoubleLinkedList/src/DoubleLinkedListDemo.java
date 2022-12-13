@@ -57,6 +57,59 @@ class DoubleLinkedList {
         data.prev = temp;
     }
 
+    //根据no修改元素信息
+    public void update(HeroNode newNode) {
+        if (head.next == null) {
+            System.out.println("链表为空，不能添加元素");
+        }
+        //找到修改的节点
+        HeroNode temp = head.next;
+        boolean flag = false;
+        while (true) {
+            if (temp == null) {
+                break;
+            }
+            if (temp.no == newNode.no) {
+                flag = true;
+            }
+            temp = temp.next;
+        }
+        if (flag) {
+            temp.nickName = newNode.nickName;
+            temp.name = newNode.name;
+        } else {
+            System.out.println("武将信息不存在，请重新输入");
+        }
+    }
+
+    //从双向链表中删除一个元素
+    public void remove(HeroNode node) {
+        if (head.next == null) {
+            System.out.println("链表为空，不能添加元素");
+        }
+        //因为是双向链表 保存前一个节点的信息 所以不需要找到待删除节点的前一个节点
+        HeroNode temp = head.next;
+        boolean flag = false;
+        while (true) {
+            if (temp.next == null) {
+                break;
+            }
+            if (temp.no == node.no) {
+                flag = true;
+            }
+            temp = temp.next;
+        }
+        if (flag) {
+            temp.prev.next = temp.next;
+            //如果删除的是最后一个节点就要加一个判断 防止空指针异常
+            if (temp.next != null) {
+                temp.next.prev = temp.prev;
+            }
+        } else {
+            System.out.println("武将信息不存在，请重新输入");
+        }
+    }
+
 
 }
 

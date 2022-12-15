@@ -46,6 +46,7 @@ public class ArrayStackDemo {
         int res = 0;
         char oper = 0;
         char ch = ' ';
+        String keepNum = ""; //用于拼接多位数
 
         while (true) {
             //拿到每一个字符 判断是数字还是符号
@@ -72,7 +73,24 @@ public class ArrayStackDemo {
                 } else { //如果符号栈不为空
                     operStack.push(ch);
                 }
-            } else { //扫描到的是数字（其实是字符串 需要转换成数字 ）
+            } else { //扫描到的是数字（其实是字符串 需要转换成数字 而且要注意多位数的情况）
+                //处理思路：扫描到一个数字 不要立即入栈 要继续看后面是数字还是符号 做不同的处理
+                //拼接数字
+                keepNum += ch;
+                //然后将index+1 index+2 后探一位 看是否是数字
+                //但如果ch是当前字符串中最后一位 那么就不需要后探直接入栈即可 否则会越界
+                if (index == exp.length()-1){
+                    numStack.push(ch);
+                }
+                //后探并拼接数字 如果后面是数字 就拼接 如果是符号 就什么都不做
+                //因为上面已经做过循环了 所以keepNum会一直拼接
+                //循环的结束条件就是后探为运算符 那么就将数字入栈
+                if (operStack.isOper(exp.substring(index+1,index+2).charAt(0))){
+                    numStack.push(Integer.parseInt(keepNum));
+                    //然后把keepNum赋值为''
+                    keepNum = "";
+                }
+
                 numStack.push(ch - 48);
             }
             index += 1;

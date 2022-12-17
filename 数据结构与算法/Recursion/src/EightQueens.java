@@ -19,9 +19,13 @@ import java.lang.reflect.Array;
 public class EightQueens {
     int max = 8; //定义皇后的数量
     int[] array = new int[8];
+    static int count = 0;
+    static int judgeCount = 0;
 
     public static void main(String[] args) {
-
+        EightQueens eightQueens = new EightQueens();
+        eightQueens.putAndCheck(0);
+        System.out.printf("一共有%s种写法,判断了%d次", count,judgeCount);
     }
 
     //在n行放置第n个皇后
@@ -34,7 +38,7 @@ public class EightQueens {
         for (int i = 0; i < 8; i++) {
             //先把皇后放到该行的第一列 判断是否冲突
             //不冲突放下一个 冲突的话i会自增 接着向后放置
-            array[i] = n;
+            array[n] = i;
             if (judge(n)) {
                 putAndCheck(n + 1);
             }
@@ -45,6 +49,7 @@ public class EightQueens {
 
     //当摆放第n个皇后时 把这个皇后个前面所有的皇后进行冲突检测 注意 n不是总数
     public boolean judge(int n) {
+        judgeCount++;
         for (int i = 0; i < n; i++) {
             //结果中的一维数组 索引表示行数 值表示列数 因为一行只放一个皇后且数组中索引是递增的 n也是递增的 所以不用考虑在一行的情况
             //如果在同一直线或者同一斜线上 就冲突 如何判定同一直线 ：行 - 行 = 列 - 列 注意处理用abs
@@ -52,15 +57,17 @@ public class EightQueens {
                 return false;
             }
         }
-        //如果不在 return true
+        //如果不冲突
         return true;
     }
 
 
-    //输出皇后的情况
+    //统计并打印输出皇后的情况
     public void print() {
+        count++;
         for (int i = 0; i < array.length; i++) {
-            System.out.println(array[i] + " ");
+            System.out.print(array[i] + " ");
         }
+        System.out.println();
     }
 }

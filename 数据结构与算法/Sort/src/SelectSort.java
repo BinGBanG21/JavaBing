@@ -11,7 +11,7 @@
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class selectSort {
+public class SelectSort {
     public static void main(String[] args) {
         int[] arr = {101, 34, 92, 18, 20, 57, 1001};
         int[] arr2 = selectSort1(arr);

@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 
-public class bubbleSort {
+public class BubbleSort {
     public static void main(String[] args) {
         int[] arr = {3, 9, -1, 10, 20};
         //冒泡排序：每次找最值

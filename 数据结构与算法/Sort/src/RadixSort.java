@@ -7,13 +7,34 @@
         4.基数排序是1887年赫尔曼·何乐礼发明的。它是这样实现的：将整数按位数切割成不同的数字，然后按每个位数分别比较
 * */
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 public class RadixSort {
     public static void main(String[] args) {
         int[] arr = {53, 3, 542, 748, 14, 214};
         radix(arr);
         System.out.println(Arrays.toString(arr));
+
+
+        //测试速度
+
+        int[] arr2 = new int[10000000];
+        for (int i = 0; i < 10000000; i++) {
+            arr2[i] = (int) (Math.random() * 10000000);
+        }
+        int[] temp2 = new int[arr2.length];
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time = simpleDateFormat.format(date);
+        System.out.println(time);
+
+        radix(arr2);
+        Date date2 = new Date();
+        SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time2 = simpleDateFormat.format(date2);
+        System.out.println(time2);
     }
 
     public static void radix(int[] arr) {

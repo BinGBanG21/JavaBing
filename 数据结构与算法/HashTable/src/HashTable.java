@@ -77,6 +77,28 @@ class EmpLinkedList {
             temp = temp.next;
         }
     }
+
+    //根据id查找员工
+    public Emp findById(int id) {
+        if (head.next == null) {
+            System.out.println("链表为空没有员工");
+        }
+        Emp temp = head;
+        while (true) {
+            if (temp.next == null) {
+                System.out.println("该员工不存在");
+                break;
+            }
+            if (temp.id == id) {
+                break;
+            }
+            temp = temp.next;
+        }
+        //出了循环后就找到了员工 即temp
+        return temp;
+
+    }
+
 }
 
 //创建hashTable
@@ -84,9 +106,12 @@ class HashTab {
     private EmpLinkedList[] arr;
     private int size;
 
-    public HashTab(EmpLinkedList[] arr, int size) {
-        this.arr = arr;
+    public HashTab(int size) {
         this.size = size;
+        //初始化链表
+        for (int i = 0; i < size; i++) {
+            arr[i] = new EmpLinkedList();
+        }
     }
 
     //hash函数 使用最简单的取模模拟
@@ -105,6 +130,20 @@ class HashTab {
     public void allList() {
         for (EmpLinkedList list : arr) {
             list.list();
+        }
+    }
+
+    //根据输入的id 查找员工
+    public Emp findById(Emp emp) {
+        //得到链表的id
+        int no = hash(emp);
+        //找到链表添加
+        Emp result = arr[no].findById(emp.id);
+        if (result == null) {
+            System.out.println("员工不存在");
+            return null;
+        } else {
+            return result;
         }
     }
 }

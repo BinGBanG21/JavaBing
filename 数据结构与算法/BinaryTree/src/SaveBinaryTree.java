@@ -17,17 +17,28 @@ public class SaveBinaryTree {
 
     }
 }
+
 //顺序存储二叉树遍历
 //需求: 给你一个数组 {1,2,3,4,5,6,7}，要求以二叉树前序遍历的方式进行遍历。 前序遍历的结果应当为 1,2,4,5,3,6,7
-class arrBinaryTree{
-    public int[] arr ;
+class arrBinaryTree {
+    public int[] arr;
 
     public arrBinaryTree(int[] arr) {
         this.arr = arr;
     }
 
+    //前序遍历 中序后序同理
     //一个有序数组 按照二叉树的方式遍历 可以理解有序数组转二叉树
-    public void arrToBinaryTree(int[] arr){
-
+    public void arrPreOrder(int index) {
+        if (arr == null || arr.length == 0) {
+            System.out.println("数组为空，无法遍历");
+        }
+        System.out.println(arr[index]);
+        if (index * 2 + 1 < arr.length) { //左节点
+            arrPreOrder(index);
+        }
+        if (index * 2 + 2 < arr.length) { //右节点
+            arrPreOrder(index);
+        }
     }
 }

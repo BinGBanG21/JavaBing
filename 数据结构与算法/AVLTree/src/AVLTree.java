@@ -29,7 +29,7 @@
 
 public class AVLTree {
     public static void main(String[] args) {
-        int[] arr = {4, 3, 6, 5, 7, 8};
+        int[] arr = {10, 11, 7, 6, 8, 9};
         //创建一个AVLTree
         CreateAVLTree AVLTree = new CreateAVLTree();
         for (int i : arr) {
@@ -268,11 +268,31 @@ class Node {
             }
         }
         //当添加完一个节点后 判断左右子树的高度 然后旋转
-        if (right != null && rightHeight() - leftHeight() > 1) {
-            leftRoute();
+        //比如在决定要使用右旋转之前 root左节点的右子节点高度高于左节点 那么就需要双旋转
+        //可以理解为右旋转左树高度高没事 右树高就旋转无效
+
+
+        //左旋转
+        if (rightHeight() - leftHeight() > 1) {
+            if (right != null && right.leftHeight() > right.rightHeight()) {
+                //以左子树为root节点 先右旋转
+                right.rightRoute();
+                leftRoute();
+            } else {
+                leftRoute();
+            }
+            //我们在添加节点的时候 会一直判断 所以必须要加return 或者if else的形式 不然会出问题
+            return;
         }
-        if (left != null && leftHeight() - rightHeight() > 1) {
-            rightRoute();
+        //右旋转之前 如果左节点的右子树的高度大于左子树的高度 那么就要双旋转 即先旋转左子树 然后在旋转右子树
+        if (leftHeight() - rightHeight() > 1) {
+            if (left != null && left.rightHeight() > left.leftHeight()) {
+                //以左子树为root节点 先右旋转
+                left.leftRoute();
+                rightRoute();
+            } else { //必须要用else 不然会转两次
+                rightRoute();
+            }
         }
     }
 

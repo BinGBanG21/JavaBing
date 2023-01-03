@@ -54,6 +54,7 @@
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 public class Graph {
     public static void main(String[] args) {
@@ -78,7 +79,8 @@ public class Graph {
         graph.insertEdge(1, 4, 1);
 
         graph.showGraph();
-        graph.dfs();
+//        graph.dfs();
+        graph.bfs();
     }
 
     //创建一个ArrayList 用于保存节点信息
@@ -130,7 +132,7 @@ public class Graph {
     }
 
     //深度优先遍历算法
-    //首先拿到一个节点 为起点
+    //首先拿到一个节点 为起点 (可以理解为对一个节点进行深度优先搜索)
     public void dfs(boolean[] isVisited, int i) {
         //把起点打印
         System.out.print(vertexList.get(i) + " =>");
@@ -161,6 +163,48 @@ public class Graph {
         }
     }
 
+    //对一个节点进行广度优先遍历
+    public void bfs(boolean[] isVisited, int i) {
+        int u; //头节点 也就是起点
+        int w; //邻接节点w
+        LinkedList<Integer> queue = new LinkedList<>(); //队列 用于管理节点
+        //走到了这里 就说明已访问节点了
+        System.out.print(getValueByIndex(i) + " -> ");
+        //把节点标记为已访问
+        isVisited[i] = true;
+        //把节点加入队列 然后循环队列 取出队列中以访问的节点 去访问他的邻接节点
+        queue.addLast(i);
+        //循环访问
+        while (!queue.isEmpty()) {
+            //取出头节点的下标
+            u = queue.removeFirst();
+            //根据头节点下标 找u的邻接节点
+            w = getFirstNeighbor(u);
+            //如果w不为-1说明有邻接节点 找到后如果没有被访问 那我们就访问 然后拿到邻接节点 继续访问
+            while (w > -1) {
+                if (!isVisited[w]) { //如果邻接节点没有被访问 那么访问
+                    System.out.print(getValueByIndex(w) + " -> ");
+                    //把访问过的节点设置为true
+                    isVisited[w] = true;
+                    //然后加入队列
+                    queue.addLast(w);
+                }
+                //如果访问过 就跳过当前节点访问
+                //以u为起点 跳过一个节点 然后将下下节点赋值给w 有就输出 没有就在跳下下个节点判断 体现广度优先
+                w = getNextNeighbor(u, w);
+
+            }
+        }
+    }
+
+    //遍历所有节点 进行广度优先搜索
+    public void bfs() {
+        for (int i = 0; i < getNumsOfEdges(); i++) {
+            if (!isVisited[i]) {
+                bfs(isVisited, i);
+            }
+        }
+    }
 
     //插入节点
     public void insertVertex(String vertex) {

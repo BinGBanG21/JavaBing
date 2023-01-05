@@ -56,7 +56,55 @@ public class KMP {
         }
     }
 
-    public static int kmp(String str1, String str2) {
-        
+    /**
+     * @param str1 原字符串
+     * @param str2 模式字符串
+     * @param next 部分匹配表
+     * @return 如果-1 没匹配到 否则返回第一个匹配的位置
+     */
+    public static int kmp(String str1, String str2, int[] next) {
+
+        //遍历原字符串 i指向原字符串 j指向模式字符串
+        for (int i = 0, j = 0; i < str1.length(); i++) {
+
+            //核心：处理正在匹配的字符不相等的时候
+            while (j > 0 && str1.charAt(i) != str2.charAt(j)) {
+                j = next[j - 1];
+            }
+            if (str1.charAt(i) == str2.charAt(j)) {
+                j++;
+            }
+            if (j == str2.length()) {
+                return i - j + 1;
+            }
+
+        }
+        return -1;
     }
+
+
+    //得到一个字符串的部分匹配值表
+    //找出一个字符串最长相等前后缀
+    public static int[] kmpNext(String dest) {
+        int[] next = new int[dest.length()];
+        //创建一个数组 保存部分匹配值
+        next[0] = 0; //如果一个字符串的长度为1(一个字符) 没有前缀后缀 那么它对应的匹配值数组(PTM)就为0
+        //只需要操作模式字符串 因为返回的是PTM
+        //i代表数下标 j代表最长相等前后缀
+        for (int i = 1, j = 0; i < dest.length(); i++) {
+            //当dest.charAt(i) != dest.charAt(j) 我们需要从next[j-1]获取新的j
+            //直到dest.charAt(i) == dest.charAt(j) 时才退出
+            while (j > 0 && dest.charAt(i) != dest.charAt(j)) {
+                j = next[j - 1];
+            }
+
+            //当dest.charAt(i) == dest.charAt(j)满足时 部分匹配值+1
+            if (dest.charAt(i) == dest.charAt(j)) {
+                j++;
+            }
+            next[i] = j;
+        }
+        return next;
+    }
+
 }

@@ -63,11 +63,11 @@ public class Avaricious {
         set5.add("杭州");
         set5.add("大连");
 
-        broadsCasts.put("k1",set1);
-        broadsCasts.put("k2",set2);
-        broadsCasts.put("k3",set3);
-        broadsCasts.put("k4",set4);
-        broadsCasts.put("k5",set5);
+        broadsCasts.put("k1", set1);
+        broadsCasts.put("k2", set2);
+        broadsCasts.put("k3", set3);
+        broadsCasts.put("k4", set4);
+        broadsCasts.put("k5", set5);
 
         //所有的地区
         HashSet<String> allAreas = new HashSet<>();
@@ -83,17 +83,38 @@ public class Avaricious {
         //创建arrayList 存放已选择的电台的集合
         ArrayList<String> selects = new ArrayList<>();
 
-        //定义一个临时的集合 方便用找到电台覆盖地区和全覆盖地区的交集
+        //定义一个临时的集合 存放遍历的电台
         HashSet<String> tempSet = new HashSet<>();
 
+        //定义maxKey
+        String maxKey = null;
         //从map中拿到每一个电台集合 然后选择覆盖最多的那个
-        while (selects.size()>0) {
+        //>0表示还没有覆盖到所有的地区
+        while (allAreas.size() != 0) {
+            //每次比较前清空maxKey
+            maxKey = null;
             for (String key : broadsCasts.keySet()) {
+                //每次比较前清空tempSet
+                tempSet.clear();
                 tempSet.addAll(broadsCasts.get(key));
-                //然后与全部集合进行对比 拿到交集
+                //已覆盖的电台与全部集合进行对比 拿到交集
                 tempSet.retainAll(allAreas);
+                //进行判断 如果有交集 (1) max为null 直接赋值给max (2)不为null 进行比较
+                //这里的tempSet已是交集
+                //贪心的体现 每次都选最优的
+                if (tempSet.size() > 0 && (maxKey == null || tempSet.size() > broadsCasts.get(maxKey).size())) {
+                    maxKey = key;
+                }
             }
-        }
+            //如果maxKey不为null 就加入
+            if (maxKey != null) {
+                selects.add(maxKey);
+                //从电台总数中移除已选电台
+                allAreas.removeAll(broadsCasts.get(maxKey));
 
+            }
+
+        }
+        System.out.println(selects);
     }
 }

@@ -86,6 +86,11 @@ class MinTree {
                     }
                 }
             }
+            //找到一条边是最小
+            System.out.println("边 <" + graph.data[h1] + "," + graph.data[h2] + "> 权值:" + minWeight);
+            //将节点标记为已访问 minWeight重置
+            visited[h2] = 1;
+            minWeight = 100;
         }
     }
 }

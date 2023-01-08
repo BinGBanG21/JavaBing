@@ -41,6 +41,7 @@ public class Prim {
         MinTree minTree = new MinTree();
         minTree.createGraph(graph, verxs, data, weight);
         minTree.showGraph(graph);
+        minTree.prim(graph, 0);
     }
 
 }
@@ -74,7 +75,7 @@ class MinTree {
         int h1 = -1;
         int h2 = -1;
         int minWeight = 100; //将minWeight设置成一个较大的数
-        for (int k = 0; k < graph.verxs; k++) { //边的数量 = 顶点数量 -1
+        for (int k = 1; k < graph.verxs; k++) { //边的数量 = 顶点数量 -1
             for (int i = 0; i < graph.verxs; i++) { //i表示正在访问的顶点
                 for (int j = 0; j < graph.verxs; j++) {
                     //如果当前节点访问过 连结节点没访问 并且权值<最小权值 那么就赋值

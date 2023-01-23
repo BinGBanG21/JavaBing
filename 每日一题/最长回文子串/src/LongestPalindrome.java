@@ -4,8 +4,6 @@ public class LongestPalindrome {
         System.out.println(longestPalindrome(s));
     }
     public static String longestPalindrome(String s) {
-        //中心扩散法 找到当前的中点 然后看左右字符串是否相等
-        //动态规划其实就是优化了中心扩散法 把结果记录下来
         if(s == null || s.length() < 2){
             return s;
         }
@@ -21,9 +19,9 @@ public class LongestPalindrome {
         //如果相等 分奇数偶数 奇数的话 有长度要求 偶数的话 两个相邻相等 再中心扩散一下 看是不是还想等
         for(int r = 1; r < len; r++){
             for(int l = 0; l < r; l++){
-                //如果两个字符相等 要分奇数相等还是偶数相等
+                //如果两个字符相等 要分奇数相等还是偶数相等 说白了是否相邻 不相邻只能隔一个
                 //如果奇数相等 那么索引是大于等于2 例如bab 可以 bacb 不行 所以字符串长度要求小于等于3
-                //如果偶数相等 那么索引是轴对称
+                //如果偶数相等 那么索引是轴对称  就要往里面走 检查里面的字符是否相等
                 if( s.charAt(l) == s.charAt(r) && (r - l <= 2 || dp[l + 1][r - 1])){
                     dp[l][r] = true;
                     //判断最大值 然后给长度和起始点赋值

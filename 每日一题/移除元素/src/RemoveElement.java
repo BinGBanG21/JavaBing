@@ -20,6 +20,7 @@ public class RemoveElement {
     //优化 双指针 双指针其实就是把双重for循环变成1层for循环
     //两个指针都从头开始 其实双指针无非就是两个头 一头一尾 或者从头 挨着
     //fast指针找到我们需要的元素 并且利用slow给新数组赋值
+    //其实就是覆盖 双指针给数组赋值 fast是目标元素 找到就通过slow赋值
     public int removeElement(int[] nums, int val){
         int slow = 0;
         for(int fast = 0; fast < nums.length;fast++){
@@ -30,5 +31,6 @@ public class RemoveElement {
                 slow++;
             }
         }
+        return slow;
     }
 }

@@ -1,3 +1,4 @@
+import javax.swing.event.ListDataEvent;
 import java.util.List;
 
 public class MyLinkedList {
@@ -22,9 +23,10 @@ public class MyLinkedList {
     class MyLinkedList {
         //记录数据个数
         int size;
+        //虚拟头节点
         ListNode head;
 
-        //无参构造器
+        //初始化链表
         public MyLinkedList() {
             size = 0;
             head = new ListNode(0);
@@ -32,14 +34,14 @@ public class MyLinkedList {
 
         //获取第index个节点的数值，注意index是从0开始的，第0个节点就是头结点
         public int get(int index) {
-            //对size边界处理 注意index是从0开始 所以不能>size - 1 可以=
-            if (index < 0 || index > size - 1) {
+            //对size边界处理 和数组一样 不能越界
+            if (index < 0 || index >= size) {
                 return -1;
             }
-            //记录当前节点 不能动head
+            //记录当前节点 不可以使用head
             ListNode cur = head;
-            //开始循环
-            while (index > 0) {
+            //开始循环 如果index = 0 那么也会进入循环 cur为头节点
+            while (index >= 0) {
                 cur = cur.next;
                 index--;
             }
@@ -57,44 +59,47 @@ public class MyLinkedList {
         }
 
         //增删节点时使用虚拟头节点 统一代码
+        //在第几个节点前添加节点 所以index可以 = size 不能 > size
         public void addAtIndex(int index, int val) {
             //对index做边界处理
-            if (index < 0 || index > size - 1) {
+            //题意:如果 index 等于链表的长度，那么该节点会被追加到链表的末尾
+            //说明index 可以 = size
+            //如果 index 比长度更大，该节点将 不会插入 到链表中
+            if (index > size) {
                 return;
+            }
+            if (index < 0) {
+                index = 0;
             }
             //index合理 首先增加size
             size++;
-            //创建虚拟头节点 并指为当前节点
-            ListNode dummyhead = new ListNode(-1);
-            dummyhead.next = head;
-            ListNode cur = dummyhead;
-            //因为多了一个虚拟头节点 cur就是当前节点的前一个节点 然后增加
+            //找到插入节点的前驱节点(恰好使用虚拟头节点)
+            ListNode pre = head;
             while (index > 0) {
-                cur = cur.next;
+                pre = pre.next;
                 index--;
             }
             //创建节点并添加
             ListNode newNode = new ListNode(val);
-            newNode.next = cur.next;
-            cur.next = newNode;
+            newNode.next = pre.next;
+            pre.next = newNode;
         }
+
         public void deleteAtIndex(int index) {
             //对index做边界处理
-            if (index < 0 || index > size - 1) {
+            //题意：如果下标有效
+            if (index < 0 || index >= size) {
                 return;
             }
             //index合理 首先减少size
             size--;
-            //创建虚拟头节点
-            ListNode dummyhead = new ListNode(-1);
-            dummyhead.next = head;
-            ListNode cur = dummyhead;
+            ListNode pre = head;
             //找到当前节点的前一个节点 并且删除
-            while(index > 0){
-                cur =cur.next;
+            while (index > 0) {
+                pre = pre.next;
                 index--;
             }
-            cur.next = cur.next.next;
+            pre.next = pre.next.next;
         }
     }
 }

@@ -3,13 +3,31 @@ public class ReverseList {
 
     }
     //双指针
+//    public ListNode reverseList(ListNode head) {
+//        ListNode pre = null;
+//        ListNode cur = head;
+//        while (cur != null) {
+//            //如果先让cur = cur.next 会丢失cur的值 那么pre就无法指向cur
+//            ListNode temp = cur.next;
+//            cur.next = pre;
+//            pre = cur;
+//            cur = temp;
+//        }
+//        return pre;
+//    }
+    //二刷
     public ListNode reverseList(ListNode head) {
+        //双指针
         ListNode pre = null;
         ListNode cur = head;
-        while (cur != null) {
-            //如果先让cur = cur.next 会丢失cur的值 那么pre就无法指向cur
-            ListNode temp = cur.next;
+        ListNode temp = null;
+        //如果链表为空 则不进入该循环
+        while(cur != null){
+            //保存下一个节点 因为要改指向
+            temp = cur.next;
+            //反转
             cur.next = pre;
+            //双双移动指针
             pre = cur;
             cur = temp;
         }

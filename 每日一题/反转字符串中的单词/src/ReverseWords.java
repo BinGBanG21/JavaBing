@@ -85,7 +85,7 @@ public class ReverseWords {
                 reverse(ch, start, slow - 1);
             }
         }
-        return new String(ch);
+        return new String(ch,0,slow);
     }
 
     //反转函数

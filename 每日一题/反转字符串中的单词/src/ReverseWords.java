@@ -63,7 +63,7 @@ public class ReverseWords {
                 ch[slow++] = ch[fast];
             } else { //如果是空格
                 //1.看前一位是不是空格 如果是 证明连续空格 不做处理
-                //2.如果不是那么书写空格
+                //2.如果不是 证明一个单词书写完毕 那么书写空格
                 if (slow > 0 && ch[slow - 1] != ' ') {
                     ch[slow++] = ' ';
                 }

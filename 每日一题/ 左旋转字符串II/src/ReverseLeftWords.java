@@ -41,8 +41,8 @@ public class ReverseLeftWords {
         //循环交换 不需要<= 因为<不动 恰好完成
         while (start < end) {
             char temp = sb.charAt(end);
-            sb.setCharAt(end,sb.charAt(start));
-            sb.setCharAt(start,temp);
+            sb.setCharAt(end, sb.charAt(start));
+            sb.setCharAt(start, temp);
             start++;
             end--;
         }

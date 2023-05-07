@@ -16,22 +16,40 @@ public class ReverseList {
 //        return pre;
 //    }
     //二刷
-    public ListNode reverseList(ListNode head) {
-        //双指针
+//    public ListNode reverseList(ListNode head) {
+//        //双指针
+//        ListNode pre = null;
+//        ListNode cur = head;
+//        ListNode temp = null;
+//        //如果链表为空 则不进入该循环
+//        while(cur != null){
+//            //保存下一个节点 因为要改指向
+//            temp = cur.next;
+//            //反转
+//            cur.next = pre;
+//            //双双移动指针
+//            pre = cur;
+//            cur = temp;
+//        }
+//        return pre;
+//    }
+    public ListNode reverseList(ListNode head){
+        //前驱节点
         ListNode pre = null;
+        //当前节点
         ListNode cur = head;
+        //用于交换的节点
         ListNode temp = null;
-        //如果链表为空 则不进入该循环
-        while(cur != null){
-            //保存下一个节点 因为要改指向
-            temp = cur.next;
-            //反转
+        //循环反转
+        while (cur != null) {
+             temp = cur.next;
             cur.next = pre;
-            //双双移动指针
+            //移动指针
             pre = cur;
             cur = temp;
+
         }
-        return pre;
+
     }
     //递归写法
     public ListNode reverseList2(ListNode head) {

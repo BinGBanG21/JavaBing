@@ -21,14 +21,24 @@ public class RemoveElement {
     //两个指针都从头开始 其实双指针无非就是两个头 一头一尾 或者从头 挨着
     //fast指针找到我们需要的元素 并且利用slow给新数组赋值
     //其实就是覆盖 双指针给数组赋值 fast是目标元素 找到就通过slow赋值
+//    public int removeElement(int[] nums, int val){
+//        int slow = 0;
+//        for(int fast = 0; fast < nums.length;fast++){
+//            //找到新数组需要的元素
+//            if(nums[fast] != val){
+//                nums[slow] = nums[fast];
+//                //对新数组赋值
+//                slow++;
+//            }
+//        }
+//        return slow;
+//    }
     public int removeElement(int[] nums, int val){
+        //快慢指针 快指针找值 慢指针赋值
         int slow = 0;
-        for(int fast = 0; fast < nums.length;fast++){
-            //找到新数组需要的元素
-            if(nums[fast] != val){
-                nums[slow] = nums[fast];
-                //对新数组赋值
-                slow++;
+        for (int fast = 0; fast < nums.length; fast++) {
+            if (nums[fast] != val) {
+                nums[slow++] = nums[fast]:
             }
         }
         return slow;

@@ -36,7 +36,7 @@ public class StrStr {
         int j = 0;
         next[0] = 0;
         //找最长相等前后缀
-        for (int i = 0; i < s.length(); i++) {
+        for (int i = 1; i < s.length(); i++) {
             //如果不相等 那么回退 如果相等 那么记录next数组 然后j后移
             while (j > 0 && s.charAt(j) != s.charAt(i)) {
                 j = next[j - 1];

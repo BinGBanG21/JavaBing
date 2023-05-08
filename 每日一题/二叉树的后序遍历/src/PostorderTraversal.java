@@ -26,34 +26,78 @@ public class PostorderTraversal {
         }
     }
 
+//    public List<Integer> postorderTraversal(TreeNode root) {
+//        List<Integer> res = new ArrayList<Integer>();
+//        if (root == null) {
+//            return res;
+//        }
+//
+//        TreeNode p1 = root, p2 = null;
+//
+//        while (p1 != null) {
+//            p2 = p1.left;
+//            if (p2 != null) {
+//                while (p2.right != null && p2.right != p1) {
+//                    p2 = p2.right;
+//                }
+//                if (p2.right == null) {
+//                    p2.right = p1;
+//                    p1 = p1.left;
+//                    continue;
+//                } else {
+//                    p2.right = null;
+//                    addPath(res, p1.left);
+//                }
+//            }
+//            p1 = p1.right;
+//        }
+//        addPath(res, root);
+//        return res;
+//    }
+
+    //    public List<Integer> postorderTraversal(TreeNode root) {
+//        //创建结果数组
+//        List<Integer> result = new ArrayList<>();
+//        postOrder(root,result);
+//        return result;
+//    }
+//
+//    public void postOrder(TreeNode cur, List<Integer> result) {
+//        //终止条件
+//        if (cur == null) {
+//            return;
+//        }
+//        //左-右-中
+//        postOrder(cur.left, result);
+//        postOrder(cur.right, result);
+//        result.add(cur.val);
+//    }
+    //迭代法 后序和前序差不多 最后要翻转结果数组
     public List<Integer> postorderTraversal(TreeNode root) {
-        List<Integer> res = new ArrayList<Integer>();
+        //创建结果数组
+        List<Integer> result = new ArrayList<>();
+        //参数处理
         if (root == null) {
-            return res;
+            return result;
         }
-
-        TreeNode p1 = root, p2 = null;
-
-        while (p1 != null) {
-            p2 = p1.left;
-            if (p2 != null) {
-                while (p2.right != null && p2.right != p1) {
-                    p2 = p2.right;
-                }
-                if (p2.right == null) {
-                    p2.right = p1;
-                    p1 = p1.left;
-                    continue;
-                } else {
-                    p2.right = null;
-                    addPath(res, p1.left);
-                }
+        //创建栈结构 用来迭代
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        //入栈顺序 中-左-右 出栈 中-右-左 翻转结果数组达到 左-右-中
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            result.add(node.val);
+            if (node.left != null) {
+                stack.push(node.left);
             }
-            p1 = p1.right;
+            if (node.right != null) {
+                stack.push(node.right);
+            }
         }
-        addPath(res, root);
-        return res;
+        Collections.reverse(result);
+        return result;
     }
+}
 
     public void addPath(List<Integer> res, TreeNode node) {
         int count = 0;

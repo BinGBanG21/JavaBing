@@ -36,23 +36,48 @@ public class PreorderTraversal {
 //        }
 //        return res;
 //    }
-    //二叉树前序遍历 递归
+//    二叉树前序遍历 递归
+//    public List<Integer> preorderTraversal(TreeNode root) {
+//        //创建结果
+//        List<Integer> result = new ArrayList<>();
+//        preOrder(root, result);
+//        return result;
+//    }
+//
+//    public void preOrder(TreeNode cur, List result) {
+//        //终止条件
+//        if (cur == null) {
+//            return;
+//        }
+//        //前序 中左右
+//        result.add(cur.val);
+//        preOrder(cur.left, result);
+//        preOrder(cur.right, result);
+//    }
+    //迭代法
     public List<Integer> preorderTraversal(TreeNode root) {
         //创建结果
         List<Integer> result = new ArrayList<>();
-        preOrder(root, result);
-        return result;
-    }
-
-    public void preOrder(TreeNode cur, List result) {
-        //终止条件
-        if (cur == null) {
-            return;
+        //参数处理
+        if (root == null) {
+            return result;
         }
-        //前序 中左右
-        result.add(cur.val);
-        preOrder(cur.left, result);
-        preOrder(cur.right, result);
+        //使用栈 模拟递归
+        Stack<TreeNode> stack = new Stack<>();
+        //把根节点放入 然后开始迭代
+        stack.push(root);
+        //前中后
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            result.add(node.val);
+            if (node.right != null) {
+                stack.push(node.right);
+            }
+            if (node.left != null) {
+                stack.push(node.left);
+            }
+        }
+        return result;
     }
 }
 

@@ -33,24 +33,50 @@ public class InorderTraversal {
 //        }
 //        return list;
 //    }
+//    public List<Integer> inorderTraversal(TreeNode root) {
+//        //创建结果
+//        List<Integer> result = new ArrayList<>();
+//        inOrder(root, result);
+//        return result;
+//    }
+//
+//    public void inOrder(TreeNode cur, List<Integer> result) {
+//        //终止条件
+//        if (cur == null) {
+//            return;
+//        }
+//        //左 右 中
+//        inOrder(cur.left, result);
+//        result.add(cur.val);
+//        inOrder(cur.right, result);
+//    }
+
     public List<Integer> inorderTraversal(TreeNode root) {
         //创建结果
         List<Integer> result = new ArrayList<>();
-        inOrder(root, result);
+        //参数处理
+        if (root == null) {
+            return result;
+        }
+        //创建栈 用来模拟递归
+        Stack<TreeNode> stack = new Stack<>();
+        //中序遍历其实可以把root节点归为左节点
+        TreeNode cur = root;
+        while (cur != null || !stack.isEmpty()) {
+            //收集左子树
+            if (cur != null) {
+                stack.push(cur);
+                cur = cur.left;
+            } else {
+                //处理左子树 弹栈 收集结果
+                cur = stack.pop();
+                result.add(cur.val);
+                //处理右子树
+                cur = cur.right;
+            }
+        }
         return result;
     }
-
-    public void inOrder(TreeNode cur, List<Integer> result) {
-        //终止条件
-        if (cur == null) {
-            return;
-        }
-        //左 右 中
-        inOrder(cur.left, result);
-        result.add(cur.val);
-        inOrder(cur.right, result);
-    }
-
 
     public class TreeNode {
         int val;

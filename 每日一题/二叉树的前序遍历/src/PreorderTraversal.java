@@ -55,26 +55,63 @@ public class PreorderTraversal {
 //        preOrder(cur.right, result);
 //    }
     //迭代法
+//    public List<Integer> preorderTraversal(TreeNode root) {
+//        //创建结果
+//        List<Integer> result = new ArrayList<>();
+//        //参数处理
+//        if (root == null) {
+//            return result;
+//        }
+//        //使用栈 模拟递归
+//        Stack<TreeNode> stack = new Stack<>();
+//        //把根节点放入 然后开始迭代
+//        stack.push(root);
+//        //前中后
+//        while (!stack.isEmpty()) {
+//            TreeNode node = stack.pop();
+//            result.add(node.val);
+//            if (node.right != null) {
+//                stack.push(node.right);
+//            }
+//            if (node.left != null) {
+//                stack.push(node.left);
+//            }
+//        }
+//        return result;
+//    }
+    //统一迭代法
+    //之前的写法不统一 根本原因是因为访问节点和处理节点顺序不一致
+    //比方说中序遍历 那么最先访问的节点是中间节点 但是处理的时候处理的是左节点
+    //那么就需要一种方法记录中间节点 但是不处理 这也就是为什么交标记法
     public List<Integer> preorderTraversal(TreeNode root) {
         //创建结果
         List<Integer> result = new ArrayList<>();
-        //参数处理
-        if (root == null) {
-            return result;
-        }
-        //使用栈 模拟递归
+        //创建栈
         Stack<TreeNode> stack = new Stack<>();
-        //把根节点放入 然后开始迭代
-        stack.push(root);
-        //前中后
+        //参数处理
+        if (root != null) {
+            stack.push(root);
+        }
+        //迭代处理
         while (!stack.isEmpty()) {
-            TreeNode node = stack.pop();
-            result.add(node.val);
-            if (node.right != null) {
-                stack.push(node.right);
-            }
-            if (node.left != null) {
-                stack.push(node.left);
+            TreeNode node = stack.peek();
+            if (node != null) {
+                //先将改节点弹出 避免重复操作
+                stack.pop();
+                //如果节点不为null 那么加入右左中节点
+                if (node.right != null) {
+                    stack.push(node.right);
+                }
+                if (node.left != null) {
+                    stack.push(node.left);
+                }
+                stack.push(node);
+                stack.push(null);
+            }else{ //遇到待处理节点 先将null弹出 然后重新赋值node
+                stack.pop();
+                node= stack.peek();
+                stack.pop(); //弹出 避免重复操作
+                result.add(node.val);
             }
         }
         return result;

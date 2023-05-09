@@ -51,28 +51,63 @@ public class InorderTraversal {
 //        inOrder(cur.right, result);
 //    }
 
+    //    public List<Integer> inorderTraversal(TreeNode root) {
+//        //创建结果
+//        List<Integer> result = new ArrayList<>();
+//        //参数处理
+//        if (root == null) {
+//            return result;
+//        }
+//        //创建栈 用来模拟递归
+//        Stack<TreeNode> stack = new Stack<>();
+//        //中序遍历其实可以把root节点归为左节点
+//        TreeNode cur = root;
+//        while (cur != null || !stack.isEmpty()) {
+//            //收集左子树
+//            if (cur != null) {
+//                stack.push(cur);
+//                cur = cur.left;
+//            } else {
+//                //处理左子树 弹栈 收集结果
+//                cur = stack.pop();
+//                result.add(cur.val);
+//                //处理右子树
+//                cur = cur.right;
+//            }
+//        }
+//        return result;
+//    }
     public List<Integer> inorderTraversal(TreeNode root) {
         //创建结果
         List<Integer> result = new ArrayList<>();
+        //创建用于迭代的栈
+        Stack<TreeNode> st = new Stack<>();
         //参数处理
-        if (root == null) {
-            return result;
+        if (root != null) {
+            //先将root加入栈中
+            st.push(root);
         }
-        //创建栈 用来模拟递归
-        Stack<TreeNode> stack = new Stack<>();
-        //中序遍历其实可以把root节点归为左节点
-        TreeNode cur = root;
-        while (cur != null || !stack.isEmpty()) {
-            //收集左子树
-            if (cur != null) {
-                stack.push(cur);
-                cur = cur.left;
+        //迭代
+        while (!st.isEmpty()) {
+            //拿到栈顶元素
+            TreeNode node = st.peek();
+            //收集元素 右-中-左
+            if (node != null) {
+                st.pop();//避免重复处理
+                if (node.right != null) {
+                    st.push(node.right);
+                }
+                st.push(node);
+                st.push(null);
+                if (node.left != null) {
+                    st.push(node.left);
+                }
             } else {
-                //处理左子树 弹栈 收集结果
-                cur = stack.pop();
-                result.add(cur.val);
-                //处理右子树
-                cur = cur.right;
+                st.pop();//避免重复处理
+                //收集值
+                node = st.peek();
+                st.pop();
+                result.add(node.val);
             }
         }
         return result;

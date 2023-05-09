@@ -73,31 +73,62 @@ public class PostorderTraversal {
 //        result.add(cur.val);
 //    }
     //迭代法 后序和前序差不多 最后要翻转结果数组
+//    public List<Integer> postorderTraversal(TreeNode root) {
+//        //创建结果数组
+//        List<Integer> result = new ArrayList<>();
+//        //参数处理
+//        if (root == null) {
+//            return result;
+//        }
+//        //创建栈结构 用来迭代
+//        Stack<TreeNode> stack = new Stack<>();
+//        stack.push(root);
+//        //入栈顺序 中-左-右 出栈 中-右-左 翻转结果数组达到 左-右-中
+//        while (!stack.isEmpty()) {
+//            TreeNode node = stack.pop();
+//            result.add(node.val);
+//            if (node.left != null) {
+//                stack.push(node.left);
+//            }
+//            if (node.right != null) {
+//                stack.push(node.right);
+//            }
+//        }
+//        Collections.reverse(result);
+//        return result;
+//    }
+    //统一迭代法
     public List<Integer> postorderTraversal(TreeNode root) {
         //创建结果数组
         List<Integer> result = new ArrayList<>();
+        Stack<TreeNode> st = new Stack<>();
         //参数处理
-        if (root == null) {
-            return result;
+        if (root != null) {
+            st.push(root);
         }
-        //创建栈结构 用来迭代
-        Stack<TreeNode> stack = new Stack<>();
-        stack.push(root);
-        //入栈顺序 中-左-右 出栈 中-右-左 翻转结果数组达到 左-右-中
-        while (!stack.isEmpty()) {
-            TreeNode node = stack.pop();
-            result.add(node.val);
-            if (node.left != null) {
-                stack.push(node.left);
-            }
-            if (node.right != null) {
-                stack.push(node.right);
+        //开始迭代
+        while (!st.isEmpty()) {
+            TreeNode node = st.peek();
+            if (node != null) { //收集元素
+                st.pop();//弹出元素 避免重复
+                //中-右-左
+                st.push(node);
+                st.push(null);
+                if (node.right != null) {
+                    st.push(node.right);
+                }
+                if (node.left != null) {
+                    st.push(node.left);
+                }
+            } else {
+                st.pop();//弹出null
+                node = st.peek();//保存元素
+                st.pop();
+                result.add(node.val);
             }
         }
-        Collections.reverse(result);
         return result;
     }
-}
 
     public void addPath(List<Integer> res, TreeNode node) {
         int count = 0;

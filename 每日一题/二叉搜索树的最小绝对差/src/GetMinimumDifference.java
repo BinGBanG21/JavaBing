@@ -1,32 +1,33 @@
 
 public class GetMinimumDifference {
-    int pre;
-    int ans;
+
 
     public static void main(String[] args) {
 
     }
 
+    //结果
+    int result = Integer.MAX_VALUE;
+    TreeNode pre = null;
+
     public int getMinimumDifference(TreeNode root) {
-        ans = Integer.MAX_VALUE;
-        pre = -1;
-        dfs(root);
-        return ans;
+        traversal(root);
+        return result;
     }
 
-    public void dfs(TreeNode root) {
-        if (root == null) {
+    public void traversal(TreeNode cur) {
+        //双指针 前序遍历
+        if (cur == null) {
             return;
         }
-        dfs(root.left);
-        if (pre == -1) {
-            pre = root.val;
-        } else {
-            ans = Math.min(ans, root.val - pre);
-            pre = root.val;
+        traversal(cur.left);
+        if (pre != null) {
+            result = Math.min(result, cur.val - pre.val);
         }
-        dfs(root.right);
+        pre = cur;
+        traversal(cur.right);
     }
+
 }
 
 class TreeNode {

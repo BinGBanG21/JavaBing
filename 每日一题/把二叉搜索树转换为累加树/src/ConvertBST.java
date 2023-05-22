@@ -11,18 +11,30 @@ public class ConvertBST {
         return root;
     }
 
+    //    public void traversal(TreeNode root) {
+//        //我们采用右-中-左遍历方式 实现累加
+//        if (root == null) { //找到了叶子节点
+//            return;
+//        }
+//        //递进条件 右边
+//        traversal(root.right);
+//        //处理中间
+//        root.val += sum;
+//        //记录pre的值 并且后移  其实就是更改sum的值
+//        sum = root.val;
+//        //处理左边
+//        traversal(root.left);
+//    }
     public void traversal(TreeNode root) {
-        //我们采用右-中-左遍历方式 实现累加
-        if (root == null) { //找到了叶子节点
+        //倒序的中序遍历
+        //停止即可 不需返回什么
+        if (root == null) {
             return;
         }
-        //递进条件 右边
+        //右-中-左
         traversal(root.right);
-        //处理中间
         root.val += sum;
-        //记录pre的值 并且后移  其实就是更改sum的值
         sum = root.val;
-        //处理左边
         traversal(root.left);
     }
 }

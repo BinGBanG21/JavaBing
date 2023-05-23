@@ -52,7 +52,7 @@ public class Dfs {
             return;
         }
         //递进条件
-        for (int i = startIndex; i <= n; i++) { // 从当前位置开始 去找n个元素 优化 i <= n - (k -path.size()) +1
+        for (int i = startIndex; i <= n; i++) { // 从当前位置开始 去找n个元素 优化 i <= n - (k -path.size()) +1 包含起始位置
             path.add(i);
             backTracking(n, k, i + 1);
             path.removeLast();

@@ -27,7 +27,7 @@ public class Partition {
         //单层递归逻辑 其实分割和组合问题一样 只不过是每次分割出的区间就是我们想要的结果 [startIndex,i]
         for (int i = startIndex; i < s.length(); i++) {
             //如果是回文串 再加入
-            if (isPalindrome(s, startIndex, i) == true) {
+            if (isPalindrome(s, startIndex, i)) {
                 path.add(s.substring(startIndex, i + 1));
             } else { //不是就跳过 不需要再继续分割了
                 continue;

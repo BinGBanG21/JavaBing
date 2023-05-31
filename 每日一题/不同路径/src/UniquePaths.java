@@ -35,8 +35,8 @@ public class UniquePaths {
             path[0][j] = 1;
         }
         //dp[i][j]：表示到达当前位置有多少种走法
-        for (int i = 1; i < m; ++i) {
-            for (int j = 1; j < n; ++j) {
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
                 path[i][j] = path[i][j - 1] + path[i - 1][j];
             }
         }

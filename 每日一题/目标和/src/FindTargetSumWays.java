@@ -27,9 +27,9 @@ public class FindTargetSumWays {
         int[] dp = new int[size + 1];
         //背包容量为0 有一种方法 就是不放
         dp[0] = 1;
-        for (int i = 0; i < nums.length; i++) {
-            for (int j = size; j >= nums[i]; j--) {
-                dp[j] += dp[j - nums[i]];
+        for (int num : nums) {
+            for (int j = size; j >= num; j--) {
+                dp[j] += dp[j - num];
             }
         }
         return dp[size];

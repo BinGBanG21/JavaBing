@@ -18,6 +18,27 @@ public class Search {
 //        }
 //        return -1;
 //    }
+    public int search3(int[] nums, int target) {
+        //避免多余运算 对target处理
+        if(target < nums[0] || target > nums[nums.length - 1]){
+            return -1;
+        }
+        //二分查找 左右指针循环
+        int left = 0;
+        int right = nums.length - 1;
+        while(left <= right){
+            //中间值
+            int mid = (left + right) / 2;
+            if(target == nums[mid]){
+                return mid;
+            }else if(target > nums[mid]){
+                left = mid + 1;
+            }else{
+                right = mid - 1;
+            }
+        }
+        return -1;
+    }
     //循环不变量 左闭右闭 left 和 right可以相等 左闭右开 left 和 right 不能相等 举例 [1 ,1] [ 1, 1)
     //左闭右闭写法
     public int search(int[] nums, int target) {

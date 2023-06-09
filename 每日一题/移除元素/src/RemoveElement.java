@@ -33,6 +33,16 @@ public class RemoveElement {
 //        }
 //        return slow;
 //    }
+public int removeElement3(int[] nums, int val) {
+    //双指针 快指针找新数组的值 慢指针负责给数组赋值
+    int slow = 0;
+    for(int fast = 0; fast < nums.length; fast++ ){
+        if(nums[fast] != val){
+            nums[slow++] = nums[fast];
+        }
+    }
+    return slow;
+}
     public int removeElement(int[] nums, int val){
         //快慢指针 快指针找值 慢指针赋值
         int slow = 0;

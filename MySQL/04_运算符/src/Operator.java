@@ -67,6 +67,51 @@ public class Operator {
                     LIKE            模糊匹配运算符          判断一个值是否符合模糊匹配规则
                     REGEXP          正则表达式运算符        判断一个值是否符合正则表达式的规则
                     RLIKE           正则表达式运算符        判断一个值是否符合正则表达式的规则
+                    举例：
+                        SELECT last_name , salary , commission_pct
+                        FROM employees
+                        WHERE NOT commission pct <=>NULL;
+                        #LEAST() \GREATEST
+                        SELECT LEAST ( 'g', 'b', 't '，'m ' ),GREATEST ( 'g ', 'b ','t ' , 'm ')
+                        FROM DUAL;
+                        SELECT LEAST(first_name,last_name),LEAST(LENGTH(first_name)，LENGTH(last_name))
+                        FROM employees;
+                        #BETWEEN...AND .... I
+                        #查询工资在6000到8000的员工信息
+                        SELECT employee_id, last_name , salary
+                        FROM employees
+                        WHERE salary BETWEEN6000 AND 8000 ;
+                        WHERE salary >= 6000 && salary <= 8000;
+                        SELECT employee_id, last_name ,salary
+                        FROM employees
+                        WHERE salary NOT BETWEEN6000 AND 8000;
+                        #where salary < 6000 or salary > 8000 ;
+                        #练习:查询部门为10,20,30部门的员工信息SELECT last_name , salary , department_id
+                        FROM employees
+                        #where department_id = 10 or department_id = 20 or department_id = 30;
+                        WHERE department_ id IN( 10,20,30) ;
+                        #练习:查询工资不是6000,7000,8000的员工信息
+                        SELECT last_name , salary,department_id
+                        FROM employees
+                        WHERE salary NOT IN(6000,7000,8000) ;
+                        #LIKE:模糊查询
+                        #号 :代表不确定个数的字符(o个，1个，或多个) 并且忽略大小写
+                        #练习:查询last_name中包含字符'a'的员工信息S
+                        ELECT last_name
+                        FROM employees
+                        WHERE last_name LIKE '%a% ';
+                        SELECT last_name
+                        FROM employees
+                        WHERE last_name LIKE '%a%e%'OR last_name LIKE '%e%a%';
+                        #_代表—个不确定的字符
+                        #查询第2个字符是'a'的员工信息SELECT last_name
+                        FROM employees
+                        WHERE last name LIKE '_a%';
+                        #练习:查询第2个字符是_且第3个字符是'a'的员工信息#需要使用转义字竹:i
+                        SELECT last_name
+                        FROM employees
+                        WHERE last_name LIKE '_\_a%';
+
         3.逻辑运算符
         4.位运算符
         5.运算符的优先级

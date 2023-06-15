@@ -111,6 +111,8 @@ public class Operator {
                         SELECT last_name
                         FROM employees
                         WHERE last_name LIKE '_\_a%';
+                        OR可以和AND一起使用，但是在使用时要注意两者的优先级，由于AND的优先级高于OR
+                        因此先对AND两边的操作数进行操作，再与OR中的操作数结合。
 
         3.逻辑运算符
         4.位运算符

@@ -67,6 +67,26 @@ public class MultipleQuery {
             FROM employees e,departments d,locations l
             WHERE e.`department_id = d.`department_id`
             AND d.`location_id`= l.`location_id`;
+            结论:如果有n个表实现多表的查询，则需要至少n-1个连接条件
+        多表查询的分类
+            角度1:等值连接vs非等值连接
+                #非等值连接的例子:
+                SELECT*
+                FROM job_grades;
+                SELECT e.last_name,e.salary,j.grade_level
+                FROM employees e,job_grades j
+
+            角度2:自连接vs非自连接
+                #where e. 'salary`between j. 'lowest sal` and j.`highest sal`;
+                WHERE e. 'salary` >= j. 'lowest_sal’AND e. 'salary ' <= j. highest_sal ;
+                #自连接vs非自连接例子
+                SELECT * FROM employees;
+                #练习:查询员工id,员工姓名及其管理者的id和姓名
+                SELECT emp.employee_id, emp.last_name , mgr.employee_id,mgr.last_name
+                FROM employees emp ,employees mgr
+                WHERE emp.`manager_id` = mgr.`employee_id`;
+
+            角度3:内连接vs外连接
 
 
      */

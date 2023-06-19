@@ -188,5 +188,32 @@ public class MultipleQuery {
                 FROM employees e LEFT JOIN department d
                 ON e.department_id = d.department_id;
                 WHERE d.department_id IS NULL;
+
+                自然连接
+                SQL99在sQL92的基础上提供了一些特殊语法，比如NATURAL JOIN用来表示自然连接。
+                我们可以把自然连接理解为sQL92中的等值连接。
+                它会帮你自动查询两张连接表中所有相同的字段，然后进行等值连接。
+
+                #NATURAL JOIN :它会帮你白动查询两张连接表中`所有相同的字段`，然后进行'等值连接`。
+                SELECT employee_id,last_name , department_name
+                FROM employees e NATURAL JOIN departments d;
+
+                SQL99语法的新特性2:USING
+                SELECT employee_id,last_name , department_name
+                FROM employees e JOIN departments d
+                ONe.department_id = d.department_id;
+                SELECT employee_id,last_name , department_name
+                FROM employees e JOIN departments d
+                USING (department_id);
+
+                表连接的约束条件可以有三种方式: WHERE,ON,USING
+                WHERE:适用于所有关联查询
+                ON(推荐):只能和JOIN一起使用，只能写关联条件。
+                虽然关联条件可以并到WHERE中和其他条件一起写，但分开写可读性更好。
+                USING∶只能和JOIN一起使用，而且要求两个关联字段在关联表中名称一致，而且只能表示关联字段值相等
+
+
+
+
      */
 }

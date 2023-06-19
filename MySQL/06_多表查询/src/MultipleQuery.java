@@ -121,6 +121,72 @@ public class MultipleQuery {
                 FROM employees e FULL OUTER JOIN departments d
                 ON e.department_id = d.department_id(+);
 
-
+            UNION的使用
+                合并查询结果
+                利用UNION关键字，可以给出多条SELECT语句，并将它们的结果组合成单个结果集。
+                合并时，两个表对应的列数和数据类型必须相同，并且相互对应。
+                各个SELECT语句之间使用UNION或UNION ALL关键字分隔。
+                语法格式:
+                SELECT column , . ..
+                FROM table1
+                UNION [ALL]
+                SELECT column , . . .
+                FROM table2
+                UNION操作符返回两个查询的结果集的并集，去除重复记录。
+            UNION ALL操作符
+                UNION ALL操作符返回两个查询的结果集的并集。对于两个结果集的重复部分，不去重。
+                UNION ALL相比于UNION效率更高
+            7中JOIN的实现
+                内连接
+                SELECT employees_id,department_name
+                FROM employees e JOIN department d
+                ON e.department_id = d.department_id;
+                左外连接
+                SELECT employees_id,department_name
+                FROM employees e LEFT JOIN department d
+                ON e.department_id = d.department_id;
+                右外连接
+                SELECT employees_id,department_name
+                FROM employees e RIGHT JOIN department d
+                ON e.department_id = d.department_id;
+                左外连接-相同的部分（即-使用WHERE）
+                SELECT employees_id,department_name
+                FROM employees e LEFT JOIN department d
+                ON e.department_id = d.department_id;
+                WHERE d.department_id IS NULL;
+                右外连接-相同的部分（即-使用WHERE）
+                SELECT employees_id,department_name
+                FROM employees e LEFT JOIN department d
+                ON e.department_id = d.department_id;
+                WHERE e.department_id IS NULL;
+                满外连接-方式1（左外连接+右外连接(去重重复的)）
+                SELECT employees_id,department_name
+                FROM employees e JOIN department d
+                ON e.department_id = d.department_id;
+                UNION ALL
+                SELECT employees_id,department_name
+                FROM employees e LEFT JOIN department d
+                ON e.department_id = d.department_id;
+                WHERE e.department_id IS NULL;
+                满外连接-方式2（右外连接+左外连接(去重重复的)）
+                SELECT employees_id,department_name
+                FROM employees e LEFT JOIN department d
+                ON e.department_id = d.department_id;
+                WHERE e.department_id IS NULL;
+                UNION ALL
+                SELECT employees_id,department_name
+                FROM employees e JOIN department d
+                ON e.department_id = d.department_id;
+                满外连接-去重
+                左外连接去重+右外连接去重
+                SELECT employees_id,department_name
+                FROM employees e LEFT JOIN department d
+                ON e.department_id = d.department_id;
+                WHERE e.department_id IS NULL;
+                UNION ALL
+                SELECT employees_id,department_name
+                FROM employees e LEFT JOIN department d
+                ON e.department_id = d.department_id;
+                WHERE d.department_id IS NULL;
      */
 }

@@ -59,7 +59,7 @@ public class NumericalFunc {
             ELT(m,s1,s2,...,sn)                 返回指定位置的字符串，如果m=1，则返回s1，如果m=2，则返回s2，如果m=n，则返回sn
             FIELD(s,s1,s2,....n)                返回字符串s在字符串列表中第一次出现的位置
             FIND_IN_SET(s1,s2)                  返回字符串s1在字符串s2中出现的位置。其中，字符串s2是一个以逗号分隔的字符串
-
+            FIND
 
 
      */

@@ -60,7 +60,7 @@ public class NumericalFunc {
             FIELD(s,s1,s2,....n)                返回字符串s在字符串列表中第一次出现的位置
             FIND_IN_SET(s1,s2)                  返回字符串s1在字符串s2中出现的位置。其中，字符串s2是一个以逗号分隔的字符串
             FIND
-
+            FIND
 
      */
 }

@@ -13,8 +13,20 @@ public class ProcessControl {
         CASE expr WHEN常量值1THEN值1                      相当于Java的switch...case...
         WHEN常量值1 THEN值1 ....[ELSE值n]END
 
+        查询部门号为10,20，30的员工信息,
+        若部门号为10,则打印其工资的1.1倍,
+        20号部,则打印其工资的1.2倍,
+        30号部门,打印其工资的1.3 倍数,
+        其他部门,打印其工资的1.4 倍数
 
-
+        SELECT employees_id, last_name,department_id,salary,
+        CASE department_id WHEN 1O THEN salary * 1.1
+                           WHEN 20 THEN salary * 1.2
+                           WHEN 30 THEN salary * 1.3
+                           ELSE salary * 1.4
+                           END "details"
+        FROM employees
+        WHERE department_id IN (10,20,30);
 
 
      */

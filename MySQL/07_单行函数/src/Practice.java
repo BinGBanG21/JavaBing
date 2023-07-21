@@ -17,8 +17,7 @@ public class Practice {
             SELECT CONCAT(employees_id,','last_name,','salary) "OUT_PUT"
             FROM employees;
         #5.查询公司各员工工作的年数、工作的天数，并按工作年数的降序排序
-            SELECT employees
-
+            SELECT employees DATEDIFF
         #6.查询员工姓名，hire_date , department_id，满足以下条件:雇用时间在1997年之后，department_id 为80或90或110,commission_pct不为空
 
         #7.查询公司中入职超过10000天的员工姓名、入职时间

@@ -21,7 +21,7 @@ public class Practice {
             FROM employees
             ORDER BY work_years DESC;
         #6.查询员工姓名，hire_date , department_id，满足以下条件:雇用时间在1997年之后，department_id 为80或90或110,commission_pct不为空
-
+            SELECT last_name hire_date, department_id
         #7.查询公司中入职超过10000天的员工姓名、入职时间
 
         #8.做一个查询，产生下面的结果

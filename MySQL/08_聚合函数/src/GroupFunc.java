@@ -9,9 +9,13 @@ public class GroupFunc {
     聚合函数的类型(常用)
         AVG()
         SUM()
+          只适用于数值类型 不能处理字符串 返回为0
+          SELECT AVG(salary),SUM(salary)
+          FROM employees;
         MAX()
         MIN()
         COUNT()
+
     GROUP BY的使用
     HAVING关键字的使用
      */

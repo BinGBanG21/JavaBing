@@ -72,6 +72,7 @@ public class SingleRow {
         子查询中的空值问题
 
         非法使用子查询
+        =属于单行比较操作符 后面子查询的结果为多个 所以报错(Subquery returns more than 1 row)
         SELECT employee id, last name
         FROM employees
         WHERE salary =(

@@ -22,5 +22,12 @@ public class MultiLine {
                         FROM employees
                         GROUP BY department_id
                         );
+        ANY / ALL
+        题目: 返回其它job_id中比job id为'IT_PROG'部门任一工资低的员工的员工号、姓名、job id 以及salary
+        SELECT employee_id,last_name,job_id,salary
+        FROM employees
+        WHERE job_id = (
+        SELECT job_id
+        )
      */
 }

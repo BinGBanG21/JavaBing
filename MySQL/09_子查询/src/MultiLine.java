@@ -28,6 +28,7 @@ public class MultiLine {
         FROM employees
         WHERE job_id = (
         SELECT job_id
+        FROM employees
         )
      */
 }

@@ -32,6 +32,9 @@ public class MultiLine {
         WHERESELECT job_id
         FROM employees
         WHERE
+        WHERESELECT job_id
+        FROM employees
+        WHERE
         )
      */
 }

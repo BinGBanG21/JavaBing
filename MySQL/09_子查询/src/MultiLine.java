@@ -37,6 +37,8 @@ public class MultiLine {
         WHERE
         FROM employees
         WHERE
+        FROM employees
+        WHERE
         )
      */
 }

@@ -28,31 +28,9 @@ public class MultiLine {
         FROM employees
         WHERE job_id = (
         SELECT job_id
-        FROM employees
-        WHERESELECT job_id
-        FROM employees
-        WHERE
-        WHERESELECT job_id
-        FROM employees
-        WHERE
-        FROM employees
-        WHERE
-        FROM employees
-        WHERE
-        WHERE
-        FROM employees
-        WHERE
-        FROM employees
-        WHERE
-        FROM employees
-        WHERE FROM employees
-        WHERE
-        WHERE FROM employees
-        WHERE
-        WHERE FROM employees
-        WHERE
-WHERE FROM employees
-        WHERE
+       SELECT job_idSELECT job_id
+       SELECT job_id
+       SELECT job_id
         )
      */
 }

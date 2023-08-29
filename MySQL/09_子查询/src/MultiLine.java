@@ -31,6 +31,9 @@ public class MultiLine {
        SELECT job_idSELECT job_id
        SELECT job_id
        SELECT job_id
+       SELECT job_idSELECT job_id
+       SELECT job_id
+       SELECT job_id
         )
      */
 }

@@ -38,5 +38,6 @@ public class MultiLine {
         SELECT AVG(salary)
         FROM employees
         GROUP BY department_id
+        GROUP BY department_id
      */
 }

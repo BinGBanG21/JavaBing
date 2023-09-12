@@ -39,5 +39,7 @@ public class MultiLine {
         FROM employees
         GROUP BY department_id
         GROUP BY department_id
+         GROUP BY department_id
+        GROUP BY department_id
      */
 }

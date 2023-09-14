@@ -41,5 +41,7 @@ public class MultiLine {
         GROUP BY department_id
          GROUP BY department_id
         GROUP BY department_id
+        GROUP BY department_id
+        GROUP BY department_id
      */
 }

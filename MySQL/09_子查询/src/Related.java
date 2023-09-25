@@ -58,8 +58,13 @@ public class Related {
         LIMIT ..., ...;
 
     题目: 若employees表中employee id与job history表中employee id相同的数目不小于2,
-          输出这些相同id的员工的employee_id,last_name和其job_id
+         输出这些相同id的员工的employee_id,last_name和其job_id
         SELECT employee_id, last_name, job_id
-        
+        FROM employees e
+        WHERE 2 <= (
+                    SELECT COUNT(*)
+                    FROM job_history j
+                    WHERE e.'department_id' = j.'employee_id'
+                    );
      */
 }

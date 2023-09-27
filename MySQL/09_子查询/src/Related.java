@@ -66,5 +66,9 @@ public class Related {
                     FROM job_history j
                     WHERE e.'department_id' = j.'employee_id'
                     );
+                     SELECT COUNT(*)
+                    FROM job_history j
+                    WHERE e.'department_id' = j.'employee_id'
+                    );
      */
 }

@@ -65,10 +65,11 @@ public class Related {
                     SELECT COUNT(*)
                     FROM job_history j
                     WHERE e.'department_id' = j.'employee_id'
-                    );
-                     SELECT COUNT(*)
+                   );
+                   WHERE 2 <= (
+                    SELECT COUNT(*)
                     FROM job_history j
                     WHERE e.'department_id' = j.'employee_id'
-                    );
+                   );
      */
 }

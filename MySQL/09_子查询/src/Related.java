@@ -66,7 +66,12 @@ public class Related {
                     FROM job_history j
                     WHERE e.'department_id' = j.'employee_id'
                    );
-                   WHERE 2 <= (
+         WHERE 2 <= (
+                    SELECT COUNT(*)
+                    FROM job_history j
+                    WHERE e.'department_id' = j.'employee_id'
+                   );
+                    WHERE 2 <= (
                     SELECT COUNT(*)
                     FROM job_history j
                     WHERE e.'department_id' = j.'employee_id'

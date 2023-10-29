@@ -35,10 +35,6 @@ public class MaxSlidingWindow {
             if (right + 1 >= k) {
                 res[left] = nums[queue.peekFirst()];
             }
-            //根据右边界 计算窗口形成 形成后记录最大值
-            if (right + 1 >= k) {
-                res[left] = nums[queue.peekFirst()];
-            }
         }
         return res;
     }

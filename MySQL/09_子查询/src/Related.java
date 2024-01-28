@@ -57,8 +57,8 @@ public class Related {
         ORDER BY ..., ...,(ASC/DESC)
         LIMIT ..., ...;
 
-    题目: 若employees表中employee id与job history表中employee id相同的数目不小于2,
-         输出这些相同id的员工的employee_id,last_name和其job_id
+    题目:若employees表中employee id与job history表中employee id相同的数目不小于2,
+        输出这些相同id的员工的employee_id,last_name和其job_id
         SELECT employee_id, last_name, job_id
         FROM employees e
         WHERE 2 <= (
@@ -81,5 +81,68 @@ public class Related {
                     FROM job_history j
                     WHERE e.'department_id' = j.'employee_id'
                    );
+    EXISTS 与 NOT EXISTS关键字
+        关联子查询通常也会和 EXISTS操作符一起来使用，用来检查在子查询中是否存在满足条件的行。
+            如果在子查询中不存在满足条件的行：
+                条件返回 FALSE
+                继续在子查询中查找
+            如果在子查询中存在满足条件的行：
+                不在子查询中继续查找
+                条件返回 TRUE
+            NOT EXISTS关键字表示如果不存在某种条件，则返回TRUE，否则返回FALSE。
+
+        题目：查询公司管理者的employee_id，last_name，job_id，department_id信息
+            方式一：
+            SELECT employee_id, last_name, job_id, department_id
+            FROM employees e1
+            WHERE EXISTS (
+                            SELECT *
+                            FROM employees e2
+                            WHERE e2.manager_id =
+                            e1.employee_id
+                          );
+            方式二：自连接
+                SELECT DISTINCT e1.employee_id, e1.last_name, e1.job_id, e1.department_id
+                FROM employees e1 JOIN employees e2
+                WHERE e1.employee_id = e2.manager_id;
+
+       题目：查询departments表中，不存在于employees表中的部门的department_id和department_name
+            SELECT department_id, department_name
+            FROM departments d
+            WHERE NOT EXISTS ( SELECT 'X'
+                               FROM employees
+                               WHERE department_id = d.department_id
+                              );
+      相关更新
+        UPDATE table1 alias1
+        SET column = (
+                      SELECT expression
+                      FROM table2 alias2
+                      WHERE alias1.column = alias2.column
+                      );
+      相关删除
+        DELETE FROM table1 alias1
+        WHERE column operator (
+                                SELECT expression
+                                FROM table2 alias2
+                                WHERE alias1.column = alias2.column
+                                );
+
+        使用相关子查询依据一个表中的数据删除另一个表的数据。
+
+        题目：删除表employees中，其与emp_history表皆有的数据
+
+        DELETE FROM employees e
+        WHERE employee_id in (
+                              SELECT employee_id
+                              FROM emp_history
+                              WHERE employee_id = e.employee_id
+                              );
+
+        总结：
+            题目中可以使用子查询，也可以使用自连接。一般情况建议使用自连接，因为在许多 DBMS 的处理过
+            程中，对于自连接的处理速度要比子查询快得多。
+            可以这样理解：子查询实际上是通过未知表进行查询后的条件判断，而自连接是通过已知的自身数据表
+            进行条件判断，因此在大部分 DBMS 中都对自连接处理进行了优化。
      */
 }

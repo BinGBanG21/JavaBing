@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Codec {
     public static void main(String[] args) {
-
+        
     }
 
     //和正常的遍历顺序相比 我们要多遍历一层 来区分左右孩子
@@ -43,6 +43,7 @@ public class Codec {
         root.left = rDeserialize(dataList);
         root.right = rDeserialize(dataList);
         return root;
+
     }
 }
 

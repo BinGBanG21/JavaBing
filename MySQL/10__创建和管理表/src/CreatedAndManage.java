@@ -22,7 +22,7 @@ public class CreatedAndManage {
             | DATE          | ENUM                                                    |
             | BLOB          | SET                                                     |
             | TEXT          | BINARY、VARBINARY、TINYBLOB、BLOB、MEDIUMBLOB、LONGBLOB   |
-        2. 创建和管理数据库
+       2. 创建和管理数据库
             1) 创建数据库
                 * 方式1：创建数据库
                   CREATE DATABASE 数据库名;
@@ -31,7 +31,7 @@ public class CreatedAndManage {
                 * 方式3：判断数据库是否已经存在，不存在则创建数据库（ 推荐 ）
                   CREATE DATABASE IF NOT EXISTS 数据库名;
                 如果MySQL中已经存在相关的数据库，则忽略创建语句，不再创建数据库。
-        3.创建表
+       3.创建表
            1) 创建方式1
             * 语法格式：
                 CREATE TABLE [IF NOT EXISTS] 表名(
@@ -63,6 +63,36 @@ public class CreatedAndManage {
             SHOW CREATE TABLE 表名\G
             ```
             使用SHOW CREATE TABLE语句不仅可以查看表创建时的详细语句，还可以查看存储引擎和字符编码。
+    4. 修改表
+        修改表指的是修改数据库中已经存在的数据表的结构。
+        使用 ALTER TABLE 语句可以实现：
+            + 向已有的表中添加列
+            + 修改现有表中的列
+            + 删除现有表中的列
+            + 重命名现有表中的列
+        1) 追加一个列
+            语法格式如下：
+            ALTER TABLE 表名 ADD 【COLUMN】 字段名 字段类型 【FIRST|AFTER 字段名】;
+        2) 修改一个列
+                * 可以修改列的数据类型，长度、默认值和位置
+                * 修改字段数据类型、长度、默认值、位置的语法格式如下：
+            ALTER TABLE 表名 MODIFY 【COLUMN】 字段名1 字段类型 【DEFAULT 默认值】【FIRST|AFTER 字段名2】;
+                * 对默认值的修改只影响今后对表的修改
+                * 此外，还可以通过此种方式修改列的约束。
+        3) 重命名一个列
+            使用 CHANGE old_column new_column dataType子句重命名列。语法格式如下：
+            ALTER TABLE 表名 CHANGE 【column】 列名 新列名 新数据类型;
+        4) 删除一个列
+           删除表中某个字段的语法格式如下：
+            ALTER TABLE 表名 DROP 【COLUMN】字段名
+        5) 更改表名
+            * 方式一：使用RENAME
+                RENAME TABLE emp
+                TO myemp;
+            * 方式二：
+                ALTER table dept
+                RENAME [TO] detail_dept; -- [TO]可以省略
+            * 必须是对象的拥有者
 
 
      */

@@ -21,17 +21,17 @@ public class IUD {
             INSERT语句可以同时向数据表中插入多条记录，插入时指定多个值列表，每个值列表之间用逗号分隔 开，基本语法格式如下：
             INSERT INTO table_name
             VALUES
-            (value1 [,value2, …, valuen]),
-            (value1 [,value2, …, valuen]),
+            (value1 [,value2, …, value]),
+            (value1 [,value2, …, value]),
             ……
-            (value1 [,value2, …, valuen]);
+            (value1 [,value2, …, value]);
             或者
-            INSERT INTO table_name(column1 [, column2, …, columnn])
+            INSERT INTO table_name(column1 [, column2, …, column])
             VALUES
-            (value1 [,value2, …, valuen]),
-            (value1 [,value2, …, valuen]),
+            (value1 [,value2, …, value]),
+            (value1 [,value2, …, value]),
             ……
-            (value1 [,value2, …, valuen]);
+            (value1 [,value2, …, value]);
             使用INSERT同时插入多条记录时，MySQL会返回一些在执行单行插入时没有的额外信息，这些信息的含 义如下：
             * Records：表明插入的记录条数。
             * Duplicates：表明插入时被忽略的记录，原因可能是这 些记录包含了重复的主键值。

@@ -126,7 +126,97 @@ public class Constraint {
         6) 删除主键约束
             alter table 表名称 drop primary key
 
+    5. 自增列：AUTO_INCREMENT
+        1) 作用
+            某个字段的值自增
+        2) 关键字
+            auto_increment
+        3) 特点
+            （1）一个表最多只能有一个自增长列
+            （2）当需要产生唯一标识符或顺序值时，可设置自增长
+            （3）自增长列约束的列必须是键列（主键列，唯一键列）
+            （4）自增约束的列的数据类型必须是整数类型
+            （5）如果自增列指定了 0 和 null，会在当前最大值的基础上自增；如果自增列手动指定了具体值，直接赋值为具体值。
+        4) 如何指定自增约束
+            1.建表时
+                create table 表名称(
+                字段名 数据类型 primary key auto_increment,
+                字段名 数据类型 unique key not null,
+                字段名 数据类型 unique key,
+                字段名 数据类型 not null default 默认值,
+                );
+                create table 表名称(
+                字段名 数据类型 default 默认值 ,
+                字段名 数据类型 unique key auto_increment,
+                字段名 数据类型 not null default 默认值,
+                primary key(字段名)
+                );
+            2.建表后
+                alter table 表名称 modify 字段名 数据类型 auto_increment;
+        5) 删除自增约束
+            #alter table 表名称 modify 字段名 数据类型 auto_increment;#给这个字段增加自增约束
+            alter table 表名称 modify 字段名 数据类型; #去掉auto_increment相当于删除
 
+        6) MySQL 8.0新特性—自增变量的持久化
+            在MySQL 5.7系统中，对于自增主键的分配规则，是由InnoDB数据字典 内部一个 计数器 来决定的，而该计数器只在 内存中维护 ，并不会持久化到磁盘中。当数据库重启时，该 计数器会被初始化。
+            在MySQL 8.0将自增主键的计数器持久化到 重做日志 中。每次计数器发生改变，都会将其写入重做日志 中。如果数据库重启，InnoDB会根据重做日志中的信息来初始化计数器的内存值。
+
+    6. FOREIGN KEY 约束
+        1) 作用
+            限定某个表的某个字段的引用完整性。
+        2) 关键字
+            FOREIGN KEY
+        3) 主表和从表/父表和子表
+            主表（父表）：被引用的表，被参考的表
+            从表（子表）：引用别人的表，参考别人的表
+        4) 特点
+            （1）从表的外键列，必须引用/参考主表的主键或唯一约束的列为什么？因为被依赖/被参考的值必须是唯一的
+            （2）在创建外键约束时，如果不给外键约束命名，默认名不是列名，而是自动产生一个外键名（例如 student_ibfk_1;），也可以指定外键约束名。
+            （3）创建(CREATE)表时就指定外键约束的话，**先创建主表**，再创建从表
+            （4）删表时，先删从表（或先删除外键约束），再删除主表
+            （5）当主表的记录被从表参照时，主表的记录将不允许删除，如果要删除数据，需要先删除从表中依赖该记录的数据，然后才可以删除主表的数据
+            （6）在“从表”中指定外键约束，并且一个表可以建立多个外键约束
+            （7）从表的外键列与主表被参照的列名字可以不相同，但是数据类型必须一样，逻辑意义一致。
+                如果类型不一样，创建子表时，就会出现错误“ERROR 1005 (HY000): Can't create table'database.tablename'(errno: 150)”。 例如：都是表示部门编号，都是int类型。
+            （8）当创建外键约束时，系统默认会在所在的列上建立对应的普通索引。但是索引名是外键的约束名。（根据外键查询效率很高）
+            （9）删除外键约束后，必须手动删除对应的索引
+        5) 添加外键约束
+            1. 建表时
+                create table 主表名称(
+                字段1 数据类型 primary key,
+                字段2 数据类型
+                );
+
+                create table 从表名称(
+                字段1 数据类型 primary key,
+                字段2 数据类型,
+                [CONSTRAINT <外键约束名称>] FOREIGN KEY（从表的某个字段) references 主表名(被参考字段)
+                );
+                #(从表的某个字段)的数据类型必须与主表名(被参考字段)的数据类型一致，逻辑意义也一样
+                #(从表的某个字段)的字段名可以与主表名(被参考字段)的字段名一样，也可以不一样
+                -- FOREIGN KEY: 在表级指定子表中的列
+                -- REFERENCES: 标示在父表中的列
+            2. 建表后
+              一般情况下，表与表的关联都是提前设计好了的，因此，会在创建表的时候就把外键约束定义好。
+              不过，如果需要修改表的设计（比如添加新的字段，增加新的关联关系），但没有预先定义外键约束，那么，就要用修改表的方式来补充定义。
+               ALTER TABLE 从表名
+               ADD [CONSTRAINT 约束名] FOREIGN KEY (从表的字段)
+               REFERENCES 主表名(被引用字段) ;
+        6) 约束等级
+            * `Cascade方式 `：在父表上update/delete记录时，同步update/delete掉子表的匹配记录
+            * `Set null方式` ：在父表上update/delete记录时，将子表上匹配记录的列设为null，但是要注意子 表的外键列不能为not null
+            * `No action方式` ：如果子表中有匹配的记录，则不允许对父表对应候选键进行update/delete操作
+            * `Restrict方式` ：同no action， 都是立即检查外键约束
+            * `Set default方式` （在可视化工具SQLyog中可能显示空白）：父表有变更时，子表将外键列设置 成一个默认的值，但Innodb不能识别x
+            如果没有指定等级，就相当于Restrict方式。 对于外键约束，最好是采用: ON UPDATE CASCADE ON DELETE RESTRICT 的方式。
+        7) 删除外键约束
+            (1)第一步先查看约束名和删除外键约束
+            SELECT * FROM information_schema.table_constraints WHERE table_name = '表名称';  #查看某个表的约束名
+            ALTER TABLE 从表名 DROP FOREIGN KEY 外键约束名;
+
+            （2）第二步查看索引名和删除索引。（注意，只能手动删除）
+            SHOW INDEX FROM 表名称; #查看某个表的索引名
+            ALTER TABLE 从表名 DROP INDEX 索引名;
 
 
      */

@@ -217,7 +217,40 @@ public class Constraint {
             （2）第二步查看索引名和删除索引。（注意，只能手动删除）
             SHOW INDEX FROM 表名称; #查看某个表的索引名
             ALTER TABLE 从表名 DROP INDEX 索引名;
-
+    7. CHECK 约束
+        1) 作用
+            检查某个字段的值是否符号xx要求，一般指的是值的范围
+        2) 关键字
+         CHECK
+        3) 说明
+            MySQL5.7 可以使用check约束，但check约束对数据验证没有任何作用。添加数据时，没有任何错误或警告
+            但是MySQL 8.0中可以使用check约束了。
+            create table employee(
+            eid int primary key,
+            ename varchar(5),
+            gender char check ('男' or '女')
+            );
+    8. DEFAULT约束
+        1) 作用
+            给某个字段/某列指定默认值，一旦设置默认值，在插入数据时，如果此字段没有显式赋值，则赋值为默认值。
+        2) 关键字
+            DEFAULT
+        3) 添加默认值
+            1. 建表时
+                create table 表名称(
+                字段名 数据类型 primary key,
+                字段名 数据类型 unique key not null,
+                字段名 数据类型 unique key,
+                字段名 数据类型 not null default 默认值,
+                );
+            2. 建表后
+                alter table 表名称 modify 字段名 数据类型 default 默认值;
+                如果这个字段原来有非空约束，你还保留非空约束，那么在加默认值约束时，还得保留非空约束，否则非空约束就被删除了
+                同理，在给某个字段加非空约束也一样，如果这个字段原来有默认值约束，你想保留，也要在modify语句中保留默认值约束，否则就删除了
+                alter table 表名称 modify 字段名 数据类型 default 默认值 not null;
+        4) 删除默认值
+            alter table 表名称 modify 字段名 数据类型; #删除默认值约束，也不保留非空约束
+            alter table 表名称 modify 字段名 数据类型 not null; #删除默认值约束，保留非空约束
 
      */
 }

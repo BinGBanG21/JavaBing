@@ -160,6 +160,45 @@ public class Var {
             ELSE 结果n或语句n(如果是语句，需要加分号)
             END [case]（如果是放在begin end中需要加上case，如果放在select后面不需要）
 
+        3) 循环结构之LOOP
+            LOOP循环语句用来重复执行某些语句。LOOP内的语句一直重复执行直到循环被退出（使用LEAVE子 句），跳出循环过程。
+            LOOP语句的基本格式如下：
+            [loop_label:] LOOP
+            循环执行的语句
+            END LOOP [loop_label]
+            其中，loop_label表示LOOP语句的标注名称，该参数可以省略。
+        4) 循环结构之WHILE
+            WHILE语句创建一个带条件判断的循环过程。WHILE在执行语句执行时，先对指定的表达式进行判断
+            如果为真，就执行循环内的语句，否则退出循环。WHILE语句的基本格式如下：
+            [while_label:] WHILE 循环条件 DO
+            循环体
+            END WHILE [while_label];
+        5) 循环结构之REPEAT
+            REPEAT语句创建一个带条件判断的循环过程。与WHILE循环不同的是，REPEAT 循环首先会执行一次循环，然后在 UNTIL 中进行表达式的判断
+            如果满足条件就退出，即 END REPEAT；如果条件不满足，则会就继续执行循环，直到满足退出条件为止。
+            REPEAT语句的基本格式如下：
+            [repeat_label:] REPEAT
+            循环体的语句
+            UNTIL 结束循环的条件表达式
+            END REPEAT [repeat_label]
+
+            对比三种循环结构：
+            1. 这三种循环都可以省略名称，但如果循环中添加了循环控制语句（LEAVE或ITERATE）则必须添加名称。
+            2. LOOP：一般用于实现简单的"死"循环 WHILE：先判断后执行
+            3. REPEAT：先执行后判断，无条件至少执行一次
+
+        6) 跳转语句之LEAVE语句
+            LEAVE语句：可以用在循环语句内，或者以 BEGIN 和 END 包裹起来的程序体内，表示跳出循环或者跳出 程序体的操作。
+            可以把 LEAVE 理解为 break。
+            基本格式如下：
+            LEAVE 标记名
+        7) 跳转语句之ITERATE语句
+            ITERATE语句：只能用在循环语句（LOOP、REPEAT和WHILE语句）内，表示重新开始循环，将执行顺序转到语句段开头处。
+            如果你有面向过程的编程语言的使用经验，你可以把 ITERATE 理解为 continue，意思为“再次循环”。
+            语句基本格式如下：
+            ITERATE label
+            label参数表示循环的标志。ITERATE语句必须跟在循环标志前面。
+
 
 
 

@@ -140,8 +140,22 @@ public class Lin {
                         Host设置了“%”后便可以允许远程访问。
                     Host修改完成后记得执行flush privileges使配置立即生效：
                         flush privileges;
+    4. 字符集的相关操作
+        1. 修改步骤
+            在MySQL 8.0版本之前，默认字符集为 latin1 ，utf8字符集指向的是 utf8mb3 。网站开发人员在数据库
+            设计的时候往往会将编码修改为utf8字符集。如果遗忘修改默认的编码，就会出现乱码的问题。从MySQL
+            8.0开始，数据库的默认编码将改为 utf8mb4 ，从而避免上述乱码的问题
 
-
+            查看默认使用的字符集
+                show variables like 'character%';
+            # 或者
+                show variables like '%char%';
+            修改字符集
+                vim /etc/my.cnf
+            在MySQL5.7或之前的版本中，在文件最后加上中文字符集配置：
+                character_set_server=utf8
+            重新启动MySQL服务
+                systemctl restart mysqld
 
      */
 }

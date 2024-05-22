@@ -156,6 +156,44 @@ public class Lin {
                 character_set_server=utf8
             重新启动MySQL服务
                 systemctl restart mysqld
+        2. 已有库&表字符集的变更
+            修改已创建数据表的字符集
+                systemctl restart mysqld
+            修改已创建数据表的字符集
+                alter table t_emp convert to character set 'utf8';
+        3. 各级别的字符集
+            MySQL有4个级别的字符集和比较规则，分别是：
+            服务器级别
+            数据库级别
+            表级别
+            列级别
+
+            1. 服务器级别
+                character_set_server ：服务器级别的字符集。
+            2. 数据库级别
+                character_set_database ：当前数据库的字符集
+            3. 表级别
+                也可以在创建和修改表的时候指定表的字符集和比较规则
+                    CREATE TABLE 表名 (列的信息)
+                    [[DEFAULT] CHARACTER SET 字符集名称]
+                    [COLLATE 比较规则名称]]
+                    ALTER TABLE 表名
+                    [[DEFAULT] CHARACTER SET 字符集名称]
+                    [COLLATE 比较规则名称]
+            4. 列级别
+                对于存储字符串的列，同一个表中的不同的列也可以有不同的字符集和比较规则。我们在创建和修改列
+                定义的时候可以指定该列的字符集和比较规则
+                    CREATE TABLE 表名(
+                    列名 字符串类型 [CHARACTER SET 字符集名称] [COLLATE 比较规则名称],
+                    其他列...
+                    );
+                    ALTER TABLE 表名 MODIFY 列名 字符串类型 [CHARACTER SET 字符集名称] [COLLATE 比较规则名称];
+            5. 小结
+                这4个级别字符集和比较规则的联系如下：
+                如果 创建或修改列 时没有显式的指定字符集和比较规则，则该列 默认用表的 字符集和比较规则
+                如果 创建表时 没有显式的指定字符集和比较规则，则该表 默认用数据库的 字符集和比较规则
+                如果 创建数据库时 没有显式的指定字符集和比较规则，则该数据库 默认用服务器的 字符集和比较规则
+
 
      */
 }

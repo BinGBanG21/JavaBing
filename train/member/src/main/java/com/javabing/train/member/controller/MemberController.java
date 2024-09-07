@@ -7,9 +7,14 @@ package com.javabing.train.member.controller;/*
  * @Version 1.0
  **/
 
+import com.javabing.train.common.resq.CommonResp;
+import com.javabing.train.member.req.MemberRegisterReq;
 import com.javabing.train.member.service.MemberService;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/member")
@@ -19,12 +24,15 @@ public class MemberController {
     private MemberService memberService;
 
     @GetMapping("/count")
-    public Integer count() {
-        return memberService.count();
+    public CommonResp<Integer> count() {
+        //拿到结果 进行统一返回类的封装
+        int count = memberService.count();
+        return new CommonResp<>(count);
     }
 
     @PostMapping("/register")
-    public long register(String mobile) {
-        return memberService.register(mobile);
+    public CommonResp<Long> register(MemberRegisterReq req) {
+        long register = memberService.register(req);
+        return new CommonResp<>(register);
     }
 }

@@ -24,4 +24,12 @@ public class BusinessException extends RuntimeException {
         this.e = e;
     }
 
+
+    //重写exception的方法
+    //让我们自定义的异常在打印的时候不计入堆栈
+    //同时更容易看懂 不报一大堆堆栈错误信息
+    @Override
+    public Throwable fillInStackTrace() {
+        return this;
+    }
 }

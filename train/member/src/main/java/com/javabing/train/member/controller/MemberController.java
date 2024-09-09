@@ -8,7 +8,10 @@ package com.javabing.train.member.controller;/*
  **/
 
 import com.javabing.train.common.resq.CommonResp;
+import com.javabing.train.member.req.MemberLoginReq;
 import com.javabing.train.member.req.MemberRegisterReq;
+import com.javabing.train.member.req.MemberSendCodeReq;
+import com.javabing.train.member.resp.MemberLoginResp;
 import com.javabing.train.member.service.MemberService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
@@ -35,5 +38,17 @@ public class MemberController {
     public CommonResp<Long> register(@Valid MemberRegisterReq req) {
         long register = memberService.register(req);
         return new CommonResp<>(register);
+    }
+
+    @PostMapping("/send-code")
+    public CommonResp<Long> sendCode(@Valid MemberSendCodeReq req) {
+        memberService.sendCode(req);
+        return new CommonResp<>();
+    }
+
+    @PostMapping("/login")
+    public CommonResp<MemberLoginResp> login(@Valid MemberLoginReq req) {
+        MemberLoginResp resp = memberService.login(req);
+        return new CommonResp<>(resp);
     }
 }

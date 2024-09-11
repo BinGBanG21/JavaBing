@@ -1,4 +1,4 @@
-package com.javabing.train.common.resq;/*
+package com.javabing.train.common.resp;/*
  * ClassName: CommonResp
  * Package: com.javabing.train.common.resq
  * Description:

@@ -9,6 +9,7 @@ package com.javabing.train.member.service;/*
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
+import com.javabing.train.common.context.LoginMemberContext;
 import com.javabing.train.common.util.SnowUtil;
 import com.javabing.train.member.domain.Passenger;
 import com.javabing.train.member.mapper.PassengerMapper;
@@ -30,6 +31,7 @@ public class PassengerService {
         Passenger passenger = BeanUtil.copyProperties(req, Passenger.class);
         //对其他属性赋值 存入数据库中
         passenger.setId(SnowUtil.getSnowflakeNextId());
+        passenger.setMemberId(LoginMemberContext.getId());
         passenger.setCreateTime(now);
         passenger.setUpdateTime(now);
         passengerMapper.insert(passenger);

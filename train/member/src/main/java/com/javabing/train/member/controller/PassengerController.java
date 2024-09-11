@@ -7,7 +7,7 @@ package com.javabing.train.member.controller;/*
  * @Version 1.0
  **/
 
-import com.javabing.train.common.resq.CommonResp;
+import com.javabing.train.common.resp.CommonResp;
 import com.javabing.train.member.req.PassengerSaveReq;
 import com.javabing.train.member.service.PassengerService;
 import jakarta.annotation.Resource;

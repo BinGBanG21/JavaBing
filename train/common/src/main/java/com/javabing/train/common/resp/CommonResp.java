@@ -1,6 +1,6 @@
 package com.javabing.train.common.resp;/*
  * ClassName: CommonResp
- * Package: com.javabing.train.common.resq
+ * Package: com.javabing.train.common.resp
  * Description:
  * @Author WangBing
  * @Create 2024/9/7/星期六 22:00

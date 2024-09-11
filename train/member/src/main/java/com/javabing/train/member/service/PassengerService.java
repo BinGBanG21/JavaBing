@@ -10,6 +10,7 @@ package com.javabing.train.member.service;/*
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.ObjectUtil;
+import com.github.pagehelper.PageHelper;
 import com.javabing.train.common.context.LoginMemberContext;
 import com.javabing.train.common.util.SnowUtil;
 import com.javabing.train.member.domain.Passenger;
@@ -51,6 +52,7 @@ public class PassengerService {
         if (ObjectUtil.isNotNull(req.getMemberId())) {
             criteria.andMemberIdEqualTo(req.getMemberId());
         }
+        PageHelper.startPage(2, 2);
         List<Passenger> list = passengerMapper.selectByExample(example);
         return BeanUtil.copyToList(list, PassengerQueryResp.class);
 

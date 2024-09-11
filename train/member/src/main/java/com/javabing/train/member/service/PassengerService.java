@@ -42,12 +42,18 @@ public class PassengerService {
         DateTime now = DateTime.now();
         //创建domain实体 并且执行sql语句
         Passenger passenger = BeanUtil.copyProperties(req, Passenger.class);
-        //对其他属性赋值 存入数据库中
-        passenger.setId(SnowUtil.getSnowflakeNextId());
-        passenger.setMemberId(LoginMemberContext.getId());
-        passenger.setCreateTime(now);
-        passenger.setUpdateTime(now);
-        passengerMapper.insert(passenger);
+        //对其他属性赋值 如果没有id证明是新增 有id证明是编辑
+        if (ObjectUtil.isNull(req.getId())) {
+            passenger.setId(SnowUtil.getSnowflakeNextId());
+            passenger.setMemberId(LoginMemberContext.getId());
+            passenger.setCreateTime(now);
+            passenger.setUpdateTime(now);
+            passengerMapper.insert(passenger);
+        } else {
+            passenger.setUpdateTime(now);
+            passengerMapper.updateByPrimaryKey(passenger);
+        }
+
 
     }
 

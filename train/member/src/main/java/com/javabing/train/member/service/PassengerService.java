@@ -52,8 +52,9 @@ public class PassengerService {
     }
 
     public PageResp<PassengerQueryResp> queryList(PassengerQueryReq req) {
-        PassengerExample example = new PassengerExample();
-        PassengerExample.Criteria criteria = example.createCriteria();
+        PassengerExample PassengerExample = new PassengerExample();
+        PassengerExample.setOrderByClause("id desc");
+        PassengerExample.Criteria criteria = PassengerExample.createCriteria();
         //如果有值 证明是客户端的请求 进行id查询 没有值 就是后台管理系统自己在看
         if (ObjectUtil.isNotNull(req.getMemberId())) {
             criteria.andMemberIdEqualTo(req.getMemberId());
@@ -61,7 +62,7 @@ public class PassengerService {
         LOG.info("查询页码：{}", req.getPage());
         LOG.info("每页条数：{}", req.getSize());
         PageHelper.startPage(req.getPage(), req.getSize());
-        List<Passenger> passengerList = passengerMapper.selectByExample(example);
+        List<Passenger> passengerList = passengerMapper.selectByExample(PassengerExample);
         PageInfo<Passenger> pageInfo = new PageInfo<>(passengerList);
         LOG.info("总行数：{}", pageInfo.getTotal());
         LOG.info("总页数：{}", pageInfo.getPages());

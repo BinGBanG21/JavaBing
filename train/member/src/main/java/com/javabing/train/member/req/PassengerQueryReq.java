@@ -7,7 +7,9 @@ package com.javabing.train.member.req;/*
  * @Version 1.0
  **/
 
-public class PassengerQueryReq {
+import com.javabing.train.common.req.PageReq;
+
+public class PassengerQueryReq extends PageReq {
 
     private Long memberId;
 

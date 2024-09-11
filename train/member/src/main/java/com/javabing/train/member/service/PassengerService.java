@@ -11,7 +11,9 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.ObjectUtil;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.javabing.train.common.context.LoginMemberContext;
+import com.javabing.train.common.resp.PageResp;
 import com.javabing.train.common.util.SnowUtil;
 import com.javabing.train.member.domain.Passenger;
 import com.javabing.train.member.domain.PassengerExample;
@@ -20,12 +22,16 @@ import com.javabing.train.member.req.PassengerQueryReq;
 import com.javabing.train.member.req.PassengerSaveReq;
 import com.javabing.train.member.resp.PassengerQueryResp;
 import jakarta.annotation.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class PassengerService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(PassengerService.class);
 
 
     @Resource
@@ -45,16 +51,27 @@ public class PassengerService {
 
     }
 
-    public List<PassengerQueryResp> queyrList(PassengerQueryReq req) {
+    public PageResp<PassengerQueryResp> queryList(PassengerQueryReq req) {
         PassengerExample example = new PassengerExample();
         PassengerExample.Criteria criteria = example.createCriteria();
         //如果有值 证明是客户端的请求 进行id查询 没有值 就是后台管理系统自己在看
         if (ObjectUtil.isNotNull(req.getMemberId())) {
             criteria.andMemberIdEqualTo(req.getMemberId());
         }
+        LOG.info("查询页码：{}", req.getPage());
+        LOG.info("每页条数：{}", req.getSize());
         PageHelper.startPage(req.getPage(), req.getSize());
-        List<Passenger> list = passengerMapper.selectByExample(example);
-        return BeanUtil.copyToList(list, PassengerQueryResp.class);
+        List<Passenger> passengerList = passengerMapper.selectByExample(example);
+        PageInfo<Passenger> pageInfo = new PageInfo<>(passengerList);
+        LOG.info("总行数：{}", pageInfo.getTotal());
+        LOG.info("总页数：{}", pageInfo.getPages());
+
+        List<PassengerQueryResp> list = BeanUtil.copyToList(passengerList, PassengerQueryResp.class);
+
+        PageResp<PassengerQueryResp> pageResp = new PageResp<>();
+        pageResp.setTotal(pageInfo.getTotal());
+        pageResp.setList(list);
+        return pageResp;
 
     }
 }

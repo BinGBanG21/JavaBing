@@ -9,6 +9,7 @@ package com.javabing.train.member.controller;/*
 
 import com.javabing.train.common.context.LoginMemberContext;
 import com.javabing.train.common.resp.CommonResp;
+import com.javabing.train.common.resp.PageResp;
 import com.javabing.train.member.req.PassengerQueryReq;
 import com.javabing.train.member.req.PassengerSaveReq;
 import com.javabing.train.member.resp.PassengerQueryResp;
@@ -16,8 +17,6 @@ import com.javabing.train.member.service.PassengerService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/passenger")
@@ -33,10 +32,10 @@ public class PassengerController {
     }
 
     @GetMapping("/query-list")
-    public CommonResp<List<PassengerQueryResp>> queryList(@Valid PassengerQueryReq req) {
+    public CommonResp<PageResp<PassengerQueryResp>> queryList(@Valid PassengerQueryReq req) {
         //从线程池中拿到值然后查询
         req.setMemberId(LoginMemberContext.getId());
-        List<PassengerQueryResp> list = passengerService.queyrList(req);
+        PageResp<PassengerQueryResp> list = passengerService.queryList(req);
         return new CommonResp<>(list);
     }
 }

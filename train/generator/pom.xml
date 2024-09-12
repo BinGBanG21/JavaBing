@@ -35,6 +35,10 @@
             <artifactId>jaxen</artifactId>
             <version>1.2.0</version>
         </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
     </dependencies>
 
 
@@ -47,7 +51,7 @@
                 <version>1.4.0</version>
                 <configuration>
                     <configurationFile>src/main/resources/generator-config-member.xml</configurationFile>
-<!--                    <configurationFile>src/main/resources/generator-config-business.xml</configurationFile>-->
+                    <!--                    <configurationFile>src/main/resources/generator-config-business.xml</configurationFile>-->
                     <overwrite>true</overwrite>
                     <verbose>true</verbose>
                 </configuration>
@@ -56,6 +60,16 @@
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
                         <version>8.0.22</version>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>cn.hutool</groupId>
+                        <artifactId>hutool-all</artifactId>
+                    </dependency>
+                    <!-- 集成mysql连接 -->
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
                     </dependency>
                 </dependencies>
             </plugin>

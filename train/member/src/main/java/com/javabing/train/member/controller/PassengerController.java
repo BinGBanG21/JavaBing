@@ -38,4 +38,11 @@ public class PassengerController {
         PageResp<PassengerQueryResp> list = passengerService.queryList(req);
         return new CommonResp<>(list);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public CommonResp<Object> delete(@PathVariable Long id) {
+        //从线程池中拿到值然后查询
+        passengerService.delete(id);
+        return new CommonResp<>();
+    }
 }

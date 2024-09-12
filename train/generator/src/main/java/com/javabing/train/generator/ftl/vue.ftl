@@ -2,7 +2,8 @@
     <p>
         <a-space>
             <a-button type="primary" @click="handleQuery()">刷新</a-button>
-            <#if !readOnly><a-button type="primary" @click="onAdd">新增</a-button></#if>
+            <#if !readOnly>
+                <a-button type="primary" @click="onAdd">新增</a-button></#if>
         </a-space>
     </p>
     <a-table :dataSource="${domain}s"
@@ -27,9 +28,9 @@
             <#list fieldList as field>
                 <#if field.enums>
                     <template v-else-if="column.dataIndex === '${field.nameHump}'">
-        <span v-for="item in ${field.enumsConst}_ARRAY" :key="item.key">
-          <span v-if="item.key === record.${field.nameHump}">
-            {{item.value}}
+        <span v-for="item in ${field.enumsConst}_ARRAY" :key="item.code">
++          <span v-if="item.code === record.${field.nameHump}">
++            {{item.desc}}
           </span>
         </span>
                     </template>
@@ -45,22 +46,26 @@
                     <#if field.name!="id" && field.nameHump!="createTime" && field.nameHump!="updateTime">
                         <a-form-item label="${field.nameCn}">
                             <#if field.enums>
-                                <a-select v-model:value="${domain}.${field.nameHump}">
-                                    <a-select-option v-for="item in ${field.enumsConst}_ARRAY" :key="item.key" :value="item.key">
-                                        {{item.value}}
-                                    </a-select-option>
-                                </a-select>
-                            <#elseif field.javaType=='Date'>
-                                <#if field.type=='time'>
-                                    <a-time-picker v-model:value="${domain}.${field.nameHump}" valueFormat="HH:mm:ss" placeholder="请选择时间" />
-                                <#elseif field.type=='date'>
-                                    <a-date-picker v-model:value="${domain}.${field.nameHump}" valueFormat="YYYY-MM-DD" placeholder="请选择日期" />
+                            <a-select v-model:value="${domain}.${field.nameHump}">
+                                <a-select-option v-for="item in ${field.enumsConst}_ARRAY" :key="item.code"
+                                                 :value="item.code">
+                                    {{item.desc}}
+                                </a-select-option>
+                                <#elseif field.javaType=='Date'>
+                                    <#if field.type=='time'>
+                                        <a-time-picker v-model:value="${domain}.${field.nameHump}"
+                                                       valueFormat="HH:mm:ss" placeholder="请选择时间"/>
+                                    <#elseif field.type=='date'>
+                                        <a-date-picker v-model:value="${domain}.${field.nameHump}"
+                                                       valueFormat="YYYY-MM-DD" placeholder="请选择日期"/>
+                                    <#else>
+                                        <a-date-picker v-model:value="${domain}.${field.nameHump}"
+                                                       valueFormat="YYYY-MM-DD HH:mm:ss" show-time
+                                                       placeholder="请选择日期"/>
+                                    </#if>
                                 <#else>
-                                    <a-date-picker v-model:value="${domain}.${field.nameHump}" valueFormat="YYYY-MM-DD HH:mm:ss" show-time placeholder="请选择日期" />
+                                    <a-input v-model:value="${domain}.${field.nameHump}"/>
                                 </#if>
-                            <#else>
-                                <a-input v-model:value="${domain}.${field.nameHump}" />
-                            </#if>
                         </a-form-item>
                     </#if>
                 </#list>
@@ -70,7 +75,7 @@
 </template>
 
 <script>
-    import { defineComponent, ref, onMounted } from 'vue';
+    import {defineComponent, ref, onMounted} from 'vue';
     import {notification} from "ant-design-vue";
     import axios from "axios";
 

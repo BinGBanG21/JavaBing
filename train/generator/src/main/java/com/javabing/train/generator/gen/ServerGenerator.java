@@ -1,4 +1,4 @@
-package com.javabing.train.generator.server;/*
+package com.javabing.train.generator.gen;/*
  * ClassName: ServerGenerator
  * Package: com.javabing.train.generator.server
  * Description:

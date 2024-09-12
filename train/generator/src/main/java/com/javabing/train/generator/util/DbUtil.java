@@ -8,6 +8,7 @@ package com.javabing.train.generator.util;/*
  **/
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -118,7 +119,7 @@ public class DbUtil {
         rs.close();
         stmt.close();
         conn.close();
-        System.out.println("列信息：" + fieldList);
+        System.out.println("列信息：" + JSONUtil.toJsonPrettyStr(fieldList));
         return fieldList;
     }
 

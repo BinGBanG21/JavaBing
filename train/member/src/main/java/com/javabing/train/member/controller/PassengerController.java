@@ -19,7 +19,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/passenger")
 public class PassengerController {
 
     @Resource

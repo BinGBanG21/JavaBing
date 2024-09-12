@@ -1,11 +1,4 @@
-package com.javabing.train.member.resp;/*
- * ClassName: PassengerQueryResp
- * Package: com.javabing.train.member.resp
- * Description:
- * @Author WangBing
- * @Create 2024/9/11/星期三 18:16
- * @Version 1.0
- **/
+package com.javabing.train.member.resp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -15,22 +8,43 @@ import java.util.Date;
 
 public class PassengerQueryResp {
 
+    /**
+     * id
+     */
     @JsonSerialize(using= ToStringSerializer.class)
     private Long id;
 
+    /**
+     * 会员id
+     */
     @JsonSerialize(using= ToStringSerializer.class)
     private Long memberId;
 
+    /**
+     * 姓名
+     */
     private String name;
 
+    /**
+     * 身份证
+     */
     private String idCard;
 
+    /**
+     * 旅客类型|枚举[PassengerTypeEnum]
+     */
     private String type;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    /**
+     * 新增时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    /**
+     * 修改时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date updateTime;
 
     public Long getId() {
@@ -106,3 +120,4 @@ public class PassengerQueryResp {
         return sb.toString();
     }
 }
+

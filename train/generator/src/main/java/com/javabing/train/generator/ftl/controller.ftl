@@ -1,4 +1,4 @@
-package com.javabing.train.member.controller;
+package com.javabing.train.${module}.controller;
 
 import com.javabing.train.common.context.LoginMemberContext;
 import com.javabing.train.common.resp.CommonResp;
@@ -15,26 +15,26 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/${do_main}")
 public class ${Domain}Controller {
 
-@Resource
-private ${Domain}Service ${domain}Service;
+    @Resource
+    private ${Domain}Service ${domain}Service;
 
-@PostMapping("/save")
-public CommonResp<Object> save(@Valid @RequestBody ${Domain}SaveReq req) {
-    ${domain}Service.save(req);
-    return new CommonResp<>();
+    @PostMapping("/save")
+    public CommonResp<Object> save(@Valid @RequestBody ${Domain}SaveReq req) {
+        ${domain}Service.save(req);
+        return new CommonResp<>();
     }
 
     @GetMapping("/query-list")
     public CommonResp<PageResp<${Domain}QueryResp>> queryList(@Valid ${Domain}QueryReq req) {
         req.setMemberId(LoginMemberContext.getId());
         PageResp<${Domain}QueryResp> list = ${domain}Service.queryList(req);
-            return new CommonResp<>(list);
-            }
+        return new CommonResp<>(list);
+    }
 
-            @DeleteMapping("/delete/{id}")
-            public CommonResp<Object> delete(@PathVariable Long id) {
-                ${domain}Service.delete(id);
-                return new CommonResp<>();
-                }
+    @DeleteMapping("/delete/{id}")
+    public CommonResp<Object> delete(@PathVariable Long id) {
+        ${domain}Service.delete(id);
+        return new CommonResp<>();
+    }
 
-                }
+}

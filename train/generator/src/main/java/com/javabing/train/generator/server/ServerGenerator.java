@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class ServerGenerator {
-    static String serverPath = "[module]/src/main/java/com/jiawa/train/[module]/";
+    static String serverPath = "[module]/src/main/java/com/javabing/train/[module]/";
     static String pomPath = "generator\\pom.xml";
 
     static {
@@ -57,12 +57,12 @@ public class ServerGenerator {
         DbUtil.user = userId.getText();
         DbUtil.password = password.getText();
 
-        // 示例：表名 jiawa_test
-        // Domain = JiawaTest
+        // 示例：表名 javabing_test
+        // Domain = JavabingTest
         String Domain = domainObjectName.getText();
-        // domain = jiawaTest
+        // domain = javabingTest
         String domain = Domain.substring(0, 1).toLowerCase() + Domain.substring(1);
-        // do_main = jiawa-test
+        // do_main = javabing-test
         String do_main = tableName.getText().replaceAll("_", "-");
         // 表中文名
         String tableNameCn = DbUtil.getTableComment(tableName.getText());
@@ -80,9 +80,9 @@ public class ServerGenerator {
         param.put("typeSet", typeSet);
         System.out.println("组装参数：" + param);
 
-        gen(Domain, param, "service", "service");
-        gen(Domain, param, "controller", "controller");
-        gen(Domain, param, "req", "saveReq");
+//        gen(Domain, param, "service", "service");
+//        gen(Domain, param, "controller", "controller");
+//        gen(Domain, param, "req", "saveReq");
         gen(Domain, param, "req", "queryReq");
         gen(Domain, param, "resp", "queryResp");
     }

@@ -12,7 +12,7 @@
         <property name="endingDelimiter" value="`"/>
 
         <!--覆盖生成XML文件-->
-        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
         <!-- 生成的实体类添加toString()方法 -->
         <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
 
@@ -30,7 +30,7 @@
 
         <!-- domain类的位置 targetProject是相对pom.xml的路径-->
         <javaModelGenerator targetProject="..\business\src\main\java"
-                                    targetPackage="com.javabing.train.business.domain"/>
+                            targetPackage="com.javabing.train.business.domain"/>
 
         <!-- mapper xml的位置 targetProject是相对pom.xml的路径 -->
         <sqlMapGenerator targetProject="..\member\src\main\resources"
@@ -42,9 +42,10 @@
                              type="XMLMAPPER"/>
 
         <!--<table tableName="member" domainObjectName="Member"/>-->
-<!--        <table tableName="station" domainObjectName="Station"/>-->
-<!--        <table tableName="train" domainObjectName="Train"/>-->
-<!--        <table tableName="train_station" domainObjectName="TrainStation"/>-->
+        <!--        <table tableName="station" domainObjectName="Station"/>-->
+        <!--        <table tableName="train" domainObjectName="Train"/>-->
+        <!--        <table tableName="train_station" domainObjectName="TrainStation"/>-->
         <table tableName="train_carriage" domainObjectName="TrainCarriage"/>
+        <table tableName="train_seat" domainObjectName="TrainSeat"/>
     </context>
 </generatorConfiguration>

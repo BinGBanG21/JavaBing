@@ -1,14 +1,9 @@
-package com.javabing.train.business.req;/*
- * ClassName: TrainSaveReq
- * Package: com.javabing.train.business.req
- * Description:
- * @Author WangBing
- * @Create 2024/9/13/星期五 13:07
- * @Version 1.0
- **/
+package com.javabing.train.business.req;
+
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
@@ -46,8 +41,9 @@ public class TrainSaveReq {
     /**
      * 出发时间
      */
-    @NotBlank(message = "【出发时间】不能为空")
-    private String startTime;
+    @JsonFormat(pattern = "HH:mm:ss",timezone = "GMT+8")
+    @NotNull(message = "【出发时间】不能为空")
+    private Date startTime;
 
     /**
      * 终点站
@@ -64,8 +60,9 @@ public class TrainSaveReq {
     /**
      * 到站时间
      */
-    @NotBlank(message = "【到站时间】不能为空")
-    private String endTime;
+    @JsonFormat(pattern = "HH:mm:ss",timezone = "GMT+8")
+    @NotNull(message = "【到站时间】不能为空")
+    private Date endTime;
 
     /**
      * 新增时间
@@ -119,11 +116,11 @@ public class TrainSaveReq {
         this.startPinyin = startPinyin;
     }
 
-    public String getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
@@ -143,11 +140,11 @@ public class TrainSaveReq {
         this.endPinyin = endPinyin;
     }
 
-    public String getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
 
@@ -188,4 +185,3 @@ public class TrainSaveReq {
         return sb.toString();
     }
 }
-

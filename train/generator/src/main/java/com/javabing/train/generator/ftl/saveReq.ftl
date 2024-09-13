@@ -20,14 +20,20 @@ public class ${Domain}SaveReq {
     * ${field.comment}
     */
     <#if field.javaType=='Date'>
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+        <#if field.type=='time'>
+            @JsonFormat(pattern = "HH:mm:ss",timezone = "GMT+8")
+        <#elseif field.type=='date'>
+            @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+        <#else>
+            @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+        </#if>
     </#if>
     <#if field.name!="id" && field.nameHump!="createdAt" && field.nameHump!="updatedAt">
         <#if !field.nullAble>
             <#if field.javaType=='String'>
-    @NotBlank(message = "【${field.nameCn}】不能为空")
+                @NotBlank(message = "【${field.nameCn}】不能为空")
             <#else>
-    @NotNull(message = "【${field.nameCn}】不能为空")
+                @NotNull(message = "【${field.nameCn}】不能为空")
             </#if>
         </#if>
     </#if>
@@ -44,16 +50,16 @@ public class ${Domain}SaveReq {
     }
 
 </#list>
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        <#list fieldList as field>
-            sb.append(", ${field.nameHump}=").append(${field.nameHump});
-        </#list>
-        sb.append("]");
-        return sb.toString();
-    }
+@Override
+public String toString() {
+StringBuilder sb = new StringBuilder();
+sb.append(getClass().getSimpleName());
+sb.append(" [");
+sb.append("Hash = ").append(hashCode());
+<#list fieldList as field>
+    sb.append(", ${field.nameHump}=").append(${field.nameHump});
+</#list>
+sb.append("]");
+return sb.toString();
+}
 }

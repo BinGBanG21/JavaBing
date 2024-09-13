@@ -2,7 +2,7 @@
   <a-layout-header class="header">
     <div class="logo">
       <router-link to="/welcome" style="color: white; font-size: 18px">
-        JavaBing12306控台
+        JavaBing控台
       </router-link>
     </div>
     <div style="float: right; color: white;">

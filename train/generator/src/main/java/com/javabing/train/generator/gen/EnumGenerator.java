@@ -9,8 +9,10 @@ package com.javabing.train.generator.gen;/*
 
 
 import cn.hutool.core.util.StrUtil;
-import com.javabing.train.member.enums.PassengerTypeEnum;
+import com.javabing.train.business.enums.SeatTypeEnum;
 import com.javabing.train.business.enums.TrainTypeEnum;
+import com.javabing.train.member.enums.PassengerTypeEnum;
+
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Method;
@@ -25,6 +27,7 @@ public class EnumGenerator {
         try {
             toJson(PassengerTypeEnum.class, bufferObject, bufferArray);
             toJson(TrainTypeEnum.class, bufferObject, bufferArray);
+            toJson(SeatTypeEnum.class, bufferObject, bufferArray);
             StringBuffer buffer = bufferObject.append("\r\n").append(bufferArray);
             writeJs(buffer);
         } catch (Exception e) {

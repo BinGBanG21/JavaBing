@@ -1,58 +1,58 @@
 <template>
-  <p>
+<p>
+<a-space>
+  <a-button type="primary" @click="handleQuery()">刷新</a-button>
+  <a-button type="primary" @click="onAdd">新增</a-button>
+</a-space>
+</p>
+<a-table :dataSource="trainStations"
+         :columns="columns"
+         :pagination="pagination"
+         @change="handleTableChange"
+         :loading="loading">
+<template #bodyCell="{ column, record }">
+  <template v-if="column.dataIndex === 'operation'">
     <a-space>
-      <a-button type="primary" @click="handleQuery()">刷新</a-button>
-      <a-button type="primary" @click="onAdd">新增</a-button>
+      <a-popconfirm
+          title="删除后不可恢复，确认删除?"
+          @confirm="onDelete(record)"
+          ok-text="确认" cancel-text="取消">
+        <a style="color: red">删除</a>
+      </a-popconfirm>
+      <a @click="onEdit(record)">编辑</a>
     </a-space>
-  </p>
-  <a-table :dataSource="trainStations"
-           :columns="columns"
-           :pagination="pagination"
-           @change="handleTableChange"
-           :loading="loading">
-    <template #bodyCell="{ column, record }">
-      <template v-if="column.dataIndex === 'operation'">
-        <a-space>
-          <a-popconfirm
-              title="删除后不可恢复，确认删除?"
-              @confirm="onDelete(record)"
-              ok-text="确认" cancel-text="取消">
-            <a style="color: red">删除</a>
-          </a-popconfirm>
-          <a @click="onEdit(record)">编辑</a>
-        </a-space>
-      </template>
-    </template>
-  </a-table>
-  <a-modal v-model:visible="visible" title="火车车站" @ok="handleOk"
-           ok-text="确认" cancel-text="取消">
-    <a-form :model="trainStation" :label-col="{span: 4}" :wrapper-col="{ span: 20 }">
-      <a-form-item label="车次编号">
-        <train-select-view v-model="trainStation.trainCode"></train-select-view>
-      </a-form-item>
-      <a-form-item label="站序">
-        <a-input v-model:value="trainStation.index" />
-      </a-form-item>
-      <a-form-item label="站名">
-        <a-input v-model:value="trainStation.name" />
-      </a-form-item>
-      <a-form-item label="站名拼音">
-        <a-input v-model:value="trainStation.namePinyin" disabled/>
-      </a-form-item>
-      <a-form-item label="进站时间">
-        <a-time-picker v-model:value="trainStation.inTime" valueFormat="HH:mm:ss" placeholder="请选择时间" />
-      </a-form-item>
-      <a-form-item label="出站时间">
-        <a-time-picker v-model:value="trainStation.outTime" valueFormat="HH:mm:ss" placeholder="请选择时间" />
-      </a-form-item>
-      <a-form-item label="停站时长">
-        <a-time-picker v-model:value="trainStation.stopTime" valueFormat="HH:mm:ss" placeholder="请选择时间" />
-      </a-form-item>
-      <a-form-item label="里程（公里）">
-        <a-input v-model:value="trainStation.km" />
-      </a-form-item>
-    </a-form>
-  </a-modal>
+  </template>
+</template>
+</a-table>
+<a-modal v-model:visible="visible" title="火车车站" @ok="handleOk"
+         ok-text="确认" cancel-text="取消">
+<a-form :model="trainStation" :label-col="{span: 4}" :wrapper-col="{ span: 20 }">
+  <a-form-item label="车次编号">
+    <train-select-view v-model="trainStation.trainCode"></train-select-view>
+  </a-form-item>
+  <a-form-item label="站序">
+    <a-input v-model:value="trainStation.index" />
+  </a-form-item>
+  <a-form-item label="站名">
+    <a-input v-model:value="trainStation.name" />
+  </a-form-item>
+  <a-form-item label="站名拼音">
+    <a-input v-model:value="trainStation.namePinyin" disabled/>
+  </a-form-item>
+  <a-form-item label="进站时间">
+    <a-time-picker v-model:value="trainStation.inTime" valueFormat="HH:mm:ss" placeholder="请选择时间" />
+  </a-form-item>
+  <a-form-item label="出站时间">
+    <a-time-picker v-model:value="trainStation.outTime" valueFormat="HH:mm:ss" placeholder="请选择时间" />
+  </a-form-item>
+  <a-form-item label="停站时长">
+    <a-time-picker v-model:value="trainStation.stopTime" valueFormat="HH:mm:ss" placeholder="请选择时间" />
+  </a-form-item>
+  <a-form-item label="里程（公里）">
+    <a-input v-model:value="trainStation.km" />
+  </a-form-item>
+</a-form>
+</a-modal>
 </template>
 
 <script>
@@ -218,38 +218,11 @@ export default defineComponent({
       });
     };
 
-    // ----------------- 车次下拉框 -----------------
-    const trains = ref([]);
-
-    /**
-     * 查询所有的车次，用于车次下拉框
-     */
-    const queryTrainCode = () => {
-      axios.get("/business/admin/train/query-all").then((response) => {
-        let data = response.data;
-        if (data.success) {
-          trains.value = data.content;
-        } else {
-          notification.error({description: data.message});
-        }
-      });
-    };
-
-    /**
-     * 车次下拉框筛选
-     */
-    const filterTrainCodeOption = (input, option) => {
-      console.log(input, option);
-      return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
-    };
-
     onMounted(() => {
       handleQuery({
         page: 1,
         size: pagination.value.pageSize
       });
-
-      queryTrainCode();
     });
 
     return {
@@ -265,8 +238,6 @@ export default defineComponent({
       handleOk,
       onEdit,
       onDelete,
-      filterTrainCodeOption,
-      trains
     };
   },
 });

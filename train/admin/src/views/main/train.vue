@@ -25,7 +25,7 @@
       <template v-else-if="column.dataIndex === 'type'">
         <span v-for="item in TRAIN_TYPE_ARRAY" :key="item.code">
           <span v-if="item.code === record.type">
-            {{item.desc}}
+            {{ item.desc }}
           </span>
         </span>
       </template>
@@ -35,45 +35,47 @@
            ok-text="确认" cancel-text="取消">
     <a-form :model="train" :label-col="{span: 4}" :wrapper-col="{ span: 20 }">
       <a-form-item label="车次编号">
-        <a-input v-model:value="train.code" />
+        <a-input v-model:value="train.code"/>
       </a-form-item>
       <a-form-item label="车次类型">
         <a-select v-model:value="train.type">
           <a-select-option v-for="item in TRAIN_TYPE_ARRAY" :key="item.code" :value="item.code">
-            {{item.desc}}
+            {{ item.desc }}
           </a-select-option>
         </a-select>
       </a-form-item>
       <a-form-item label="始发站">
-        <a-input v-model:value="train.start" />
+        <station-select-view v-model="train.start"></station-select-view>
       </a-form-item>
       <a-form-item label="始发站拼音">
         <a-input v-model:value="train.startPinyin" disabled/>
       </a-form-item>
       <a-form-item label="出发时间">
-        <a-time-picker v-model:value="train.startTime" valueFormat="HH:mm:ss" placeholder="请选择时间" />
+        <a-time-picker v-model:value="train.startTime" valueFormat="HH:mm:ss" placeholder="请选择时间"/>
       </a-form-item>
       <a-form-item label="终点站">
-        <a-input v-model:value="train.end" />
+        <station-select-view v-model="train.end"></station-select-view>
       </a-form-item>
       <a-form-item label="终点站拼音">
         <a-input v-model:value="train.endPinyin" disabled/>
       </a-form-item>
       <a-form-item label="到站时间">
-        <a-time-picker v-model:value="train.endTime" valueFormat="HH:mm:ss" placeholder="请选择时间" />
+        <a-time-picker v-model:value="train.endTime" valueFormat="HH:mm:ss" placeholder="请选择时间"/>
       </a-form-item>
     </a-form>
   </a-modal>
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, watch } from 'vue';
+import {defineComponent, ref, onMounted, watch} from 'vue';
 import {notification} from "ant-design-vue";
 import axios from "axios";
 import {pinyin} from "pinyin-pro";
+import StationSelectView from "@/components/station-select";
 
 export default defineComponent({
   name: "train-view",
+  components: {StationSelectView},
   setup() {
     const TRAIN_TYPE_ARRAY = window.TRAIN_TYPE_ARRAY;
     const visible = ref(false);
@@ -145,16 +147,16 @@ export default defineComponent({
       }
     ];
 
-    watch(() => train.value.start, ()=>{
+    watch(() => train.value.start, () => {
       if (Tool.isNotEmpty(train.value.start)) {
-        train.value.startPinyin = pinyin(train.value.start, { toneType: 'none'}).replaceAll(" ", "");
+        train.value.startPinyin = pinyin(train.value.start, {toneType: 'none'}).replaceAll(" ", "");
       } else {
         train.value.startPinyin = "";
       }
     }, {immediate: true});
-    watch(() => train.value.end, ()=>{
+    watch(() => train.value.end, () => {
       if (Tool.isNotEmpty(train.value.end)) {
-        train.value.endPinyin = pinyin(train.value.end, { toneType: 'none'}).replaceAll(" ", "");
+        train.value.endPinyin = pinyin(train.value.end, {toneType: 'none'}).replaceAll(" ", "");
       } else {
         train.value.endPinyin = "";
       }

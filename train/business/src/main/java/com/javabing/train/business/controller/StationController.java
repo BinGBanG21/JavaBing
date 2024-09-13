@@ -1,4 +1,4 @@
-package com.javabing.train.business.controller;/*
+package com.javabing.train.business.controller.admin;/*
  * ClassName: StationController
  * Package: com.javabing.train.business.controller
  * Description:

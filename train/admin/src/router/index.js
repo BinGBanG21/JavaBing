@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 
 const routes = [{
     path: '/',
@@ -9,6 +9,9 @@ const routes = [{
     }, {
         path: 'about',
         component: () => import('../views/main/about.vue'),
+    }, {
+        path: 'station',
+        component: () => import('../views/main/station.vue'),
     }]
 }, {
     path: '',

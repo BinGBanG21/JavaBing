@@ -12,14 +12,14 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.ObjectUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.javabing.train.common.resp.PageResp;
-import com.javabing.train.common.util.SnowUtil;
 import com.javabing.train.business.domain.TrainCarriage;
 import com.javabing.train.business.domain.TrainCarriageExample;
 import com.javabing.train.business.mapper.TrainCarriageMapper;
 import com.javabing.train.business.req.TrainCarriageQueryReq;
 import com.javabing.train.business.req.TrainCarriageSaveReq;
 import com.javabing.train.business.resp.TrainCarriageQueryResp;
+import com.javabing.train.common.resp.PageResp;
+import com.javabing.train.common.util.SnowUtil;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,5 +77,13 @@ public class TrainCarriageService {
 
     public void delete(Long id) {
         trainCarriageMapper.deleteByPrimaryKey(id);
+    }
+
+    public List<TrainCarriage> selectByTrainCode(String trainCode) {
+        TrainCarriageExample trainCarriageExample = new TrainCarriageExample();
+        trainCarriageExample.setOrderByClause("`index` asc");
+        TrainCarriageExample.Criteria criteria = trainCarriageExample.createCriteria();
+        criteria.andTrainCodeEqualTo(trainCode);
+        return trainCarriageMapper.selectByExample(trainCarriageExample);
     }
 }

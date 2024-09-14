@@ -1,7 +1,8 @@
 <template>
   <p>
     <a-space>
-      <a-button type="primary" @click="handleQuery()">刷新</a-button>
+      <train-select-view v-model="params.trainCode" width="200px"></train-select-view>
+      <a-button type="primary" @click="handleQuery()">查找</a-button>
       <a-button type="primary" @click="onAdd">新增</a-button>
     </a-space>
   </p>
@@ -31,7 +32,7 @@
         <train-select-view v-model="trainStation.trainCode"></train-select-view>
       </a-form-item>
       <a-form-item label="站序">
-        <a-input v-model:value="trainStation.index"/>
+        <a-input v-model:value="trainStation.index" />
       </a-form-item>
       <a-form-item label="站名">
         <station-select-view v-model="trainStation.name"></station-select-view>
@@ -40,16 +41,16 @@
         <a-input v-model:value="trainStation.namePinyin" disabled/>
       </a-form-item>
       <a-form-item label="进站时间">
-        <a-time-picker v-model:value="trainStation.inTime" valueFormat="HH:mm:ss" placeholder="请选择时间"/>
+        <a-time-picker v-model:value="trainStation.inTime" valueFormat="HH:mm:ss" placeholder="请选择时间" />
       </a-form-item>
       <a-form-item label="出站时间">
-        <a-time-picker v-model:value="trainStation.outTime" valueFormat="HH:mm:ss" placeholder="请选择时间"/>
+        <a-time-picker v-model:value="trainStation.outTime" valueFormat="HH:mm:ss" placeholder="请选择时间" />
       </a-form-item>
       <a-form-item label="停站时长">
-        <a-time-picker v-model:value="trainStation.stopTime" valueFormat="HH:mm:ss" placeholder="请选择时间"/>
+        <a-time-picker v-model:value="trainStation.stopTime" valueFormat="HH:mm:ss" placeholder="请选择时间" />
       </a-form-item>
       <a-form-item label="里程（公里）">
-        <a-input v-model:value="trainStation.km"/>
+        <a-input v-model:value="trainStation.km" />
       </a-form-item>
     </a-form>
   </a-modal>
@@ -89,6 +90,9 @@ export default defineComponent({
       pageSize: 10,
     });
     let loading = ref(false);
+    let params = ref({
+      trainCode: null
+    });
     const columns = [
       {
         title: '车次编号',
@@ -135,9 +139,9 @@ export default defineComponent({
         dataIndex: 'operation'
       }
     ];
-    watch(() => trainStation.value.name, () => {
+    watch(() => trainStation.value.name, ()=>{
       if (Tool.isNotEmpty(trainStation.value.name)) {
-        trainStation.value.namePinyin = pinyin(trainStation.value.name, {toneType: 'none'}).replaceAll(" ", "");
+        trainStation.value.namePinyin = pinyin(trainStation.value.name, { toneType: 'none'}).replaceAll(" ", "");
       } else {
         trainStation.value.namePinyin = "";
       }
@@ -195,7 +199,8 @@ export default defineComponent({
       axios.get("/business/admin/train-station/query-list", {
         params: {
           page: param.page,
-          size: param.size
+          size: param.size,
+          trainCode: params.value.trainCode
         }
       }).then((response) => {
         loading.value = false;
@@ -239,6 +244,7 @@ export default defineComponent({
       handleOk,
       onEdit,
       onDelete,
+      params
     };
   },
 });

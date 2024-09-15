@@ -29,15 +29,15 @@
         </jdbcConnection>
 
         <!-- domain类的位置 targetProject是相对pom.xml的路径-->
-        <javaModelGenerator targetProject="..\business\src\main\java"
+        <javaModelGenerator targetProject="../business/src/main/java"
                             targetPackage="com.javabing.train.business.domain"/>
 
         <!-- mapper xml的位置 targetProject是相对pom.xml的路径 -->
-        <sqlMapGenerator targetProject="..\member\src\main\resources"
+        <sqlMapGenerator targetProject="../member/src/main/resources"
                          targetPackage="mapper"/>
 
         <!-- mapper类的位置 targetProject是相对pom.xml的路径 -->
-        <javaClientGenerator targetProject="..\business\src\main\java"
+        <javaClientGenerator targetProject="../business/src/main/java"
                              targetPackage="com.javabing.train.business.mapper"
                              type="XMLMAPPER"/>
 

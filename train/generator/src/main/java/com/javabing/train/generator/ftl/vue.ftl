@@ -2,8 +2,7 @@
     <p>
         <a-space>
             <a-button type="primary" @click="handleQuery()">刷新</a-button>
-            <#if !readOnly>
-                <a-button type="primary" @click="onAdd">新增</a-button></#if>
+            <#if !readOnly><a-button type="primary" @click="onAdd">新增</a-button></#if>
         </a-space>
     </p>
     <a-table :dataSource="${domain}s"
@@ -29,8 +28,8 @@
                 <#if field.enums>
                     <template v-else-if="column.dataIndex === '${field.nameHump}'">
         <span v-for="item in ${field.enumsConst}_ARRAY" :key="item.code">
-+          <span v-if="item.code === record.${field.nameHump}">
-+            {{item.desc}}
+          <span v-if="item.code === record.${field.nameHump}">
+            {{item.desc}}
           </span>
         </span>
                     </template>
@@ -46,26 +45,22 @@
                     <#if field.name!="id" && field.nameHump!="createTime" && field.nameHump!="updateTime">
                         <a-form-item label="${field.nameCn}">
                             <#if field.enums>
-                            <a-select v-model:value="${domain}.${field.nameHump}">
-                                <a-select-option v-for="item in ${field.enumsConst}_ARRAY" :key="item.code"
-                                                 :value="item.code">
-                                    {{item.desc}}
-                                </a-select-option>
-                                <#elseif field.javaType=='Date'>
-                                    <#if field.type=='time'>
-                                        <a-time-picker v-model:value="${domain}.${field.nameHump}"
-                                                       valueFormat="HH:mm:ss" placeholder="请选择时间"/>
-                                    <#elseif field.type=='date'>
-                                        <a-date-picker v-model:value="${domain}.${field.nameHump}"
-                                                       valueFormat="YYYY-MM-DD" placeholder="请选择日期"/>
-                                    <#else>
-                                        <a-date-picker v-model:value="${domain}.${field.nameHump}"
-                                                       valueFormat="YYYY-MM-DD HH:mm:ss" show-time
-                                                       placeholder="请选择日期"/>
-                                    </#if>
+                                <a-select v-model:value="${domain}.${field.nameHump}">
+                                    <a-select-option v-for="item in ${field.enumsConst}_ARRAY" :key="item.code" :value="item.code">
+                                        {{item.desc}}
+                                    </a-select-option>
+                                </a-select>
+                            <#elseif field.javaType=='Date'>
+                                <#if field.type=='time'>
+                                    <a-time-picker v-model:value="${domain}.${field.nameHump}" valueFormat="HH:mm:ss" placeholder="请选择时间" />
+                                <#elseif field.type=='date'>
+                                    <a-date-picker v-model:value="${domain}.${field.nameHump}" valueFormat="YYYY-MM-DD" placeholder="请选择日期" />
                                 <#else>
-                                    <a-input v-model:value="${domain}.${field.nameHump}"/>
+                                    <a-date-picker v-model:value="${domain}.${field.nameHump}" valueFormat="YYYY-MM-DD HH:mm:ss" show-time placeholder="请选择日期" />
                                 </#if>
+                            <#else>
+                                <a-input v-model:value="${domain}.${field.nameHump}" />
+                            </#if>
                         </a-form-item>
                     </#if>
                 </#list>
@@ -75,7 +70,7 @@
 </template>
 
 <script>
-    import {defineComponent, ref, onMounted} from 'vue';
+    import { defineComponent, ref, onMounted } from 'vue';
     import {notification} from "ant-design-vue";
     import axios from "axios";
 
@@ -131,7 +126,7 @@
             };
 
             const onDelete = (record) => {
-                axios.delete("/${module}/${do_main}/delete/" + record.id).then((response) => {
+                axios.delete("/${module}/admin/${do_main}/delete/" + record.id).then((response) => {
                     const data = response.data;
                     if (data.success) {
                         notification.success({description: "删除成功！"});
@@ -146,7 +141,7 @@
             };
 
             const handleOk = () => {
-                axios.post("/${module}/${do_main}/save", ${domain}.value).then((response) => {
+                axios.post("/${module}/admin/${do_main}/save", ${domain}.value).then((response) => {
                     let data = response.data;
                     if (data.success) {
                         notification.success({description: "保存成功！"});
@@ -170,7 +165,7 @@
                     };
                 }
                 loading.value = true;
-                axios.get("/${module}/${do_main}/query-list", {
+                axios.get("/${module}/admin/${do_main}/query-list", {
                     params: {
                         page: param.page,
                         size: param.size
@@ -189,11 +184,12 @@
                 });
             };
 
-            const handleTableChange = (pagination) => {
-                // console.log("看看自带的分页参数都有啥：" + pagination);
+            const handleTableChange = (page) => {
+                // console.log("看看自带的分页参数都有啥：" + JSON.stringify(page));
+                pagination.value.pageSize = page.pageSize;
                 handleQuery({
-                    page: pagination.current,
-                    size: pagination.pageSize
+                    page: page.current,
+                    size: page.pageSize
                 });
             };
 

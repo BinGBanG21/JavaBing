@@ -6,7 +6,7 @@
       </router-link>
     </div>
     <div style="float: right; color: white;">
-      您好：{{member.mobile}} &nbsp;&nbsp;
+      您好：{{ member.mobile }} &nbsp;&nbsp;
       <router-link to="/login" style="color: white;">
         退出登录
       </router-link>
@@ -19,12 +19,17 @@
     >
       <a-menu-item key="/welcome">
         <router-link to="/welcome">
-          <coffee-outlined /> &nbsp; 欢迎
+          <coffee-outlined/> &nbsp; 欢迎
         </router-link>
       </a-menu-item>
       <a-menu-item key="/passenger">
         <router-link to="/passenger">
-          <user-outlined /> &nbsp; 乘车人管理
+          <user-outlined/> &nbsp; 乘车人管理
+        </router-link>
+      </a-menu-item>
+      <a-menu-item key="/ticket">
+        <router-link to="/ticket">
+          <user-outlined/> &nbsp; 余票查询
         </router-link>
       </a-menu-item>
     </a-menu>

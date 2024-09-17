@@ -23,9 +23,9 @@
         </a-space>
       </template>
       <template v-else-if="column.dataIndex === 'type'">
-        <span v-for="item in PASSENGER_TYPE_ARRAY" :key="item.key">
-          <span v-if="item.key === record.type">
-            {{ item.value }}
+        <span v-for="item in PASSENGER_TYPE_ARRAY" :key="item.code">
+          <span v-if="item.code === record.type">
+            {{item.desc}}
           </span>
         </span>
       </template>
@@ -34,27 +34,25 @@
   <a-modal v-model:visible="visible" title="乘车人" @ok="handleOk"
            ok-text="确认" cancel-text="取消">
     <a-form :model="passenger" :label-col="{span: 4}" :wrapper-col="{ span: 20 }">
-      <a-form-item label="会员id">
-        <a-input v-model:value="passenger.memberId"/>
-      </a-form-item>
       <a-form-item label="姓名">
-        <a-input v-model:value="passenger.name"/>
+        <a-input v-model:value="passenger.name" />
       </a-form-item>
       <a-form-item label="身份证">
-        <a-input v-model:value="passenger.idCard"/>
+        <a-input v-model:value="passenger.idCard" />
       </a-form-item>
       <a-form-item label="旅客类型">
         <a-select v-model:value="passenger.type">
-          <a-select-option v-for="item in PASSENGER_TYPE_ARRAY" :key="item.key" :value="item.key">
-            {{ item.value }}
+          <a-select-option v-for="item in PASSENGER_TYPE_ARRAY" :key="item.code" :value="item.code">
+            {{item.desc}}
           </a-select-option>
         </a-select>
       </a-form-item>
     </a-form>
   </a-modal>
 </template>
+
 <script>
-import {defineComponent, ref, onMounted} from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 import {notification} from "ant-design-vue";
 import axios from "axios";
 
@@ -208,3 +206,4 @@ export default defineComponent({
   },
 });
 </script>
+

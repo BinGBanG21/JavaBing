@@ -7,13 +7,12 @@ package com.javabing.train.business.controller.admin;/*
  * @Version 1.0
  **/
 
-import com.javabing.train.common.context.LoginMemberContext;
-import com.javabing.train.common.resp.CommonResp;
-import com.javabing.train.common.resp.PageResp;
 import com.javabing.train.business.req.ConfirmOrderQueryReq;
-import com.javabing.train.business.req.ConfirmOrderSaveReq;
+import com.javabing.train.business.req.ConfirmOrderDoReq;
 import com.javabing.train.business.resp.ConfirmOrderQueryResp;
 import com.javabing.train.business.service.ConfirmOrderService;
+import com.javabing.train.common.resp.CommonResp;
+import com.javabing.train.common.resp.PageResp;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +24,8 @@ public class ConfirmOrderAdminController {
     @Resource
     private ConfirmOrderService confirmOrderService;
 
-    @PostMapping("/save")
-    public CommonResp<Object> save(@Valid @RequestBody ConfirmOrderSaveReq req) {
+    @PostMapping("/Do")
+    public CommonResp<Object> save(@Valid @RequestBody ConfirmOrderDoReq req) {
         confirmOrderService.save(req);
         return new CommonResp<>();
     }

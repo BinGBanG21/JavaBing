@@ -14,16 +14,16 @@ import com.javabing.train.business.domain.*;
 import com.javabing.train.business.enums.ConfirmOrderStatusEnum;
 import com.javabing.train.business.enums.SeatColEnum;
 import com.javabing.train.business.enums.SeatTypeEnum;
+import com.javabing.train.business.mapper.ConfirmOrderMapper;
+import com.javabing.train.business.req.ConfirmOrderDoReq;
+import com.javabing.train.business.req.ConfirmOrderQueryReq;
 import com.javabing.train.business.req.ConfirmOrderTicketReq;
+import com.javabing.train.business.resp.ConfirmOrderQueryResp;
 import com.javabing.train.common.context.LoginMemberContext;
 import com.javabing.train.common.exception.BusinessException;
 import com.javabing.train.common.exception.BusinessExceptionEnum;
 import com.javabing.train.common.resp.PageResp;
 import com.javabing.train.common.util.SnowUtil;
-import com.javabing.train.business.mapper.ConfirmOrderMapper;
-import com.javabing.train.business.req.ConfirmOrderQueryReq;
-import com.javabing.train.business.req.ConfirmOrderDoReq;
-import com.javabing.train.business.resp.ConfirmOrderQueryResp;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,6 @@ import java.util.List;
 @Service
 public class ConfirmOrderService {
 
-    public static final ArrayList<Object> OBJECT = new ArrayList<>();
     private static final Logger LOG = LoggerFactory.getLogger(ConfirmOrderService.class);
 
     @Resource
@@ -50,6 +49,9 @@ public class ConfirmOrderService {
 
     @Resource
     private DailyTrainSeatService dailyTrainSeatService;
+
+    @Resource
+    private AfterConfirmOrderService afterConfirmOrderService;
 
     public void save(ConfirmOrderDoReq req) {
         DateTime now = DateTime.now();
@@ -185,18 +187,15 @@ public class ConfirmOrderService {
 
         LOG.info("最终选座：{}", finalSeatList);
 
-        // 选座
-
-        // 一个车箱一个车箱的获取座位数据
-
-        // 挑选符合条件的座位，如果这个车箱不满足，则进入下个车箱（多个选座应该在同一个车厢）
-
         // 选中座位后事务处理：
-
         // 座位表修改售卖情况sell；
         // 余票详情表修改余票；
         // 为会员增加购票记录
         // 更新确认订单为成功
+        afterConfirmOrderService.afterDoConfirm(finalSeatList);
+
+
+
     }
 
     /**

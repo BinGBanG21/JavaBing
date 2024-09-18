@@ -160,11 +160,11 @@ create table `daily_train_ticket`
     `start`        varchar(20)   not null comment '出发站',
     `start_pinyin` varchar(50)   not null comment '出发站拼音',
     `start_time`   time          not null comment '出发时间',
-    `start_index`  int       not null comment '出发站序|本站是整个车次的第几站',
+    `start_index`  int           not null comment '出发站序|本站是整个车次的第几站',
     `end`          varchar(20)   not null comment '到达站',
     `end_pinyin`   varchar(50)   not null comment '到达站拼音',
     `end_time`     time          not null comment '到站时间',
-    `end_index`    int       not null comment '到站站序|本站是整个车次的第几站',
+    `end_index`    int           not null comment '到站站序|本站是整个车次的第几站',
     `ydz`          int           not null comment '一等座余票',
     `ydz_price`    decimal(8, 2) not null comment '一等座票价',
     `edz`          int           not null comment '二等座余票',
@@ -179,3 +179,20 @@ create table `daily_train_ticket`
     unique key `date_train_code_start_end_unique` (`date`, `train_code`, `start`, `end`)
 ) engine=innodb default charset=utf8mb4 comment='余票信息';
 
+drop table if exists `confirm_order`;
+create table `confirm_order`
+(
+    `id`                    bigint      not null comment 'id',
+    `member_id`             bigint      not null comment '会员id',
+    `date`                  date        not null comment '日期',
+    `train_code`            varchar(20) not null comment '车次编号',
+    `start`                 varchar(20) not null comment '出发站',
+    `end`                   varchar(20) not null comment '到达站',
+    `daily_train_ticket_id` bigint      not null comment '余票ID',
+    `tickets`               json        not null comment '车票',
+    `status`                char(1)     not null comment '订单状态|枚举[ConfirmOrderStatusEnum]',
+    `create_time`           datetime(3) comment '新增时间',
+    `update_time`           datetime(3) comment '修改时间',
+    primary key (`id`),
+    index                   `date_train_code_index` (`date`, `train_code`)
+) engine=innodb default charset=utf8mb4 comment='确认订单';

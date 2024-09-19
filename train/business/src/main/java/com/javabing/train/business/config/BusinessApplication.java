@@ -19,7 +19,7 @@ import org.springframework.core.env.Environment;
 @SpringBootApplication
 @ComponentScan("com.javabing")
 @MapperScan("com.javabing.train.*.mapper")
-@EnableFeignClients("com.jiawa.train.business.feign")
+@EnableFeignClients("com.javabing.train.business.feign")
 public class BusinessApplication {
 
     private static final Logger LOG = LoggerFactory.getLogger(BusinessApplication.class);

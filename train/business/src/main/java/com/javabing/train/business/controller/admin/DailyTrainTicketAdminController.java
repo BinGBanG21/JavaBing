@@ -7,13 +7,12 @@ package com.javabing.train.business.controller.admin;/*
  * @Version 1.0
  **/
 
-import com.javabing.train.common.context.LoginMemberContext;
-import com.javabing.train.common.resp.CommonResp;
-import com.javabing.train.common.resp.PageResp;
 import com.javabing.train.business.req.DailyTrainTicketQueryReq;
 import com.javabing.train.business.req.DailyTrainTicketSaveReq;
 import com.javabing.train.business.resp.DailyTrainTicketQueryResp;
 import com.javabing.train.business.service.DailyTrainTicketService;
+import com.javabing.train.common.resp.CommonResp;
+import com.javabing.train.common.resp.PageResp;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +33,12 @@ public class DailyTrainTicketAdminController {
     @GetMapping("/query-list")
     public CommonResp<PageResp<DailyTrainTicketQueryResp>> queryList(@Valid DailyTrainTicketQueryReq req) {
         PageResp<DailyTrainTicketQueryResp> list = dailyTrainTicketService.queryList(req);
+        return new CommonResp<>(list);
+    }
+
+    @GetMapping("/query-list2")
+    public CommonResp<PageResp<DailyTrainTicketQueryResp>> queryList2(@Valid DailyTrainTicketQueryReq req) {
+        PageResp<DailyTrainTicketQueryResp> list = dailyTrainTicketService.queryList2(req);
         return new CommonResp<>(list);
     }
 

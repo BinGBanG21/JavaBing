@@ -131,7 +131,7 @@ public class ConfirmOrderService {
         // 比如选择的是C1,D2，则偏移值是：[0,5]
         // 比如选择的是A1,B1,C1，则偏移值是：[0,1,2]
         ConfirmOrderTicketReq ticketReq0 = tickets.get(0);
-        if(StrUtil.isNotBlank(ticketReq0.getSeat())) {
+        if (StrUtil.isNotBlank(ticketReq0.getSeat())) {
             LOG.info("本次购票有选座");
             // 查出本次选座的座位类型都有哪些列，用于计算所选座位与第一个座位的偏离值
             List<SeatColEnum> colEnumList = SeatColEnum.getColsByType(ticketReq0.getSeatTypeCode());
@@ -192,14 +192,19 @@ public class ConfirmOrderService {
         // 余票详情表修改余票；
         // 为会员增加购票记录
         // 更新确认订单为成功
-        afterConfirmOrderService.afterDoConfirm(dailyTrainTicket, finalSeatList, tickets, confirmOrder);
-
+        try {
+            afterConfirmOrderService.afterDoConfirm(dailyTrainTicket, finalSeatList, tickets, confirmOrder);
+        } catch (Exception e) {
+            LOG.error("保存购票信息失败", e);
+            throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_EXCEPTION);
+        }
 
 
     }
 
     /**
      * 挑座位，如果有选座，则一次性挑完，如果无选座，则一个一个挑
+     *
      * @param date
      * @param trainCode
      * @param seatType
@@ -224,7 +229,7 @@ public class ConfirmOrderService {
 
                 // 判断当前座位不能被选中过
                 boolean alreadyChooseFlag = false;
-                for (DailyTrainSeat finalSeat : finalSeatList){
+                for (DailyTrainSeat finalSeat : finalSeatList) {
                     if (finalSeat.getId().equals(dailyTrainSeat.getId())) {
                         alreadyChooseFlag = true;
                         break;
@@ -299,7 +304,7 @@ public class ConfirmOrderService {
      * 计算某座位在区间内是否可卖
      * 例：sell=10001，本次购买区间站1~4，则区间已售000
      * 全部是0，表示这个区间可买；只要有1，就表示区间内已售过票
-     *
+     * <p>
      * 选中后，要计算购票后的sell，比如原来是10001，本次购买区间站1~4
      * 方案：构造本次购票造成的售卖信息01110，和原sell 10001按位与，最终得到11111
      */

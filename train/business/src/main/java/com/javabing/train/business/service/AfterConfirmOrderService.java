@@ -6,6 +6,7 @@ package com.javabing.train.business.service;/*
  * @Create 2024/9/18/星期三 22:49
  * @Version 1.0
  **/
+
 import com.javabing.train.business.domain.ConfirmOrder;
 import com.javabing.train.business.domain.DailyTrainSeat;
 import com.javabing.train.business.domain.DailyTrainTicket;
@@ -18,7 +19,6 @@ import com.javabing.train.business.req.ConfirmOrderTicketReq;
 import com.javabing.train.common.context.LoginMemberContext;
 import com.javabing.train.common.req.MemberTicketReq;
 import com.javabing.train.common.resp.CommonResp;
-import io.seata.core.context.RootContext;
 import io.seata.spring.annotation.GlobalTransactional;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
@@ -55,7 +55,7 @@ public class AfterConfirmOrderService {
     // @Transactional
     @GlobalTransactional
     public void afterDoConfirm(DailyTrainTicket dailyTrainTicket, List<DailyTrainSeat> finalSeatList, List<ConfirmOrderTicketReq> tickets, ConfirmOrder confirmOrder) throws Exception {
-        LOG.info("seata全局事务ID: {}", RootContext.getXID());
+//        LOG.info("seata全局事务ID: {}", RootContext.getXID());
         for (int j = 0; j < finalSeatList.size(); j++) {
             DailyTrainSeat dailyTrainSeat = finalSeatList.get(j);
             DailyTrainSeat seatForUpdate = new DailyTrainSeat();

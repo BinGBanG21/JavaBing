@@ -16,14 +16,12 @@ import com.javabing.train.business.mapper.ConfirmOrderMapper;
 import com.javabing.train.business.mapper.DailyTrainSeatMapper;
 import com.javabing.train.business.mapper.cust.DailyTrainTicketMapperCust;
 import com.javabing.train.business.req.ConfirmOrderTicketReq;
-import com.javabing.train.common.context.LoginMemberContext;
 import com.javabing.train.common.req.MemberTicketReq;
 import com.javabing.train.common.resp.CommonResp;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -45,7 +43,6 @@ public class AfterConfirmOrderService {
     @Resource
     private ConfirmOrderMapper confirmOrderMapper;
 
-
     /**
      * 选中座位后事务处理：
      * 座位表修改售卖情况sell；
@@ -53,8 +50,10 @@ public class AfterConfirmOrderService {
      * 为会员增加购票记录
      * 更新确认订单为成功
      */
-    @Transactional
-    public void afterDoConfirm(DailyTrainTicket dailyTrainTicket, List<DailyTrainSeat> finalSeatList, List<ConfirmOrderTicketReq> tickets, ConfirmOrder confirmOrder) {
+    // @Transactional
+    // @GlobalTransactional
+    public void afterDoConfirm(DailyTrainTicket dailyTrainTicket, List<DailyTrainSeat> finalSeatList, List<ConfirmOrderTicketReq> tickets, ConfirmOrder confirmOrder) throws Exception {
+        // LOG.info("seata全局事务ID: {}", RootContext.getXID());
         for (int j = 0; j < finalSeatList.size(); j++) {
             DailyTrainSeat dailyTrainSeat = finalSeatList.get(j);
             DailyTrainSeat seatForUpdate = new DailyTrainSeat();
@@ -113,17 +112,17 @@ public class AfterConfirmOrderService {
 
             // 调用会员服务接口，为会员增加一张车票
             MemberTicketReq memberTicketReq = new MemberTicketReq();
-            memberTicketReq.setMemberId(LoginMemberContext.getId());
+            memberTicketReq.setMemberId(confirmOrder.getMemberId());
             memberTicketReq.setPassengerId(tickets.get(j).getPassengerId());
             memberTicketReq.setPassengerName(tickets.get(j).getPassengerName());
-            memberTicketReq.setDate(dailyTrainTicket.getDate());
+            memberTicketReq.setTrainDate(dailyTrainTicket.getDate());
             memberTicketReq.setTrainCode(dailyTrainTicket.getTrainCode());
             memberTicketReq.setCarriageIndex(dailyTrainSeat.getCarriageIndex());
-            memberTicketReq.setRow(dailyTrainSeat.getRow());
-            memberTicketReq.setCol(dailyTrainSeat.getCol());
-            memberTicketReq.setStart(dailyTrainTicket.getStart());
+            memberTicketReq.setSeatRow(dailyTrainSeat.getRow());
+            memberTicketReq.setSeatCol(dailyTrainSeat.getCol());
+            memberTicketReq.setStartStation(dailyTrainTicket.getStart());
             memberTicketReq.setStartTime(dailyTrainTicket.getStartTime());
-            memberTicketReq.setEnd(dailyTrainTicket.getEnd());
+            memberTicketReq.setEndStation(dailyTrainTicket.getEnd());
             memberTicketReq.setEndTime(dailyTrainTicket.getEndTime());
             memberTicketReq.setSeatType(dailyTrainSeat.getSeatType());
             CommonResp<Object> commonResp = memberFeign.save(memberTicketReq);
@@ -135,8 +134,15 @@ public class AfterConfirmOrderService {
             confirmOrderForUpdate.setUpdateTime(new Date());
             confirmOrderForUpdate.setStatus(ConfirmOrderStatusEnum.SUCCESS.getCode());
             confirmOrderMapper.updateByPrimaryKeySelective(confirmOrderForUpdate);
+
+            // 模拟调用方出现异常
+            // Thread.sleep(10000);
+            // if (1 == 1) {
+            //     throw new Exception("测试异常");
+            // }
         }
     }
 }
+
 
 

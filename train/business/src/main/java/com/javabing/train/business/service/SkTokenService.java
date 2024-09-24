@@ -25,10 +25,13 @@ import com.javabing.train.common.util.SnowUtil;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class SkTokenService {
@@ -43,8 +46,12 @@ public class SkTokenService {
 
     @Resource
     private DailyTrainStationService dailyTrainStationService;
+
     @Resource
     private SkTokenMapperCust skTokenMapperCust;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     /**
      * 初始化
@@ -70,7 +77,7 @@ public class SkTokenService {
         LOG.info("车次【{}】到站数：{}", trainCode, stationCount);
 
         // 3/4需要根据实际卖票比例来定，一趟火车最多可以卖（seatCount * stationCount）张火车票
-        int count = (int) (seatCount * stationCount * 3 / 4);
+        int count = (int) (seatCount * stationCount * 3/4);
         LOG.info("车次【{}】初始生成令牌数：{}", trainCode, count);
         skToken.setCount(count);
 
@@ -117,13 +124,22 @@ public class SkTokenService {
         skTokenMapper.deleteByPrimaryKey(id);
     }
 
-
     /**
-     * +     * 获取令牌
-     * +
+     * 校验令牌
      */
     public boolean validSkToken(Date date, String trainCode, Long memberId) {
         LOG.info("会员【{}】获取日期【{}】车次【{}】的令牌开始", memberId, DateUtil.formatDate(date), trainCode);
+
+        // 先获取令牌锁，再校验令牌余量，防止机器人抢票，lockKey就是令牌，用来表示【谁能做什么】的一个凭证
+        String lockKey = DateUtil.formatDate(date) + "-" + trainCode + "-" + memberId;
+        Boolean setIfAbsent = redisTemplate.opsForValue().setIfAbsent(lockKey, lockKey, 5, TimeUnit.SECONDS);
+        if (Boolean.TRUE.equals(setIfAbsent)) {
+            LOG.info("恭喜，抢到令牌锁了！lockKey：{}", lockKey);
+        } else {
+            LOG.info("很遗憾，没抢到令牌锁！lockKey：{}", lockKey);
+            return false;
+        }
+
         // 令牌约等于库存，令牌没有了，就不再卖票，不需要再进入购票主流程去判断库存，判断令牌肯定比判断库存效率高
         int updateCount = skTokenMapperCust.decrease(date, trainCode);
         if (updateCount > 0) {

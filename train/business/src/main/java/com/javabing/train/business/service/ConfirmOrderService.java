@@ -8,6 +8,8 @@ import cn.hutool.core.util.EnumUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -103,6 +105,7 @@ public class ConfirmOrderService {
         confirmOrderMapper.deleteByPrimaryKey(id);
     }
 
+    @SentinelResource(value = "doConfirm", blockHandler = "doConfirmBlock")
     public void doConfirm(ConfirmOrderDoReq req) {
         String lockKey = DateUtil.formatDate(req.getDate()) + "-" + req.getTrainCode();
         // setIfAbsent就是对应redis的setnx
@@ -274,6 +277,7 @@ public class ConfirmOrderService {
 
     /**
      * 挑座位，如果有选座，则一次性挑完，如果无选座，则一个一个挑
+     *
      * @param date
      * @param trainCode
      * @param seatType
@@ -298,7 +302,7 @@ public class ConfirmOrderService {
 
                 // 判断当前座位不能被选中过
                 boolean alreadyChooseFlag = false;
-                for (DailyTrainSeat finalSeat : finalSeatList){
+                for (DailyTrainSeat finalSeat : finalSeatList) {
                     if (finalSeat.getId().equals(dailyTrainSeat.getId())) {
                         alreadyChooseFlag = true;
                         break;
@@ -373,7 +377,7 @@ public class ConfirmOrderService {
      * 计算某座位在区间内是否可卖
      * 例：sell=10001，本次购买区间站1~4，则区间已售000
      * 全部是0，表示这个区间可买；只要有1，就表示区间内已售过票
-     *
+     * <p>
      * 选中后，要计算购票后的sell，比如原来是10001，本次购买区间站1~4
      * 方案：构造本次购票造成的售卖信息01110，和原sell 10001按位与，最终得到11111
      */
@@ -444,6 +448,17 @@ public class ConfirmOrderService {
                 }
             }
         }
+    }
+
+    /**
+     * +     * 降级方法，需包含限流方法的所有参数和BlockException参数
+     * +     * @param req
+     * +     * @param e
+     * +
+     */
+    public void doConfirmBlock(ConfirmOrderDoReq req, BlockException e) {
+        LOG.info("购票请求被限流：{}", req);
+        throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_FLOW_EXCEPTION);
     }
 }
 

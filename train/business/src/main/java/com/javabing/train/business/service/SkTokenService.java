@@ -16,6 +16,7 @@ import com.github.pagehelper.PageInfo;
 import com.javabing.train.business.domain.SkToken;
 import com.javabing.train.business.domain.SkTokenExample;
 import com.javabing.train.business.mapper.SkTokenMapper;
+import com.javabing.train.business.mapper.cust.SkTokenMapperCust;
 import com.javabing.train.business.req.SkTokenQueryReq;
 import com.javabing.train.business.req.SkTokenSaveReq;
 import com.javabing.train.business.resp.SkTokenQueryResp;
@@ -42,6 +43,8 @@ public class SkTokenService {
 
     @Resource
     private DailyTrainStationService dailyTrainStationService;
+    @Resource
+    private SkTokenMapperCust skTokenMapperCust;
 
     /**
      * 初始化
@@ -67,7 +70,7 @@ public class SkTokenService {
         LOG.info("车次【{}】到站数：{}", trainCode, stationCount);
 
         // 3/4需要根据实际卖票比例来定，一趟火车最多可以卖（seatCount * stationCount）张火车票
-        int count = (int) (seatCount * stationCount * 3/4);
+        int count = (int) (seatCount * stationCount * 3 / 4);
         LOG.info("车次【{}】初始生成令牌数：{}", trainCode, count);
         skToken.setCount(count);
 
@@ -112,6 +115,22 @@ public class SkTokenService {
 
     public void delete(Long id) {
         skTokenMapper.deleteByPrimaryKey(id);
+    }
+
+
+    /**
+     * +     * 获取令牌
+     * +
+     */
+    public boolean validSkToken(Date date, String trainCode, Long memberId) {
+        LOG.info("会员【{}】获取日期【{}】车次【{}】的令牌开始", memberId, DateUtil.formatDate(date), trainCode);
+        // 令牌约等于库存，令牌没有了，就不再卖票，不需要再进入购票主流程去判断库存，判断令牌肯定比判断库存效率高
+        int updateCount = skTokenMapperCust.decrease(date, trainCode);
+        if (updateCount > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 

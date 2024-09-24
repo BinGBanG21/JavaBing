@@ -1,24 +1,24 @@
 <template>
   <div class="order-train">
-    <span class="order-train-main">{{dailyTrainTicket.date}}</span>&nbsp;
-    <span class="order-train-main">{{dailyTrainTicket.trainCode}}</span>次&nbsp;
-    <span class="order-train-main">{{dailyTrainTicket.start}}</span>站
-    <span class="order-train-main">({{dailyTrainTicket.startTime}})</span>&nbsp;
+    <span class="order-train-main">{{ dailyTrainTicket.date }}</span>&nbsp;
+    <span class="order-train-main">{{ dailyTrainTicket.trainCode }}</span>次&nbsp;
+    <span class="order-train-main">{{ dailyTrainTicket.start }}</span>站
+    <span class="order-train-main">({{ dailyTrainTicket.startTime }})</span>&nbsp;
     <span class="order-train-main">——</span>&nbsp;
-    <span class="order-train-main">{{dailyTrainTicket.end}}</span>站
-    <span class="order-train-main">({{dailyTrainTicket.endTime}})</span>&nbsp;
+    <span class="order-train-main">{{ dailyTrainTicket.end }}</span>站
+    <span class="order-train-main">({{ dailyTrainTicket.endTime }})</span>&nbsp;
 
     <div class="order-train-ticket">
       <span v-for="item in seatTypes" :key="item.type">
-        <span>{{item.desc}}</span>：
-        <span class="order-train-ticket-main">{{item.price}}￥</span>&nbsp;
-        <span class="order-train-ticket-main">{{item.count}}</span>&nbsp;张票&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span>{{ item.desc }}</span>：
+        <span class="order-train-ticket-main">{{ item.price }}￥</span>&nbsp;
+        <span class="order-train-ticket-main">{{ item.count }}</span>&nbsp;张票&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </span>
     </div>
   </div>
   <a-divider></a-divider>
   <b>勾选要购票的乘客：</b>&nbsp;
-  <a-checkbox-group v-model:value="passengerChecks" :options="passengerOptions" />
+  <a-checkbox-group v-model:value="passengerChecks" :options="passengerOptions"/>
 
   <div class="order-tickets">
     <a-row class="order-tickets-header" v-if="tickets.length > 0">
@@ -28,19 +28,19 @@
       <a-col :span="4">座位类型</a-col>
     </a-row>
     <a-row class="order-tickets-row" v-for="ticket in tickets" :key="ticket.passengerId">
-      <a-col :span="2">{{ticket.passengerName}}</a-col>
-      <a-col :span="6">{{ticket.passengerIdCard}}</a-col>
+      <a-col :span="2">{{ ticket.passengerName }}</a-col>
+      <a-col :span="6">{{ ticket.passengerIdCard }}</a-col>
       <a-col :span="4">
         <a-select v-model:value="ticket.passengerType" style="width: 100%">
           <a-select-option v-for="item in PASSENGER_TYPE_ARRAY" :key="item.code" :value="item.code">
-            {{item.desc}}
+            {{ item.desc }}
           </a-select-option>
         </a-select>
       </a-col>
       <a-col :span="4">
         <a-select v-model:value="ticket.seatTypeCode" style="width: 100%">
           <a-select-option v-for="item in seatTypes" :key="item.code" :value="item.code">
-            {{item.desc}}
+            {{ item.desc }}
           </a-select-option>
         </a-select>
       </a-col>
@@ -62,19 +62,19 @@
         <a-col :span="3">座位类型</a-col>
       </a-row>
       <a-row class="order-tickets-row" v-for="ticket in tickets" :key="ticket.passengerId">
-        <a-col :span="3">{{ticket.passengerName}}</a-col>
-        <a-col :span="15">{{ticket.passengerIdCard}}</a-col>
+        <a-col :span="3">{{ ticket.passengerName }}</a-col>
+        <a-col :span="15">{{ ticket.passengerIdCard }}</a-col>
         <a-col :span="3">
           <span v-for="item in PASSENGER_TYPE_ARRAY" :key="item.code">
             <span v-if="item.code === ticket.passengerType">
-              {{item.desc}}
+              {{ item.desc }}
             </span>
           </span>
         </a-col>
         <a-col :span="3">
           <span v-for="item in seatTypes" :key="item.code">
             <span v-if="item.code === ticket.seatTypeCode">
-              {{item.desc}}
+              {{ item.desc }}
             </span>
           </span>
         </a-col>
@@ -87,12 +87,14 @@
       </div>
       <div v-else style="text-align: center">
         <a-switch class="choose-seat-item" v-for="item in SEAT_COL_ARRAY" :key="item.code"
-                  v-model:checked="chooseSeatObj[item.code + '1']" :checked-children="item.desc" :un-checked-children="item.desc" />
+                  v-model:checked="chooseSeatObj[item.code + '1']" :checked-children="item.desc"
+                  :un-checked-children="item.desc"/>
         <div v-if="tickets.length > 1">
           <a-switch class="choose-seat-item" v-for="item in SEAT_COL_ARRAY" :key="item.code"
-                    v-model:checked="chooseSeatObj[item.code + '2']" :checked-children="item.desc" :un-checked-children="item.desc" />
+                    v-model:checked="chooseSeatObj[item.code + '2']" :checked-children="item.desc"
+                    :un-checked-children="item.desc"/>
         </div>
-        <div style="color: #999999">提示：您可以选择{{tickets.length}}个座位</div>
+        <div style="color: #999999">提示：您可以选择{{ tickets.length }}个座位</div>
       </div>
       <!--<br/>-->
       <!--最终购票：{{tickets}}-->
@@ -169,7 +171,7 @@ export default defineComponent({
     const visible = ref(false);
 
     // 勾选或去掉某个乘客时，在购票列表中加上或去掉一张表
-    watch(() => passengerChecks.value, (newVal, oldVal)=>{
+    watch(() => passengerChecks.value, (newVal, oldVal) => {
       console.log("勾选乘客发生变化", newVal, oldVal)
       // 每次有变化时，把购票列表清空，重新构造列表
       tickets.value = [];
@@ -333,7 +335,9 @@ export default defineComponent({
         trainCode: dailyTrainTicket.trainCode,
         start: dailyTrainTicket.start,
         end: dailyTrainTicket.end,
-        tickets: tickets.value
+        tickets: tickets.value,
+        imageCodeToken: imageCodeToken.value,
+        imageCode: imageCode.value,
       }).then((response) => {
         let data = response.data;
         if (data.success) {
@@ -396,9 +400,11 @@ export default defineComponent({
   font-size: 18px;
   font-weight: bold;
 }
+
 .order-train .order-train-ticket {
   margin-top: 15px;
 }
+
 .order-train .order-train-ticket .order-train-ticket-main {
   color: red;
   font-size: 18px;
@@ -407,9 +413,11 @@ export default defineComponent({
 .order-tickets {
   margin: 10px 0;
 }
+
 .order-tickets .ant-col {
   padding: 5px 10px;
 }
+
 .order-tickets .order-tickets-header {
   background-color: cornflowerblue;
   border: solid 1px cornflowerblue;
@@ -417,6 +425,7 @@ export default defineComponent({
   font-size: 16px;
   padding: 5px 0;
 }
+
 .order-tickets .order-tickets-row {
   border: solid 1px cornflowerblue;
   border-top: none;

@@ -32,7 +32,8 @@ public class LoginMemberFilter implements Ordered, GlobalFilter {
                 || path.contains("/redis")
                 || path.contains("/hello")
                 || path.contains("/member/member/login")
-                || path.contains("/member/member/send-code")) {
+                || path.contains("/member/member/send-code")
+                || path.contains("/business/kaptcha")) {
             LOG.info("不需要登录验证：{}", path);
             return chain.filter(exchange);
         } else {
@@ -42,7 +43,7 @@ public class LoginMemberFilter implements Ordered, GlobalFilter {
         String token = exchange.getRequest().getHeaders().getFirst("token");
         LOG.info("会员登录验证开始，token：{}", token);
         if (token == null || token.isEmpty()) {
-            LOG.info( "token为空，请求被拦截" );
+            LOG.info("token为空，请求被拦截");
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
@@ -53,7 +54,7 @@ public class LoginMemberFilter implements Ordered, GlobalFilter {
             LOG.info("token有效，放行该请求");
             return chain.filter(exchange);
         } else {
-            LOG.warn( "token无效，请求被拦截" );
+            LOG.warn("token无效，请求被拦截");
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }

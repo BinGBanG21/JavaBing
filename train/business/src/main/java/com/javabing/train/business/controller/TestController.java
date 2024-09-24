@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class TestController {
+public class TestController  {
     @GetMapping("/hello")
-    public String hello() {
+    public String hello() throws InterruptedException{
         return "Hello World! Business!";
     }
 }

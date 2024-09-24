@@ -15,7 +15,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.javabing.train.business.domain.*;
 import com.javabing.train.business.enums.ConfirmOrderStatusEnum;
-import com.javabing.train.business.enums.LockKeyPreEnum;
+import com.javabing.train.business.enums.RedisKeyPreEnum;
 import com.javabing.train.business.enums.SeatColEnum;
 import com.javabing.train.business.enums.SeatTypeEnum;
 import com.javabing.train.business.mapper.ConfirmOrderMapper;
@@ -122,7 +122,7 @@ public class ConfirmOrderService {
         }
 
         //购票
-        String lockKey = LockKeyPreEnum.CONFIRM_ORDER + "-" + DateUtil.formatDate(req.getDate()) + "-" + req.getTrainCode();
+        String lockKey = RedisKeyPreEnum.CONFIRM_ORDER + "-" + DateUtil.formatDate(req.getDate()) + "-" + req.getTrainCode();
         // setIfAbsent就是对应redis的setnx
         Boolean setIfAbsent = redisTemplate.opsForValue().setIfAbsent(lockKey, lockKey, 10, TimeUnit.SECONDS);
         if (Boolean.TRUE.equals(setIfAbsent)) {

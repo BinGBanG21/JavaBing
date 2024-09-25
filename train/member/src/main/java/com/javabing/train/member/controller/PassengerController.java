@@ -54,4 +54,11 @@ public class PassengerController {
         return new CommonResp<>(list);
     }
 
+    @GetMapping("/init")
+    public CommonResp<Object> init() {
+        passengerService.init();
+        return new CommonResp<>();
+    }
+
+
 }

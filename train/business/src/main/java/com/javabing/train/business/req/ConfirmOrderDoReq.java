@@ -25,7 +25,7 @@ public class ConfirmOrderDoReq {
     /**
      * 日期
      */
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @NotNull(message = "【日期】不能为空")
     private Date date;
 
@@ -75,6 +75,20 @@ public class ConfirmOrderDoReq {
      * 日志跟踪号
      */
     private String logId;
+
+
+    /**
+     * 加入排队人数，用于体验排队功能
+     */
+    private int lineNumber;
+
+    public int getLineNumber() {
+        return lineNumber;
+    }
+
+    public void setLineNumber(int lineNumber) {
+        this.lineNumber = lineNumber;
+    }
 
     public Long getMemberId() {
         return memberId;
@@ -169,6 +183,7 @@ public class ConfirmOrderDoReq {
                 ", imageCode='" + imageCode + '\'' +
                 ", imageCodeToken='" + imageCodeToken + '\'' +
                 ", logId='" + logId + '\'' +
+                ", lineNumber=" + lineNumber +
                 '}';
     }
 }

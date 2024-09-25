@@ -189,7 +189,19 @@ public class ConfirmOrderService {
                 }
 
                 // 一条一条的卖
-                list.forEach(this::sell);
+                list.forEach(confirmOrder -> {
+                    try {
+                        sell(confirmOrder);
+                    } catch (BusinessException e) {
+                        if (e.getE().equals(BusinessExceptionEnum.CONFIRM_ORDER_TICKET_COUNT_ERROR)) {
+                            LOG.info("本订单余票不足，继续售卖下一个订单");
+                            confirmOrder.setStatus(ConfirmOrderStatusEnum.EMPTY.getCode());
+                            updateStatus(confirmOrder);
+                        } else {
+                            throw e;
+                        }
+                    }
+                });
             }
 
             // LOG.info("购票流程结束，释放锁！lockKey：{}", lockKey);
@@ -210,6 +222,7 @@ public class ConfirmOrderService {
 
     /**
      * 更新状态
+     *
      * @param confirmOrder
      */
     public void updateStatus(ConfirmOrder confirmOrder) {
@@ -222,6 +235,7 @@ public class ConfirmOrderService {
 
     /**
      * 售票
+     *
      * @param confirmOrder
      */
     private void sell(ConfirmOrder confirmOrder) {
@@ -368,6 +382,7 @@ public class ConfirmOrderService {
 
     /**
      * 挑座位，如果有选座，则一次性挑完，如果无选座，则一个一个挑
+     *
      * @param date
      * @param trainCode
      * @param seatType
@@ -392,7 +407,7 @@ public class ConfirmOrderService {
 
                 // 判断当前座位不能被选中过
                 boolean alreadyChooseFlag = false;
-                for (DailyTrainSeat finalSeat : finalSeatList){
+                for (DailyTrainSeat finalSeat : finalSeatList) {
                     if (finalSeat.getId().equals(dailyTrainSeat.getId())) {
                         alreadyChooseFlag = true;
                         break;
@@ -467,7 +482,7 @@ public class ConfirmOrderService {
      * 计算某座位在区间内是否可卖
      * 例：sell=10001，本次购买区间站1~4，则区间已售000
      * 全部是0，表示这个区间可买；只要有1，就表示区间内已售过票
-     *
+     * <p>
      * 选中后，要计算购票后的sell，比如原来是10001，本次购买区间站1~4
      * 方案：构造本次购票造成的售卖信息01110，和原sell 10001按位与，最终得到11111
      */
@@ -542,6 +557,7 @@ public class ConfirmOrderService {
 
     /**
      * 降级方法，需包含限流方法的所有参数和BlockException参数
+     *
      * @param req
      * @param e
      */

@@ -76,8 +76,8 @@ export default defineComponent({
       },
       {
         title: '日期',
-        dataIndex: 'date',
-        key: 'date',
+        dataIndex: 'trainDate',
+        key: 'trainDate',
       },
       {
         title: '车次编号',
@@ -91,18 +91,18 @@ export default defineComponent({
       },
       {
         title: '排号',
-        dataIndex: 'row',
-        key: 'row',
+        dataIndex: 'seatRow',
+        key: 'seatRow',
       },
       {
         title: '列号',
-        dataIndex: 'col',
-        key: 'col',
+        dataIndex: 'seatCol',
+        key: 'seatCol',
       },
       {
         title: '出发站',
-        dataIndex: 'start',
-        key: 'start',
+        dataIndex: 'startStation',
+        key: 'startStation',
       },
       {
         title: '出发时间',
@@ -111,8 +111,8 @@ export default defineComponent({
       },
       {
         title: '到达站',
-        dataIndex: 'end',
-        key: 'end',
+        dataIndex: 'endStation',
+        key: 'endStation',
       },
       {
         title: '到站时间',
@@ -123,6 +123,11 @@ export default defineComponent({
         title: '座位类型',
         dataIndex: 'seatType',
         key: 'seatType',
+      },
+      {
+        title: '出票时间',
+        dataIndex: 'createTime',
+        key: 'createTime',
       },
     ];
 

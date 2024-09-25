@@ -7,6 +7,7 @@ package com.javabing.train.business.service;/*
  * @Version 1.0
  **/
 
+
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateTime;
@@ -15,16 +16,15 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.javabing.train.business.domain.DailyTrainSeat;
-import com.javabing.train.business.domain.DailyTrainSeatExample;
-import com.javabing.train.business.domain.TrainSeat;
-import com.javabing.train.business.domain.TrainStation;
+import com.javabing.train.business.domain.*;
+import com.javabing.train.business.req.SeatSellReq;
+import com.javabing.train.business.resp.SeatSellResp;
+import com.javabing.train.common.resp.PageResp;
+import com.javabing.train.common.util.SnowUtil;
 import com.javabing.train.business.mapper.DailyTrainSeatMapper;
 import com.javabing.train.business.req.DailyTrainSeatQueryReq;
 import com.javabing.train.business.req.DailyTrainSeatSaveReq;
 import com.javabing.train.business.resp.DailyTrainSeatQueryResp;
-import com.javabing.train.common.resp.PageResp;
-import com.javabing.train.common.util.SnowUtil;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,9 +64,8 @@ public class DailyTrainSeatService {
 
     public PageResp<DailyTrainSeatQueryResp> queryList(DailyTrainSeatQueryReq req) {
         DailyTrainSeatExample dailyTrainSeatExample = new DailyTrainSeatExample();
-        dailyTrainSeatExample.setOrderByClause("train_code asc, carriage_index asc, carriage_seat_index asc");
+        dailyTrainSeatExample.setOrderByClause("date desc, train_code asc, carriage_index asc, carriage_seat_index asc");
         DailyTrainSeatExample.Criteria criteria = dailyTrainSeatExample.createCriteria();
-
         if (ObjectUtil.isNotEmpty(req.getTrainCode())) {
             criteria.andTrainCodeEqualTo(req.getTrainCode());
         }
@@ -154,6 +153,22 @@ public class DailyTrainSeatService {
                 .andCarriageIndexEqualTo(carriageIndex);
         return dailyTrainSeatMapper.selectByExample(example);
     }
+
+    /**
+     * 查询某日某车次的所有座位
+     */
+    public List<SeatSellResp> querySeatSell(SeatSellReq req) {
+        Date date = req.getDate();
+        String trainCode = req.getTrainCode();
+        LOG.info("查询日期【{}】车次【{}】的座位销售信息", DateUtil.formatDate(date), trainCode);
+        DailyTrainSeatExample dailyTrainSeatExample = new DailyTrainSeatExample();
+        dailyTrainSeatExample.setOrderByClause("`carriage_index` asc, carriage_seat_index asc");
+        dailyTrainSeatExample.createCriteria()
+                .andDateEqualTo(date)
+                .andTrainCodeEqualTo(trainCode);
+        return BeanUtil.copyToList(dailyTrainSeatMapper.selectByExample(dailyTrainSeatExample), SeatSellResp.class);
+    }
 }
+
 
 

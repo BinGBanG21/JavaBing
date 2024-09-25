@@ -14,7 +14,6 @@ import com.alibaba.fastjson.JSON;
 import com.javabing.train.business.domain.ConfirmOrder;
 import com.javabing.train.business.dto.ConfirmOrderMQDto;
 import com.javabing.train.business.enums.ConfirmOrderStatusEnum;
-import com.javabing.train.business.enums.RocketMQTopicEnum;
 import com.javabing.train.business.mapper.ConfirmOrderMapper;
 import com.javabing.train.business.req.ConfirmOrderDoReq;
 import com.javabing.train.business.req.ConfirmOrderTicketReq;
@@ -23,7 +22,6 @@ import com.javabing.train.common.exception.BusinessException;
 import com.javabing.train.common.exception.BusinessExceptionEnum;
 import com.javabing.train.common.util.SnowUtil;
 import jakarta.annotation.Resource;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -44,11 +42,15 @@ public class BeforeConfirmOrderService {
     @Autowired
     private SkTokenService skTokenService;
 
+    // @Resource
+    // public RocketMQTemplate rocket
+    // public RocketMQTemplate rocketMQTemplate;
+
     @Resource
-    public RocketMQTemplate rocketMQTemplate;
+    private ConfirmOrderService confirmOrderService;
 
     @SentinelResource(value = "beforeDoConfirm", blockHandler = "beforeDoConfirmBlock")
-    public Long  beforeDoConfirm(ConfirmOrderDoReq req) {
+    public Long beforeDoConfirm(ConfirmOrderDoReq req) {
         req.setMemberId(LoginMemberContext.getId());
         // 校验令牌余量
         boolean validSkToken = skTokenService.validSkToken(req.getDate(), req.getTrainCode(), LoginMemberContext.getId());
@@ -87,16 +89,15 @@ public class BeforeConfirmOrderService {
         confirmOrderMQDto.setTrainCode(req.getTrainCode());
         confirmOrderMQDto.setLogId(MDC.get("LOG_ID"));
         String reqJson = JSON.toJSONString(confirmOrderMQDto);
-        LOG.info("排队购票，发送mq开始，消息：{}", reqJson);
-        rocketMQTemplate.convertAndSend(RocketMQTopicEnum.CONFIRM_ORDER.getCode(), reqJson);
-        LOG.info("排队购票，发送mq结束");
-
+        // LOG.info("排队购票，发送mq开始，消息：{}", reqJson);
+        // rocketMQTemplate.convertAndSend(RocketMQTopicEnum.CONFIRM_ORDER.getCode(), reqJson);
+        // LOG.info("排队购票，发送mq结束");
+        confirmOrderService.doConfirm(confirmOrderMQDto);
         return confirmOrder.getId();
     }
 
     /**
      * 降级方法，需包含限流方法的所有参数和BlockException参数
-     *
      * @param req
      * @param e
      */

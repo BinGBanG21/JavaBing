@@ -71,6 +71,11 @@ public class ConfirmOrderDoReq {
     @NotBlank(message = "【图片验证码】参数非法")
     private String imageCodeToken;
 
+    /**
+     * 日志跟踪号
+     */
+    private String logId;
+
     public Long getMemberId() {
         return memberId;
     }
@@ -143,6 +148,14 @@ public class ConfirmOrderDoReq {
         this.imageCodeToken = imageCodeToken;
     }
 
+    public String getLogId() {
+        return logId;
+    }
+
+    public void setLogId(String logId) {
+        this.logId = logId;
+    }
+
     @Override
     public String toString() {
         return "ConfirmOrderDoReq{" +
@@ -155,6 +168,7 @@ public class ConfirmOrderDoReq {
                 ", tickets=" + tickets +
                 ", imageCode='" + imageCode + '\'' +
                 ", imageCodeToken='" + imageCodeToken + '\'' +
+                ", logId='" + logId + '\'' +
                 '}';
     }
 }

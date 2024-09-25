@@ -288,7 +288,6 @@ public class ConfirmOrderService {
         //         .andTrainCodeEqualTo(req.getTrainCode())
         //         .andStatusEqualTo(ConfirmOrderStatusEnum.INIT.getCode());
         // List<ConfirmOrder> list = confirmOrderMapper.selectByExampleWithBLOBs(confirmOrderExample);
-        // ConfirmOrder confirmOrder;
         // if (CollUtil.isEmpty(list)) {
         //     LOG.info("找不到原始订单，结束");
         //     return;

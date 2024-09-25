@@ -128,6 +128,10 @@ public class ConfirmOrderService {
         if (Boolean.TRUE.equals(setIfAbsent)) {
             LOG.info("恭喜，抢到锁了！lockKey：{}", lockKey);
         } else {
+            // 只是没抢到锁，并不知道票抢完了没，所以提示稍候再试
+            // LOG.info("很遗憾，没抢到锁！lockKey：{}", lockKey);
+            // throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_LOCK_FAIL);
+
             LOG.info("没抢到锁，有其它消费线程正在出票，不做任何处理");
             return;
         }
@@ -221,7 +225,6 @@ public class ConfirmOrderService {
 
     /**
      * 更新状态
-     *
      * @param confirmOrder
      */
     public void updateStatus(ConfirmOrder confirmOrder) {
@@ -234,7 +237,6 @@ public class ConfirmOrderService {
 
     /**
      * 售票
-     *
      * @param confirmOrder
      */
     private void sell(ConfirmOrder confirmOrder) {
@@ -288,6 +290,7 @@ public class ConfirmOrderService {
         //         .andTrainCodeEqualTo(req.getTrainCode())
         //         .andStatusEqualTo(ConfirmOrderStatusEnum.INIT.getCode());
         // List<ConfirmOrder> list = confirmOrderMapper.selectByExampleWithBLOBs(confirmOrderExample);
+        // ConfirmOrder confirmOrder;
         // if (CollUtil.isEmpty(list)) {
         //     LOG.info("找不到原始订单，结束");
         //     return;
@@ -380,7 +383,6 @@ public class ConfirmOrderService {
 
     /**
      * 挑座位，如果有选座，则一次性挑完，如果无选座，则一个一个挑
-     *
      * @param date
      * @param trainCode
      * @param seatType
@@ -405,7 +407,7 @@ public class ConfirmOrderService {
 
                 // 判断当前座位不能被选中过
                 boolean alreadyChooseFlag = false;
-                for (DailyTrainSeat finalSeat : finalSeatList) {
+                for (DailyTrainSeat finalSeat : finalSeatList){
                     if (finalSeat.getId().equals(dailyTrainSeat.getId())) {
                         alreadyChooseFlag = true;
                         break;
@@ -480,7 +482,7 @@ public class ConfirmOrderService {
      * 计算某座位在区间内是否可卖
      * 例：sell=10001，本次购买区间站1~4，则区间已售000
      * 全部是0，表示这个区间可买；只要有1，就表示区间内已售过票
-     * <p>
+     *
      * 选中后，要计算购票后的sell，比如原来是10001，本次购买区间站1~4
      * 方案：构造本次购票造成的售卖信息01110，和原sell 10001按位与，最终得到11111
      */
@@ -555,13 +557,45 @@ public class ConfirmOrderService {
 
     /**
      * 降级方法，需包含限流方法的所有参数和BlockException参数
-     *
      * @param req
      * @param e
      */
     public void doConfirmBlock(ConfirmOrderDoReq req, BlockException e) {
         LOG.info("购票请求被限流：{}", req);
         throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_FLOW_EXCEPTION);
+    }
+
+    /**
+     * 查询前面有几个人在排队
+     * @param id
+     */
+    public Integer queryLineCount(Long id) {
+        ConfirmOrder confirmOrder = confirmOrderMapper.selectByPrimaryKey(id);
+        ConfirmOrderStatusEnum statusEnum = EnumUtil.getBy(ConfirmOrderStatusEnum::getCode, confirmOrder.getStatus());
+        int result = switch (statusEnum) {
+            case PENDING -> 0; // 排队0
+            case SUCCESS -> -1; // 成功
+            case FAILURE -> -2; // 失败
+            case EMPTY -> -3; // 无票
+            case CANCEL -> -4; // 取消
+            case INIT -> 999; // 需要查表得到实际排队数量
+        };
+
+        if (result == 999) {
+            // 排在第几位，下面的写法：where a=1 and (b=1 or c=1) 等价于 where (a=1 and b=1) or (a=1 and c=1)
+            ConfirmOrderExample confirmOrderExample = new ConfirmOrderExample();
+            confirmOrderExample.or().andDateEqualTo(confirmOrder.getDate())
+                    .andTrainCodeEqualTo(confirmOrder.getTrainCode())
+                    .andCreateTimeLessThan(confirmOrder.getCreateTime())
+                    .andStatusEqualTo(ConfirmOrderStatusEnum.INIT.getCode());
+            confirmOrderExample.or().andDateEqualTo(confirmOrder.getDate())
+                    .andTrainCodeEqualTo(confirmOrder.getTrainCode())
+                    .andCreateTimeLessThan(confirmOrder.getCreateTime())
+                    .andStatusEqualTo(ConfirmOrderStatusEnum.PENDING.getCode());
+            return Math.toIntExact(confirmOrderMapper.countByExample(confirmOrderExample));
+        } else {
+            return result;
+        }
     }
 }
 

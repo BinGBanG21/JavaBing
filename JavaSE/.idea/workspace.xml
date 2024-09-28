@@ -19,8 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d5f5ff9-e207-4c4a-82a4-ef2bfe7383d7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Extend/src/Extend.java" beforeDir="false" afterPath="$PROJECT_DIR$/Extend/src/Extend.java" afterDir="false" />
+    <list default="true" id="2d5f5ff9-e207-4c4a-82a4-ef2bfe7383d7" name="Default Changelist" comment="重新构建项目">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,26 +29,40 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="mavenHome" value="F:\Intellij IDEA\IntelliJ IDEA 2020.2.4\plugins\maven\lib\maven3" />
+        <option name="customMavenHome" value="F:\Intellij IDEA\IntelliJ IDEA 2020.2.4\plugins\maven\lib\maven3" />
+        <option name="mavenHomeTypeForPersistence" value="CUSTOM" />
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2GQEbiYB8LlLQ1202xO8VPEgetd" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.19072.14" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.19072.14" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -59,7 +74,18 @@
       <updated>1666312491828</updated>
       <workItem from="1666312492868" duration="125000" />
       <workItem from="1666687892089" duration="28000" />
+      <workItem from="1727535714800" duration="38000" />
+      <workItem from="1727535783431" duration="156000" />
     </task>
+    <task id="LOCAL-00001" summary="重新构建项目">
+      <option name="closed" value="true" />
+      <created>1727535737339</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1727535737339</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -75,16 +101,9 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="738" y="267" key="FileChooserDialogImpl" timestamp="1666312600092">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="738" y="267" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1666312600092" />
-    <state x="333" y="101" key="new project wizard" timestamp="1666687917565">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="333" y="101" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1666687917565" />
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="重新构建项目" />
+    <option name="LAST_COMMIT_MESSAGE" value="重新构建项目" />
   </component>
 </project>

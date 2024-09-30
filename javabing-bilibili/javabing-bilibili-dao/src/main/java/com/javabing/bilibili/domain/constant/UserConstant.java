@@ -1,0 +1,21 @@
+package com.javabing.bilibili.domain.constant;/*
+ * ClassName: UserConstant
+ * Package: com.javabing.bilibili.domain.UserConstant
+ * Description:
+ * @Author WangBing
+ * @Create 2024/9/30/星期一 21:11
+ * @Version 1.0
+ **/
+
+public interface UserConstant {
+
+    public static final String GENDER_MALE = "0";
+
+    public static final String GENDER_FEMALE = "1";
+
+    public static final String GENDER_UNKNOW = "0";
+
+    public static final String DEFAULT_BIRTH = "1999-10-01";
+
+    public static final String DEFAULT_NICK = "萌新";
+}

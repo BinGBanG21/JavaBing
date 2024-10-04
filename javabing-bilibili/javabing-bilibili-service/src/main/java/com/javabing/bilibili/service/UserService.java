@@ -7,7 +7,9 @@ package com.javabing.bilibili.service;/*
  * @Version 1.0
  **/
 
+import com.alibaba.fastjson.JSONObject;
 import com.javabing.bilibili.dao.UserDao;
+import com.javabing.bilibili.domain.PageResult;
 import com.javabing.bilibili.domain.User;
 import com.javabing.bilibili.domain.UserInfo;
 import com.javabing.bilibili.domain.constant.UserConstant;
@@ -19,7 +21,10 @@ import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -65,11 +70,13 @@ public class UserService {
     }
 
     public String login(User user) throws Exception{
-        String phone = user.getPhone();
-        if(StringUtils.isNullOrEmpty(phone)){
-            throw new ConditionException("手机号不能为空！");
+        String phone = user.getPhone() == null ? "" : user.getPhone();
+        String email = user.getEmail() == null ? "" : user.getEmail();
+        if(StringUtils.isNullOrEmpty(phone) && StringUtils.isNullOrEmpty(email)){
+            throw new ConditionException("参数异常！");
         }
-        User dbUser = this.getUserByPhone(phone);
+        String phoneOrEmail = phone + email;
+        User dbUser = userDao.getUserByPhoneOrEmail(phone, email);
         if(dbUser == null){
             throw new ConditionException("当前用户不存在！");
         }
@@ -94,4 +101,47 @@ public class UserService {
         user.setUserInfo(userInfo);
         return user;
     }
+
+    public void updateUsers(User user) throws Exception{
+        Long id = user.getId();
+        User dbUser = userDao.getUserById(id);
+        if(dbUser == null){
+            throw new ConditionException("用户不存在！");
+        }
+        if(!StringUtils.isNullOrEmpty(user.getPassword())){
+            String rawPassword = RSAUtil.decrypt(user.getPassword());
+            String md5Password = MD5Util.sign(rawPassword, dbUser.getSalt(), "UTF-8");
+            user.setPassword(md5Password);
+        }
+        user.setUpdateTime(new Date());
+        userDao.updateUsers(user);
+    }
+
+    public void updateUserInfos(UserInfo userInfo) {
+        userInfo.setUpdateTime(new Date());
+        userDao.updateUserInfos(userInfo);
+    }
+
+    public User getUserById(Long followingId) {
+        return userDao.getUserById(followingId);
+    }
+
+    public List<UserInfo> getUserInfoByUserIds(Set<Long> userIdList) {
+        return userDao.getUserInfoByUserIds(userIdList);
+    }
+
+    public PageResult<UserInfo> pageListUserInfos(JSONObject params) {
+        Integer no = params.getInteger("no");
+        Integer size = params.getInteger("size");
+        params.put("start", (no-1)*size);
+        params.put("limit", size);
+        Integer total = userDao.pageCountUserInfos(params);
+        List<UserInfo> list = new ArrayList<>();
+        if(total > 0){
+            list = userDao.pageListUserInfos(params);
+        }
+        return new PageResult<>(total, list);
+    }
 }
+
+

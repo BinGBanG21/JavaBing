@@ -67,8 +67,10 @@ public class VideoService {
 
     public void viewVideoOnlineBySlices(HttpServletRequest request,
                                         HttpServletResponse response,
-                                        String url) throws Exception{
-        fastDFSUtil.viewVideoOnlineBySlices(request, response, url);
+                                        String url) {
+        try{
+            fastDFSUtil.viewVideoOnlineBySlices(request, response, url);
+        }catch (Exception ignored){}
     }
 
     public void addVideoLike(Long videoId, Long userId) {
@@ -247,3 +249,4 @@ public class VideoService {
         return result;
     }
 }
+

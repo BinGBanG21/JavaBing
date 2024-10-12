@@ -7,9 +7,9 @@ package com.javabing.bilibili.dao;/*
  * @Version 1.0
  **/
 
-import com.javabing.bilibili.domain.Video;
-import com.javabing.bilibili.domain.VideoTag;
+import com.javabing.bilibili.domain.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -25,4 +25,33 @@ public interface VideoDao {
 
     List<Video> pageListVideos(Map<String, Object> params);
 
+    Video getVideoById(Long id);
+
+    VideoLike getVideoLikeByVideoIdAndUserId(@Param("videoId") Long videoId, @Param("userId") Long userId);
+
+    Integer addVideoLike(VideoLike videoLike);
+
+    Integer deleteVideoLike(@Param("videoId") Long videoId,
+                            @Param("userId") Long userId);
+
+    Long getVideoLikes(Long videoId);
+
+    Integer deleteVideoCollection(@Param("videoId") Long videoId,
+                                  @Param("userId") Long userId);
+
+    Integer addVideoCollection(VideoCollection videoCollection);
+
+    Long getVideoCollections(Long videoId);
+
+    VideoCollection getVideoCollectionByVideoIdAndUserId(@Param("videoId") Long videoId,
+                                                         @Param("userId") Long userId);
+
+    VideoCoin getVideoCoinByVideoIdAndUserId(@Param("videoId") Long videoId,
+                                             @Param("userId") Long userId);
+
+    Integer addVideoCoin(VideoCoin videoCoin);
+
+    Integer updateVideoCoin(VideoCoin videoCoin);
+
+    Long getVideoCoinsAmount(Long videoId);
 }

@@ -5,51 +5,68 @@
 <mapper namespace="com.javabing.bilibili.dao.UserDao">
 
     <select id="getUserByPhone" parameterType="java.lang.String" resultType="com.javabing.bilibili.domain.User">
-        select *
-        from t_user
-        where phone = #{phone}
+        select
+            *
+        from
+            t_user
+        where
+            phone = #{phone}
     </select>
 
     <insert id="addUser" parameterType="com.javabing.bilibili.domain.User" useGeneratedKeys="true" keyProperty="id">
-        insert into t_user(phone,
-                           email,
-                           password,
-                           salt,
-                           createTime)
-        values (#{phone},
-                #{email},
-                #{password},
-                #{salt},
-                #{createTime})
+        insert into
+            t_user(
+            phone,
+            email,
+            password,
+            salt,
+            createTime
+        )values (
+                    #{phone},
+                    #{email},
+                    #{password},
+                    #{salt},
+                    #{createTime}
+                )
     </insert>
 
     <insert id="addUserInfo" parameterType="com.javabing.bilibili.domain.UserInfo">
-        insert into t_user_info(userId,
-                                nick,
-                                avatar,
-                                sign,
-                                gender,
-                                birth,
-                                createTime)
-        values (#{userId},
-                #{nick},
-                #{avatar},
-                #{sign},
-                #{gender},
-                #{birth},
-                #{createTime})
+        insert into
+            t_user_info(
+            userId,
+            nick,
+            avatar,
+            sign,
+            gender,
+            birth,
+            createTime
+        )values (
+                    #{userId},
+                    #{nick},
+                    #{avatar},
+                    #{sign},
+                    #{gender},
+                    #{birth},
+                    #{createTime}
+                )
     </insert>
 
     <select id="getUserById" parameterType="java.lang.Long" resultType="com.javabing.bilibili.domain.User">
-        select *
-        from t_user
-        where id = #{id}
+        select
+            *
+        from
+            t_user
+        where
+            id = #{id}
     </select>
 
     <select id="getUserInfoByUserId" parameterType="java.lang.Long" resultType="com.javabing.bilibili.domain.UserInfo">
-        select *
-        from t_user_info
-        where userId = #{userId}
+        select
+            *
+        from
+            t_user_info
+        where
+            userId = #{userId}
     </select>
 
     <update id="updateUsers" parameterType="com.javabing.bilibili.domain.User">
@@ -71,10 +88,12 @@
     </update>
 
     <select id="getUserByPhoneOrEmail" parameterType="java.lang.String" resultType="com.javabing.bilibili.domain.User">
-        select *
-        from t_user
-        where phone = #{phone}
-           or email = #{email}
+        select
+            *
+        from
+            t_user
+        where
+            phone = #{phone} or email = #{email}
     </select>
 
     <update id="updateUserInfos" parameterType="com.javabing.bilibili.domain.UserInfo">
@@ -110,7 +129,7 @@
         1=1
         <if test="userIdList != null and userIdList.size > 0">
             and userId in
-            <foreach collection="userIdList" item="userId" index="index" open="(" close=")" separator=",">
+            <foreach collection="userIdList" item = "userId" index="index" open="(" close=")" separator=",">
                 #{userId}
             </foreach>
         </if>
@@ -143,25 +162,47 @@
     </select>
 
     <delete id="deleteRefreshToken">
-        delete
-        from t_refresh_token
-        where refreshToken = #{refreshToken}
+        delete from
+            t_refresh_token
+        where
+            refreshToken = #{refreshToken}
+          and userId = #{userId}
     </delete>
 
+    <delete id="deleteRefreshTokenByUserId" parameterType="java.lang.Long">
+        delete from
+            t_refresh_token
+        where
+            userId = #{userId}
+    </delete>
+
+
     <insert id="addRefreshToken">
-        insert into t_refresh_token(refreshToken,
-                                    userId,
-                                    createTime)
-        values (#{refreshToken},
-                #{userId},
-                #{createTime})
+        insert into
+            t_refresh_token(
+            refreshToken,
+            userId,
+            createTime
+        )values(
+                   #{refreshToken},
+                   #{userId},
+                   #{createTime}
+               )
     </insert>
 
-    <select id="getRefreshTokenDetail" parameterType="java.lang.String"
-            resultType="com.javabing.bilibili.domain.RefreshTokenDetail">
-        select *
+    <select id="getRefreshTokenDetail" parameterType="java.lang.String" resultType="com.javabing.bilibili.domain.RefreshTokenDetail">
+        select
+            *
+        from
+            t_refresh_token
+        where
+            refreshToken = #{refreshToken}
+    </select>
+
+    <select id="getRefreshTokenByUserId" parameterType="java.lang.Long" resultType="java.lang.String">
+        select refreshToken
         from t_refresh_token
-        where refreshToken = #{refreshToken}
+        where userId = #{userId}
     </select>
 
     <select id="batchGetUserInfoByUserIds" resultType="com.javabing.bilibili.domain.UserInfo">
@@ -175,5 +216,6 @@
             #{userId}
         </foreach>
     </select>
+
 
 </mapper>

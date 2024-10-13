@@ -227,7 +227,7 @@ public class VideoService {
                 childCommentList.forEach(child -> {
                     if(id.equals(child.getRootId())){
                         child.setUserInfo(userInfoMap.get(child.getUserId()));
-                        child.setReplyUserInfo(userInfoMap.get(child.getReplyUserInfo()));
+                        child.setReplyUserInfo(userInfoMap.get(child.getReplyUserId()));
                         childList.add(child);
                     }
                 });

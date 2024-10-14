@@ -7,7 +7,6 @@ package com.javabing.bilibili.service;/*
  * @Version 1.0
  **/
 
-
 import com.javabing.bilibili.dao.FileDao;
 import com.javabing.bilibili.domain.File;
 import com.javabing.bilibili.service.util.FastDFSUtil;
@@ -51,5 +50,10 @@ public class FileService {
     public String getFileMD5(MultipartFile file) throws Exception {
         return MD5Util.getFileMD5(file);
     }
+
+    public File getFileByMd5(String fileMd5) {
+        return fileDao.getFileByMD5(fileMd5);
+    }
 }
+
 

@@ -1,11 +1,4 @@
-package com.javabing.bilibili.service;/*
- * ClassName: VideoService
- * Package: com.javabing.bilibili.service
- * Description:
- * @Author WangBing
- * @Create 2024/10/11/星期五 21:20
- * @Version 1.0
- **/
+package com.javabing.bilibili.service;
 
 import com.javabing.bilibili.dao.VideoDao;
 import com.javabing.bilibili.domain.*;
@@ -20,6 +13,7 @@ import org.apache.mahout.cf.taste.impl.model.GenericDataModel;
 import org.apache.mahout.cf.taste.impl.model.GenericPreference;
 import org.apache.mahout.cf.taste.impl.model.GenericUserPreferenceArray;
 import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
+import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
 import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
 import org.apache.mahout.cf.taste.impl.similarity.UncenteredCosineSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;
@@ -27,6 +21,7 @@ import org.apache.mahout.cf.taste.model.PreferenceArray;
 import org.apache.mahout.cf.taste.neighborhood.UserNeighborhood;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.apache.mahout.cf.taste.recommender.Recommender;
+import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
 import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.Frame;
@@ -85,16 +80,16 @@ public class VideoService {
     }
 
     public PageResult<Video> pageListVideos(Integer size, Integer no, String area) {
-        if (size == null || no == null) {
+        if(size == null || no == null){
             throw new ConditionException("参数异常！");
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("start", (no - 1) * size);
+        params.put("start", (no-1)*size);
         params.put("limit", size);
-        params.put("area", area);
+        params.put("area" , area);
         List<Video> list = new ArrayList<>();
         Integer total = videoDao.pageCountVideos(params);
-        if (total > 0) {
+        if(total > 0){
             list = videoDao.pageListVideos(params);
         }
         return new PageResult<>(total, list);
@@ -103,19 +98,18 @@ public class VideoService {
     public void viewVideoOnlineBySlices(HttpServletRequest request,
                                         HttpServletResponse response,
                                         String url) {
-        try {
+        try{
             fastDFSUtil.viewVideoOnlineBySlices(request, response, url);
-        } catch (Exception ignored) {
-        }
+        }catch (Exception ignored){}
     }
 
     public void addVideoLike(Long videoId, Long userId) {
         Video video = videoDao.getVideoById(videoId);
-        if (video == null) {
+        if(video == null){
             throw new ConditionException("非法视频！");
         }
         VideoLike videoLike = videoDao.getVideoLikeByVideoIdAndUserId(videoId, userId);
-        if (videoLike != null) {
+        if(videoLike != null){
             throw new ConditionException("已经赞过！");
         }
         videoLike = new VideoLike();
@@ -144,11 +138,11 @@ public class VideoService {
     public void addVideoCollection(VideoCollection videoCollection, Long userId) {
         Long videoId = videoCollection.getVideoId();
         Long groupId = videoCollection.getGroupId();
-        if (videoId == null || groupId == null) {
+        if(videoId == null || groupId == null){
             throw new ConditionException("参数异常！");
         }
         Video video = videoDao.getVideoById(videoId);
-        if (video == null) {
+        if(video == null){
             throw new ConditionException("非法视频！");
         }
         //删除原有视频收藏
@@ -178,27 +172,27 @@ public class VideoService {
     public void addVideoCoins(VideoCoin videoCoin, Long userId) {
         Long videoId = videoCoin.getVideoId();
         Integer amount = videoCoin.getAmount();
-        if (videoId == null) {
+        if(videoId == null){
             throw new ConditionException("参数异常！");
         }
         Video video = videoDao.getVideoById(videoId);
-        if (video == null) {
+        if(video == null){
             throw new ConditionException("非法视频！");
         }
         //查询当前登录用户是否拥有足够的硬币
         Integer userCoinsAmount = userCoinService.getUserCoinsAmount(userId);
         userCoinsAmount = userCoinsAmount == null ? 0 : userCoinsAmount;
-        if (amount > userCoinsAmount) {
+        if(amount > userCoinsAmount){
             throw new ConditionException("硬币数量不足！");
         }
         //查询当前登录用户对该视频已经投了多少硬币
         VideoCoin dbVideoCoin = videoDao.getVideoCoinByVideoIdAndUserId(videoId, userId);
         //新增视频投币
-        if (dbVideoCoin == null) {
+        if(dbVideoCoin == null){
             videoCoin.setUserId(userId);
             videoCoin.setCreateTime(new Date());
             videoDao.addVideoCoin(videoCoin);
-        } else {
+        }else{
             Integer dbAmount = dbVideoCoin.getAmount();
             dbAmount += amount;
             //更新视频投币
@@ -208,7 +202,7 @@ public class VideoService {
             videoDao.updateVideoCoin(videoCoin);
         }
         //更新用户当前硬币总数
-        userCoinService.updateUserCoinsAmount(userId, (userCoinsAmount - amount));
+        userCoinService.updateUserCoinsAmount(userId, (userCoinsAmount-amount));
     }
 
     public Map<String, Object> getVideoCoins(Long videoId, Long userId) {
@@ -223,11 +217,11 @@ public class VideoService {
 
     public void addVideoComment(VideoComment videoComment, Long userId) {
         Long videoId = videoComment.getVideoId();
-        if (videoId == null) {
+        if(videoId == null){
             throw new ConditionException("参数异常！");
         }
         Video video = videoDao.getVideoById(videoId);
-        if (video == null) {
+        if(video == null){
             throw new ConditionException("非法视频！");
         }
         videoComment.setUserId(userId);
@@ -237,16 +231,16 @@ public class VideoService {
 
     public PageResult<VideoComment> pageListVideoComments(Integer size, Integer no, Long videoId) {
         Video video = videoDao.getVideoById(videoId);
-        if (video == null) {
+        if(video == null){
             throw new ConditionException("非法视频！");
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("start", (no - 1) * size);
+        params.put("start", (no-1)*size);
         params.put("limit", size);
         params.put("videoId", videoId);
         Integer total = videoDao.pageCountVideoComments(params);
         List<VideoComment> list = new ArrayList<>();
-        if (total > 0) {
+        if(total > 0){
             list = videoDao.pageListVideoComments(params);
             //批量查询二级评论
             List<Long> parentIdList = list.stream().map(VideoComment::getId).collect(Collectors.toList());
@@ -258,12 +252,12 @@ public class VideoService {
             userIdList.addAll(replyUserIdList);
             userIdList.addAll(childUserIdList);
             List<UserInfo> userInfoList = userService.batchGetUserInfoByUserIds(userIdList);
-            Map<Long, UserInfo> userInfoMap = userInfoList.stream().collect(Collectors.toMap(UserInfo::getUserId, userInfo -> userInfo));
+            Map<Long, UserInfo> userInfoMap = userInfoList.stream().collect(Collectors.toMap(UserInfo :: getUserId, userInfo -> userInfo));
             list.forEach(comment -> {
                 Long id = comment.getId();
                 List<VideoComment> childList = new ArrayList<>();
                 childCommentList.forEach(child -> {
-                    if (id.equals(child.getRootId())) {
+                    if(id.equals(child.getRootId())){
                         child.setUserInfo(userInfoMap.get(child.getUserId()));
                         child.setReplyUserInfo(userInfoMap.get(child.getReplyUserId()));
                         childList.add(child);
@@ -277,7 +271,7 @@ public class VideoService {
     }
 
     public Map<String, Object> getVideoDetails(Long videoId) {
-        Video video = videoDao.getVideoDetails(videoId);
+        Video video =  videoDao.getVideoDetails(videoId);
         Long userId = video.getUserId();
         User user = userService.getUserInfo(userId);
         UserInfo userInfo = user.getUserInfo();
@@ -296,9 +290,9 @@ public class VideoService {
         String clientId = String.valueOf(userAgent.getId());
         String ip = IpUtil.getIP(request);
         Map<String, Object> params = new HashMap<>();
-        if (userId != null) {
+        if(userId != null){
             params.put("userId", userId);
-        } else {
+        }else{
             params.put("ip", ip);
             params.put("clientId", clientId);
         }
@@ -308,7 +302,7 @@ public class VideoService {
         params.put("videoId", videoId);
         //添加观看记录
         VideoView dbVideoView = videoDao.getVideoView(params);
-        if (dbVideoView == null) {
+        if(dbVideoView == null){
             videoView.setIp(ip);
             videoView.setClientId(clientId);
             videoView.setCreateTime(new Date());
@@ -320,6 +314,10 @@ public class VideoService {
         return videoDao.getVideoViewCounts(videoId);
     }
 
+    /**
+     * 基于用户的协同推荐
+     * @param userId 用户id
+     */
     public List<Video> recommend(Long userId) throws TasteException {
         List<UserPreference> list = videoDao.getAllUserPreference();
         //创建数据模型
@@ -332,9 +330,31 @@ public class VideoService {
         long[] ar = userNeighborhood.getUserNeighborhood(userId);
         //构建推荐器
         Recommender recommender = new GenericUserBasedRecommender(dataModel, userNeighborhood, similarity);
-        //推荐商品
+        //推荐视频
         List<RecommendedItem> recommendedItems = recommender.recommend(userId, 5);
         List<Long> itemIds = recommendedItems.stream().map(RecommendedItem::getItemID).collect(Collectors.toList());
+        return videoDao.batchGetVideosByIds(itemIds);
+    }
+
+    /**
+     * 基于内容的协同推荐
+     * @param userId 用户id
+     * @param itemId 参考内容id（根据该内容进行相似内容推荐）
+     * @param howMany 需要推荐的数量
+     */
+    public List<Video> recommendByItem(Long userId, Long itemId, int howMany) throws TasteException {
+        List<UserPreference> list = videoDao.getAllUserPreference();
+        //创建数据模型
+        DataModel dataModel = this.createDataModel(list);
+        //获取内容相似程度
+        ItemSimilarity similarity = new UncenteredCosineSimilarity(dataModel);
+        GenericItemBasedRecommender genericItemBasedRecommender = new GenericItemBasedRecommender(dataModel, similarity);
+        // 物品推荐相拟度，计算两个物品同时出现的次数，次数越多任务的相拟度越高
+        List<Long> itemIds = genericItemBasedRecommender.recommendedBecause(userId, itemId, howMany)
+                .stream()
+                .map(RecommendedItem::getItemID)
+                .collect(Collectors.toList());
+        //推荐视频
         return videoDao.batchGetVideosByIds(itemIds);
     }
 
@@ -342,9 +362,9 @@ public class VideoService {
         FastByIDMap<PreferenceArray> fastByIdMap = new FastByIDMap<>();
         Map<Long, List<UserPreference>> map = userPreferenceList.stream().collect(Collectors.groupingBy(UserPreference::getUserId));
         Collection<List<UserPreference>> list = map.values();
-        for (List<UserPreference> userPreferences : list) {
+        for(List<UserPreference> userPreferences : list){
             GenericPreference[] array = new GenericPreference[userPreferences.size()];
-            for (int i = 0; i < userPreferences.size(); i++) {
+            for(int i = 0; i < userPreferences.size(); i++){
                 UserPreference userPreference = userPreferences.get(i);
                 GenericPreference item = new GenericPreference(userPreference.getUserId(), userPreference.getVideoId(), userPreference.getValue());
                 array[i] = item;
@@ -354,7 +374,7 @@ public class VideoService {
         return new GenericDataModel(fastByIdMap);
     }
 
-    public List<VideoBinaryPicture> convertVideoToImage(Long videoId, String fileMd5) throws Exception {
+    public List<VideoBinaryPicture> convertVideoToImage(Long videoId, String fileMd5) throws Exception{
         com.javabing.bilibili.domain.File file = fileService.getFileByMd5(fileMd5);
         String filePath = "/Users/hat/tmpfile/fileForVideoId" + videoId + "." + file.getType();
         fastDFSUtil.downLoadFile(file.getUrl(), filePath);
@@ -365,11 +385,11 @@ public class VideoService {
         Java2DFrameConverter converter = new Java2DFrameConverter();
         int count = 1;
         List<VideoBinaryPicture> pictures = new ArrayList<>();
-        for (int i = 1; i <= ffLength; i++) {
+        for(int i=1; i<= ffLength; i ++){
             long timestamp = fFmpegFrameGrabber.getTimestamp();
             frame = fFmpegFrameGrabber.grabImage();
-            if (count == i) {
-                if (frame == null) {
+            if(count == i){
+                if(frame == null){
                     throw new ConditionException("无效帧");
                 }
                 BufferedImage bufferedImage = converter.getBufferedImage(frame);
@@ -410,4 +430,3 @@ public class VideoService {
     }
 
 }
-

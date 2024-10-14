@@ -7,12 +7,12 @@ package com.javabing.bilibili.service;/*
  * @Version 1.0
  **/
 
-import com.javabing.bilibili.dao.VideoDao;
-import com.javabing.bilibili.domain.*;
-import com.javabing.bilibili.domain.exception.ConditionException;
-import com.javabing.bilibili.service.util.FastDFSUtil;
-import com.javabing.bilibili.service.util.ImageUtil;
-import com.javabing.bilibili.service.util.IpUtil;
+import com. javabing.bilibili.dao.VideoDao;
+import com. javabing.bilibili.domain.*;
+import com. javabing.bilibili.domain.exception.ConditionException;
+import com. javabing.bilibili.service.util.FastDFSUtil;
+import com. javabing.bilibili.service.util.ImageUtil;
+import com. javabing.bilibili.service.util.IpUtil;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.common.FastByIDMap;
@@ -252,8 +252,10 @@ public class VideoService {
             List<VideoComment> childCommentList = videoDao.batchGetVideoCommentsByRootIds(parentIdList);
             //批量查询用户信息
             Set<Long> userIdList = list.stream().map(VideoComment::getUserId).collect(Collectors.toSet());
-            Set<Long> replyUserIdList = childCommentList.stream().map(VideoComment::getReplyUserId).collect(Collectors.toSet());
+            Set<Long> replyUserIdList = childCommentList.stream().map(VideoComment::getUserId).collect(Collectors.toSet());
+            Set<Long> childUserIdList = childCommentList.stream().map(VideoComment::getReplyUserId).collect(Collectors.toSet());
             userIdList.addAll(replyUserIdList);
+            userIdList.addAll(childUserIdList);
             List<UserInfo> userInfoList = userService.batchGetUserInfoByUserIds(userIdList);
             Map<Long, UserInfo> userInfoMap = userInfoList.stream().collect(Collectors.toMap(UserInfo :: getUserId, userInfo -> userInfo));
             list.forEach(comment -> {
@@ -352,7 +354,7 @@ public class VideoService {
     }
 
     public List<VideoBinaryPicture> convertVideoToImage(Long videoId, String fileMd5) throws Exception{
-        com.javabing.bilibili.domain.File file = fileService.getFileByMd5(fileMd5);
+        com. javabing.bilibili.domain.File file = fileService.getFileByMd5(fileMd5);
         String filePath = "/Users/hat/tmpfile/fileForVideoId" + videoId + "." + file.getType();
         fastDFSUtil.downLoadFile(file.getUrl(), filePath);
         FFmpegFrameGrabber fFmpegFrameGrabber = FFmpegFrameGrabber.createDefault(filePath);

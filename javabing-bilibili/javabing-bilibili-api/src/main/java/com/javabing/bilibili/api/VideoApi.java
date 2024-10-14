@@ -7,6 +7,8 @@ package com.javabing.bilibili.api;/*
  * @Version 1.0
  **/
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.javabing.bilibili.api.support.UserSupport;
 import com.javabing.bilibili.domain.*;
 import com.javabing.bilibili.service.ElasticSearchService;
@@ -228,5 +230,25 @@ public class VideoApi {
                                                                     @RequestParam String fileMd5) throws Exception {
         List<VideoBinaryPicture> list = videoService.convertVideoToImage(videoId, fileMd5);
         return new JsonResponse<>(list);
+    }
+
+    /**
+     * 查询视频标签
+     */
+    @GetMapping("/video-tags")
+    public JsonResponse<List<VideoTag>> getVideoTagsByVideoId(@RequestParam Long videoId) {
+        List<VideoTag> list = videoService.getVideoTagsByVideoId(videoId);
+        return new JsonResponse<>(list);
+    }
+
+    /**
+     * 删除视频标签
+     */
+    @DeleteMapping("/video-tags")
+    public JsonResponse<String> deleteVideoTags(@RequestBody JSONObject params) {
+        String tagIdList = params.getString("tagIdList");
+        Long videoId = params.getLong("videoId");
+        videoService.deleteVideoTags(JSONArray.parseArray(tagIdList).toJavaList(Long.class), videoId);
+        return JsonResponse.success();
     }
 }

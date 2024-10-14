@@ -47,7 +47,7 @@ public interface UserDao {
     Integer deleteRefreshToken(@Param("refreshToken") String refreshToken,
                                @Param("userId") Long userId);
 
-    Integer addRefreshToken(@Param("refreshToken") String refreshToken,
+    Integer addRefreshToken(@Param("refreshToken")String refreshToken,
                             @Param("userId") Long userId,
                             @Param("createTime") Date createTime);
 
@@ -59,5 +59,6 @@ public interface UserDao {
 
     Integer deleteRefreshTokenByUserId(Long userId);
 }
+
 
 

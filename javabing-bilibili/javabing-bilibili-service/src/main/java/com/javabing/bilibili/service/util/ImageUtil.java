@@ -55,12 +55,12 @@ public class ImageUtil {
         return this.convert(resultJson.getString("labelmap"), image.getWidth(), image.getHeight());
     }
 
-    public String bodySeg(InputStream inputStream) throws Exception{
+    public String bodySeg(InputStream inputStream) throws Exception {
         System.out.println("开始请求百度人体分割api");
         long start = System.currentTimeMillis();
         String imgStr = this.convertFileToBase64(inputStream);
         String accessToken = redisTemplate.opsForValue().get(BAIDU_TOKEN_KEY);
-        if(StringUtil.isNullOrEmpty(accessToken)){
+        if (StringUtil.isNullOrEmpty(accessToken)) {
             accessToken = this.getAuth();
             redisTemplate.opsForValue().set(BAIDU_TOKEN_KEY, accessToken);
         }
@@ -68,7 +68,7 @@ public class ImageUtil {
         params.put("image", imgStr);
         splitBodyUrl += "?access_token=" + accessToken;
         HttpUtil.HttpResponse result = HttpUtil.postUrlEncoded(splitBodyUrl, params);
-        System.out.println("请求结束，总时间(s)为：" +( (System.currentTimeMillis() - start)/ 1000F));
+        System.out.println("请求结束，总时间(s)为：" + ((System.currentTimeMillis() - start) / 1000F));
         return result.getBody();
     }
 
@@ -115,14 +115,15 @@ public class ImageUtil {
             e.printStackTrace();
         }
         // 对字节数组进行Base64编码，得到Base64编码的字符串
-        BASE64Encoder encoder = new BASE64Encoder();
-        return encoder.encode(data);
+//        BASE64Encoder encoder = new BASE64Encoder();
+//        return encoder.encode(data);
+        return org.apache.commons.codec.binary.Base64.encodeBase64String(data);
     }
 
     /**
      * 百度获取Token
      */
-    private String getAuth() throws Exception{
+    private String getAuth() throws Exception {
         // 获取token地址
         StringBuilder sb = new StringBuilder(authUrl);
         sb.append("?grant_type=client_credentials").append("&client_id=" + clientId).append("&client_secret=" + clientSecret);
@@ -142,7 +143,7 @@ public class ImageUtil {
         return jsonObject.getString("access_token");
     }
 
-    public void transferAlpha(File file, File outputFile) throws Exception{
+    public void transferAlpha(File file, File outputFile) throws Exception {
         InputStream is = new FileInputStream(file);
         Image image = ImageIO.read(is);
         ImageIcon imageIcon = new ImageIcon(image);

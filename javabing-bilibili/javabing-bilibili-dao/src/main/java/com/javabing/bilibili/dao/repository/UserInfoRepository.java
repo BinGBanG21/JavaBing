@@ -9,7 +9,6 @@ package com.javabing.bilibili.dao.repository;/*
 
 
 import com.javabing.bilibili.domain.UserInfo;
-import com.javabing.bilibili.domain.Video;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 public interface UserInfoRepository extends ElasticsearchRepository<UserInfo, Long> {

@@ -434,4 +434,8 @@ public class VideoService {
         videoDao.deleteVideoTags(tagIdList, videoId);
     }
 
+    public List<VideoBinaryPicture> getVideoBinaryImages(Map<String, Object> params) {
+        return videoDao.getVideoBinaryImages(params);
+    }
+
 }

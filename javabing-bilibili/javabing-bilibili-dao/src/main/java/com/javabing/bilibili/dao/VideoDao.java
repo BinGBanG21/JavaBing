@@ -81,5 +81,7 @@ public interface VideoDao {
 
     Integer deleteVideoTags(@Param("tagIdList") List<Long> tagIdList,
                             @Param("videoId") Long videoId);
+
+    List<VideoBinaryPicture> getVideoBinaryImages(Map<String, Object> params);
 }
 

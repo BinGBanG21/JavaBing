@@ -404,4 +404,32 @@
         </foreach>
     </delete>
 
+    <select id="getVideoViewCountByVideoIds" resultType="com.javabing.bilibili.domain.VideoViewCount">
+        SELECT
+        videoId,
+        count( id ) count
+        FROM
+        t_video_view
+        WHERE
+        videoId in
+        <foreach collection="videoIds" item="videoId" open="(" close=")" separator=",">
+            #{videoId}
+        </foreach>
+        GROUP BY videoId
+    </select>
+
+    <select id="getVideoDanmuCountByVideoIds" resultType="com.javabing.bilibili.domain.VideoDanmuCount">
+        select
+        videoId,
+        count( id ) count
+        from
+        t_danmu
+        where
+        videoId in
+        <foreach collection="videoIds" item="videoId" open="(" close=")" separator=",">
+            #{videoId}
+        </foreach>
+        GROUP BY videoId
+    </select>
+
 </mapper>

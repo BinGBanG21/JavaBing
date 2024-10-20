@@ -1,28 +1,27 @@
 package com.javabing.bilibili.domain;/*
- * ClassName: VideoCollection
+ * ClassName: VideoCollectionGroup
  * Package: com.javabing.bilibili.domain
  * Description:
  * @Author WangBing
- * @Create 2024/10/12/星期六 12:50
+ * @Create 2024/10/20/星期日 8:50
  * @Version 1.0
  **/
 
-
 import java.util.Date;
 
-public class VideoCollection {
+public class VideoCollectionGroup {
 
     private Long id;
 
-    private Long videoId;
-
     private Long userId;
 
-    private Long groupId;
+    private String name;
+
+    private String type;
 
     private Date createTime;
 
-    private Video videoInfo;
+    private Date updateTime;
 
     public Long getId() {
         return id;
@@ -30,14 +29,6 @@ public class VideoCollection {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getVideoId() {
-        return videoId;
-    }
-
-    public void setVideoId(Long videoId) {
-        this.videoId = videoId;
     }
 
     public Long getUserId() {
@@ -48,12 +39,20 @@ public class VideoCollection {
         this.userId = userId;
     }
 
-    public Long getGroupId() {
-        return groupId;
+    public String getName() {
+        return name;
     }
 
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Date getCreateTime() {
@@ -64,12 +63,11 @@ public class VideoCollection {
         this.createTime = createTime;
     }
 
-    public Video getVideoInfo() {
-        return videoInfo;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setVideoInfo(Video videoInfo) {
-        this.videoInfo = videoInfo;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }
-

@@ -88,5 +88,7 @@ public interface VideoDao {
     List<VideoViewCount> getVideoViewCountByVideoIds(Set<Long> videoIds);
 
     List<VideoDanmuCount> getVideoDanmuCountByVideoIds(Set<Long> videoIds);
+
+    void updateVideoCollection(VideoCollection videoCollection);
 }
 

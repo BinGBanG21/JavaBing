@@ -1,11 +1,4 @@
-package com.javabing.bilibili.api;/*
- * ClassName: UserCenterApi
- * Package: com.javabing.bilibili.api
- * Description:
- * @Author WangBing
- * @Create 2024/10/20/星期日 8:47
- * @Version 1.0
- **/
+package com.javabing.bilibili.api;
 
 import com.javabing.bilibili.api.support.UserSupport;
 import com.javabing.bilibili.domain.*;
@@ -13,6 +6,7 @@ import com.javabing.bilibili.service.UserCenterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -70,9 +64,48 @@ public class UserCenterApi {
         return JsonResponse.success();
     }
 
+    /**
+     * 查询用户关注分组
+     */
+    @GetMapping("/user-center-following-groups")
+    public JsonResponse<List<FollowingGroup>> getUserCenterFollowingGroups(){
+        Long userId = userSupport.getCurrentUserId();
+        List<FollowingGroup> result =  userCenterService.getUserCenterFollowingGroups(userId);
+        return new JsonResponse<>(result);
+    }
 
+    /**
+     * 分页查询用户关注
+     */
+    @GetMapping("/user-center-followings")
+    public JsonResponse<PageResult<UserFollowing>> pageListUserCenterFollowings(@RequestParam Integer size,
+                                                                                @RequestParam Integer no,
+                                                                                Long groupId){
+        Long userId = userSupport.getCurrentUserId();
+        PageResult<UserFollowing> list = userCenterService.pageListUserCenterFollowings(userId, size,
+                no ,groupId);
+        return new JsonResponse<>(list);
+    }
 
+    /**
+     * 分页查询用户粉丝
+     */
+    @GetMapping("/user-center-fans")
+    public JsonResponse<PageResult<UserFollowing>> pageListUserFans(@RequestParam Integer size,
+                                                                    @RequestParam Integer no){
+        Long userId = userSupport.getCurrentUserId();
+        PageResult<UserFollowing> result = userCenterService.pageListUserFans(userId, size, no);
+        return new JsonResponse<>(result);
+    }
 
+    /**
+     * 计算用户粉丝总数
+     */
+    @GetMapping("/user-center-fan-counts")
+    public JsonResponse<Long> countUserFans(){
+        Long userId = userSupport.getCurrentUserId();
+        Long result = userCenterService.countUserFans(userId);
+        return new JsonResponse<>(result);
+    }
 
 }
-

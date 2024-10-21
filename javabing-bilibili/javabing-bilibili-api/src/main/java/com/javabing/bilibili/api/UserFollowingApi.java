@@ -1,11 +1,4 @@
-package com.javabing.bilibili.api;/*
- * ClassName: UserFollowingApi
- * Package: com.javabing.bilibili.api
- * Description:
- * @Author WangBing
- * @Create 2024/10/4/星期五 12:08
- * @Version 1.0
- **/
+package com.javabing.bilibili.api;
 
 import com.javabing.bilibili.api.support.UserSupport;
 import com.javabing.bilibili.domain.FollowingGroup;
@@ -13,10 +6,7 @@ import com.javabing.bilibili.domain.JsonResponse;
 import com.javabing.bilibili.domain.UserFollowing;
 import com.javabing.bilibili.service.UserFollowingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,6 +34,21 @@ public class UserFollowingApi {
         return new JsonResponse<>(result);
     }
 
+    @DeleteMapping("/user-followings")
+    public JsonResponse<String> deleteUserFollowing(@RequestParam Long followingId){
+        Long userId = userSupport.getCurrentUserId();
+        userFollowingService.deleteUserFollowing(userId, followingId);
+        return JsonResponse.success();
+    }
+
+    @PutMapping("/user-followings")
+    public JsonResponse<String> updateUserFollowings(@RequestBody UserFollowing userFollowing){
+        Long userId = userSupport.getCurrentUserId();
+        userFollowing.setUserId(userId);
+        userFollowingService.updateUserFollowings(userFollowing);
+        return JsonResponse.success();
+    }
+
     @GetMapping("/user-fans")
     public JsonResponse<List<UserFollowing>> getUserFans(){
         Long userId = userSupport.getCurrentUserId();
@@ -67,4 +72,3 @@ public class UserFollowingApi {
     }
 
 }
-

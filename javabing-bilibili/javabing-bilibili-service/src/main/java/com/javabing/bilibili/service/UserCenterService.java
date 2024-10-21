@@ -96,5 +96,82 @@ public class UserCenterService {
         userCenterDao.addUserCollectionGroups(videoCollectionGroup);
     }
 
+
+    public PageResult<UserFollowing>  pageListUserCenterFollowings(Long userId,
+                                                                   Integer size,
+                                                                   Integer no, Long groupId) {
+        //分页查询当前登录用户所有关注的用户信息
+        Map<String, Object> params = new HashMap<>();
+        params.put("start", (no-1)*size);
+        params.put("limit", size);
+        params.put("userId", userId);
+        params.put("groupId", groupId);
+        List<UserFollowing> userFollowings = new ArrayList<>();
+        Integer total = userCenterDao.pageCountUserCenterFollowings(params);
+        if(total > 0){
+            userFollowings = userCenterDao.pageListUserCenterFollowings(params);
+            if(!userFollowings.isEmpty()){
+                Set<Long> followingUserIdSet = userFollowings.stream().map(UserFollowing::getFollowingId).collect(Collectors.toSet());
+                List<UserInfo> userInfos = userCenterDao.getUserInfoByIds(followingUserIdSet);
+                Map<Long, List<UserInfo>> userInfoMap = userInfos.stream().collect(Collectors.groupingBy(UserInfo::getUserId));
+                userFollowings.forEach(userFollowing -> userFollowing.setUserInfo(userInfoMap.get(userFollowing.getFollowingId()).get(0)));
+            }
+        }
+        //如果不是分页查询某个特定分组的关注用户，则默认展示全部，此时需要额外计算全部分组的总人数（省去调用pageCount功能）
+        return new PageResult<>(total, userFollowings);
+    }
+
+    public PageResult<UserFollowing> pageListUserFans(Long userId, Integer size, Integer no) {
+        if(size == null || no == null){
+            throw new ConditionException("参数异常！");
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("start", (no-1)*size);
+        params.put("limit", size);
+        params.put("userId", userId);
+        Integer total = userCenterDao.pageCountUserFans(params);
+        List<UserFollowing> fans = new ArrayList<>();
+        if(total > 0){
+            fans = userCenterDao.pageListUserFans(params);
+            if(!fans.isEmpty()){
+                //查询粉丝的用户信息，同时查询当前用户是否已经关注这些粉丝
+                List<UserFollowing> followings = userCenterDao.getUserFollowings(userId);
+                Set<Long> fanIdSet = fans.stream()
+                        .map(UserFollowing :: getUserId).collect(Collectors.toSet());
+                List<UserInfo> userInfoList = userService.getUserInfoByUserIds(fanIdSet);
+                fans.forEach(fan -> userInfoList.forEach(userInfo ->{
+                    if(fan.getUserId().equals(userInfo.getUserId())){
+                        userInfo.setFollowed(followings.stream()
+                                .anyMatch(item -> item.getFollowingId()
+                                        .equals(fan.getUserId())));
+                        fan.setUserInfo(userInfo);
+                    }
+                }));
+            }
+        }
+        return new PageResult<>(total, fans);
+    }
+
+    public List<FollowingGroup> getUserCenterFollowingGroups(Long userId) {
+        //查询系统默认分组
+        List<FollowingGroup> defaultGroups = userCenterDao.getUserFollowingGroups(userId);
+        //统计分组关注数
+        List<FollowingGroup> list = userCenterDao.countUserCenterFollowingGroups(userId);
+        defaultGroups.forEach(defaultGroup ->{
+            defaultGroup.setCount(0);
+            if(list.stream()
+                    .map(FollowingGroup::getId)
+                    .noneMatch(item -> item.equals(defaultGroup.getId()))){
+                list.add(defaultGroup);
+            }
+        });
+        list.sort(Comparator.comparingLong(FollowingGroup :: getId));
+        return list;
+    }
+
+    public Long countUserFans(Long userId) {
+        return userCenterDao.countUserFans(userId);
+    }
 }
+
 

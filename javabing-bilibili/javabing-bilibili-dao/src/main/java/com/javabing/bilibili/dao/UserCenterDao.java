@@ -26,8 +26,6 @@ public interface UserCenterDao {
 
     List<FollowingGroup> getUserFollowingGroups(Long userId);
 
-    List<UserFollowingCount> getUserFollowingsCountByGroup(Long userId);
-
     List<UserFollowing> pageListUserCenterFollowings(Map<String, Object> params);
 
     List<UserInfo> getUserInfoByIds(@Param("userIds") Set<Long> userIds);
@@ -48,6 +46,11 @@ public interface UserCenterDao {
 
     int addUserCollectionGroups(VideoCollectionGroup videoCollectionGroup);
 
+    List<FollowingGroup> countUserCenterFollowingGroups(Long userId);
 
+    Integer pageCountUserCenterFollowings(Map<String, Object> params);
+
+    Long countUserFans(Long userId);
 }
+
 

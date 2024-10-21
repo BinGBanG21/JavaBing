@@ -44,4 +44,12 @@
             followingId = #{followingId}
     </select>
 
+    <update id="updateUserFollowings">
+        update
+            t_user_following
+        set groupId = #{groupId}
+        where userId = #{userId}
+          and followingId = #{followingId}
+    </update>
+
 </mapper>

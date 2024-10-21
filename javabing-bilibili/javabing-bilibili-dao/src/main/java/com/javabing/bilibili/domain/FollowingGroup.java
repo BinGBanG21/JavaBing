@@ -26,6 +26,16 @@ public class FollowingGroup {
 
     private List<UserInfo> followingUserInfoList;
 
+    private Integer count;
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
     public Long getId() {
         return id;
     }
@@ -82,3 +92,4 @@ public class FollowingGroup {
         this.followingUserInfoList = followingUserInfoList;
     }
 }
+

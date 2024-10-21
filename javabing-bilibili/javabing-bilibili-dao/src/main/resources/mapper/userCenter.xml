@@ -53,16 +53,17 @@
         order by type+0
     </select>
 
-    <select id="getUserFollowingsCountByGroup" resultType="com.javabing.bilibili.domain.UserFollowingCount">
-        SELECT
-            groupId,
-            count( followingId ) count
-        FROM
-            t_user_following
-        WHERE
-            userId = #{userId}
-        GROUP BY
-            groupId
+
+    <select id="pageCountUserCenterFollowings" resultType="java.lang.Integer">
+        select
+        count(1)
+        from
+        t_user_following
+        where
+        userId = #{userId}
+        <if test="groupId != null ">
+            and groupId = #{groupId}
+        </if>
     </select>
 
     <select id="pageListUserCenterFollowings" resultType="com.javabing.bilibili.domain.UserFollowing">
@@ -191,5 +192,29 @@
                 #{createTime}
             )
     </insert>
+
+    <select id="countUserCenterFollowingGroups" resultType="com.javabing.bilibili.domain.FollowingGroup">
+        SELECT
+            uf.userId as userId,
+            fg.id as id,
+            fg.name as name,
+            IFNULL( COUNT( uf.followingId ), 0 ) AS count
+        FROM
+            t_user_following uf
+            left join t_following_group fg on uf.groupId = fg.id
+        WHERE
+            uf.userId = #{userId}
+        GROUP BY uf.groupId
+        ORDER BY uf.groupId
+    </select>
+
+    <select id="countUserFans" resultType="java.lang.Long">
+        select
+            count(1)
+        from
+            t_user_following
+        where
+            followingId = #{userId}
+    </select>
 
 </mapper>

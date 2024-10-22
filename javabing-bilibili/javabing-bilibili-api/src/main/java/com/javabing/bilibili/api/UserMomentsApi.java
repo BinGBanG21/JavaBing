@@ -7,18 +7,17 @@ package com.javabing.bilibili.api;/*
  * @Version 1.0
  **/
 
+
 import com.javabing.bilibili.api.support.UserSupport;
 import com.javabing.bilibili.domain.JsonResponse;
+import com.javabing.bilibili.domain.PageResult;
 import com.javabing.bilibili.domain.UserMoment;
 import com.javabing.bilibili.domain.annotation.ApiLimitedRole;
 import com.javabing.bilibili.domain.annotation.DataLimited;
 import com.javabing.bilibili.domain.constant.AuthRoleConstant;
 import com.javabing.bilibili.service.UserMomentsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class UserMomentsApi {
 
 
     @ApiLimitedRole(limitedRoleCodeList = {AuthRoleConstant.ROLE_LV0})
-    @DataLimited
+//    @DataLimited
     @PostMapping("/user-moments")
     public JsonResponse<String> addUserMoments(@RequestBody UserMoment userMoment) throws Exception {
         Long userId = userSupport.getCurrentUserId();
@@ -49,6 +48,17 @@ public class UserMomentsApi {
         return new JsonResponse<>(list);
     }
 
+    @GetMapping("/moments")
+    public JsonResponse<PageResult<UserMoment>> pageListMoments(@RequestParam("size") Integer size,
+                                                                @RequestParam("no") Integer no,
+                                                                String type){
+        Long userId = userSupport.getCurrentUserId();
+        PageResult<UserMoment> list = userMomentsService.pageListMoments(size, no,
+                userId, type);
+        return new JsonResponse<>(list);
+    }
+
 }
+
 
 

@@ -1,7 +1,9 @@
 package com.javabing.bilibili.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.javabing.bilibili.dao.VideoDao;
 import com.javabing.bilibili.domain.*;
+import com.javabing.bilibili.domain.constant.UserMomentsConstant;
 import com.javabing.bilibili.domain.exception.ConditionException;
 import com.javabing.bilibili.service.util.FastDFSUtil;
 import com.javabing.bilibili.service.util.ImageUtil;
@@ -64,6 +66,12 @@ public class VideoService {
     @Autowired
     private FileService fileService;
 
+    @Autowired
+    private ContentService contentService;
+
+    @Autowired
+    private UserMomentsService userMomentsService;
+
     private static final int FRAME_NO = 256;
 
     @Value("${fdfs.http.storage-addr}")
@@ -74,6 +82,7 @@ public class VideoService {
         Date now = new Date();
         video.setCreateTime(new Date());
         videoDao.addVideos(video);
+        //保存视频标签
         Long videoId = video.getId();
         List<VideoTag> tagList = video.getVideoTagList();
         tagList.forEach(item -> {
@@ -81,6 +90,23 @@ public class VideoService {
             item.setVideoId(videoId);
         });
         videoDao.batchAddVideoTags(tagList);
+        videoDao.batchAddVideoTags(tagList);
+        //新增：自动发布动态
+        try{
+            //添加动态内容
+            Content content = new Content();
+            content.setContentDetail(JSONObject.parseObject(JSONObject.toJSONString(video)));
+            contentService.addContent(content);
+            Long contentId = content.getId();
+            //添加用户发布视频动态
+            UserMoment moment = new UserMoment();
+            moment.setType(UserMomentsConstant.TYPE_VIDEO);
+            moment.setContentId(contentId);
+            moment.setUserId(video.getUserId());
+            userMomentsService.addUserMoments(moment);
+        }catch (Exception e){
+            throw new ConditionException("发布视频动态失败");
+        }
     }
 
     public PageResult<Video> pageListVideos(Integer size, Integer no, String area) {

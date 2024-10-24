@@ -6,7 +6,6 @@ package com.javabing.bilibili.api;/*
  * @Create 2024/10/14/星期一 11:58
  * @Version 1.0
  **/
-
 import com.javabing.bilibili.domain.JsonResponse;
 import com.javabing.bilibili.domain.UserInfo;
 import com.javabing.bilibili.domain.Video;
@@ -99,4 +98,5 @@ public class DemoApi {
     }
 
 }
+
 

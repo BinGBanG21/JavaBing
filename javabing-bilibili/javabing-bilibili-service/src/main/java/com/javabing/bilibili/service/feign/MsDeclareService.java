@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
-@FeignClient("imooc-bilibili-ms-api")
+@FeignClient("javabing-bilibili-ms-api")
 public interface MsDeclareService {
 
     @GetMapping("/demos")

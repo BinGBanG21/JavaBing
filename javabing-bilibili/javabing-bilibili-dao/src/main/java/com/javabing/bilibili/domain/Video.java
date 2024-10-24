@@ -48,8 +48,10 @@ public class Video {
     @Field(type = FieldType.Date)
     private Date updateTime;
 
+    @Field(type = FieldType.Integer)
     private Integer viewCount;
 
+    @Field(type = FieldType.Integer)
     private Integer danmuCount;
 
     public Integer getViewCount() {

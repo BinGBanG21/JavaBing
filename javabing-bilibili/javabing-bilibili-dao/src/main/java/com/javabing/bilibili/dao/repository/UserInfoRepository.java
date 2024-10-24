@@ -12,5 +12,4 @@ import com.javabing.bilibili.domain.UserInfo;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 public interface UserInfoRepository extends ElasticsearchRepository<UserInfo, Long> {
-
-}
+    long countByNick(String nickKeyword);}

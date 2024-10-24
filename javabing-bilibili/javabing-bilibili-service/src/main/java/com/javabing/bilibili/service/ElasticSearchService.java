@@ -11,6 +11,7 @@ import com.javabing.bilibili.dao.repository.UserInfoRepository;
 import com.javabing.bilibili.dao.repository.VideoRepository;
 import com.javabing.bilibili.domain.UserInfo;
 import com.javabing.bilibili.domain.Video;
+import com.javabing.bilibili.domain.constant.SearchConstant;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -24,13 +25,12 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -105,4 +105,38 @@ public class ElasticSearchService {
     public void deleteAllVideos(){
         videoRepository.deleteAll();
     }
+
+    public long countVideoBySearchTxt(String searchTxt) {
+        return this.videoRepository.countByTitleOrDescription(searchTxt, searchTxt);
+    }
+
+    public long countUserBySearchTxt(String searchTxt) {
+        return this.userInfoRepository.countByNick(searchTxt);
+    }
+
+    public Page<Video> pageListSearchVideos(String keyword, Integer pageSize,
+                                            Integer pageNo, String searchType) {
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
+        if(SearchConstant.DEFAULT.equals(searchType)
+                || SearchConstant.VIEW_COUNT.equals(searchType)){
+            return videoRepository.findByTitleOrDescriptionOrderByViewCountDesc(keyword, keyword, pageRequest);
+        }else if(SearchConstant.CREATE_TIME.equals(searchType)){
+            return videoRepository.findByTitleOrDescriptionOrderByCreateTimeDesc(keyword, keyword, pageRequest);
+        }else if(SearchConstant.DANMU_COUNT.equals(searchType)){
+            return videoRepository.findByTitleOrDescriptionOrderByDanmuCountDesc(keyword, keyword, pageRequest);
+        }else{
+            return videoRepository.findByTitleOrDescriptionOrderByViewCountDesc(keyword, keyword, pageRequest);
+        }
+    }
+
+    public void updateVideoViewCount(Long videoId) {
+        Optional<Video> videoOpt = videoRepository.findById(videoId);
+        if(videoOpt.isPresent()){
+            Video video = videoOpt.get();
+            int viewCount = video.getViewCount() == null? 0 : video.getViewCount();
+            video.setViewCount(viewCount+1);
+            videoRepository.save(video);
+        }
+    }
 }
+

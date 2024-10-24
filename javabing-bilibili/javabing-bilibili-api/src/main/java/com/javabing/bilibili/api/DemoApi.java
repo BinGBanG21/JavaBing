@@ -7,8 +7,8 @@ package com.javabing.bilibili.api;/*
  * @Version 1.0
  **/
 
-
 import com.javabing.bilibili.domain.JsonResponse;
+import com.javabing.bilibili.domain.UserInfo;
 import com.javabing.bilibili.domain.Video;
 import com.javabing.bilibili.service.DemoService;
 import com.javabing.bilibili.service.ElasticSearchService;
@@ -53,6 +53,24 @@ public class DemoApi {
         return new JsonResponse<>(video);
     }
 
+    @PostMapping("/es-videos")
+    public JsonResponse<String> addVideos(@RequestBody Video video){
+        elasticSearchService.addVideo(video);
+        return JsonResponse.success();
+    }
+
+    @DeleteMapping("/es-videos")
+    public JsonResponse<String> deleteVideos(){
+        elasticSearchService.deleteAllVideos();
+        return JsonResponse.success();
+    }
+
+    @PostMapping("/es-users")
+    public JsonResponse<String> addUsers(@RequestBody UserInfo userInfo){
+        elasticSearchService.addUserInfo(userInfo);
+        return JsonResponse.success();
+    }
+
     @GetMapping("/demos")
     public Long msget(@RequestParam Long id){
         return msDeclareService.msget(id);
@@ -81,3 +99,4 @@ public class DemoApi {
     }
 
 }
+

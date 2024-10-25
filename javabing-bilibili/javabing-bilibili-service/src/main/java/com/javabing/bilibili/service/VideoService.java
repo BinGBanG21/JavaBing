@@ -72,6 +72,8 @@ public class VideoService {
     @Autowired
     private UserMomentsService userMomentsService;
 
+    private static final int DEFAULT_RECOMMEND_NUMBER = 3;
+
     private static final int FRAME_NO = 256;
 
     @Value("${fdfs.http.storage-addr}")
@@ -518,6 +520,37 @@ public class VideoService {
 
     public List<VideoBinaryPicture> getVideoBinaryImages(Map<String, Object> params) {
         return videoDao.getVideoBinaryImages(params);
+    }
+
+    public List<Video> getVideoRecommendations(String recommendType, Long userId){
+        List<Video> list = new ArrayList<>();
+        try {
+            //根据推荐类型进行推荐：1基于用户推荐 2基于内容推荐
+            if("1".equals(recommendType)){
+                list = this.recommend(userId);
+            }else{
+                //找到用户最喜欢的视频，作为推荐的基础内容
+                List<UserPreference> preferencesList = videoDao.getAllUserPreference();
+                Optional<Long> itemIdOpt = preferencesList.stream().filter(item -> item.getUserId().equals(userId))
+                        .max(Comparator.comparing(UserPreference :: getValue)).map(UserPreference::getVideoId);
+                if(itemIdOpt.isPresent()){
+                    list = this.recommendByItem(userId, itemIdOpt.get(), DEFAULT_RECOMMEND_NUMBER);
+                }
+            }
+            //若没有计算出推荐内容，则默认查询最新视频
+            if(list.isEmpty()){
+                list = this.pageListVideos(3,1,null).getList();
+            }else{
+                list.forEach(video -> video.setThumbnail(fastdfsUrl+video.getThumbnail()));
+            }
+        }catch (Exception e){
+            throw new ConditionException("推荐失败");
+        }
+        return list;
+    }
+
+    public List<Video> getVisitorVideoRecommendations() {
+        return this.pageListVideos(DEFAULT_RECOMMEND_NUMBER,1,null).getList();
     }
 }
 

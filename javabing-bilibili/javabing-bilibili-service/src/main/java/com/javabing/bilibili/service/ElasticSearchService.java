@@ -114,6 +114,16 @@ public class ElasticSearchService {
         return this.userInfoRepository.countByNick(searchTxt);
     }
 
+    public void updateVideoViewCount(Long videoId) {
+        Optional<Video> videoOpt = videoRepository.findById(videoId);
+        if(videoOpt.isPresent()){
+            Video video = videoOpt.get();
+            int viewCount = video.getViewCount() == null? 0 : video.getViewCount();
+            video.setViewCount(viewCount+1);
+            videoRepository.save(video);
+        }
+    }
+
     public Page<Video> pageListSearchVideos(String keyword, Integer pageSize,
                                             Integer pageNo, String searchType) {
         PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
@@ -129,14 +139,18 @@ public class ElasticSearchService {
         }
     }
 
-    public void updateVideoViewCount(Long videoId) {
-        Optional<Video> videoOpt = videoRepository.findById(videoId);
-        if(videoOpt.isPresent()){
-            Video video = videoOpt.get();
-            int viewCount = video.getViewCount() == null? 0 : video.getViewCount();
-            video.setViewCount(viewCount+1);
-            videoRepository.save(video);
+    public Page<UserInfo> pageListSearchUsers(String keyword, Integer pageSize,
+                                              Integer pageNo, String searchType) {
+        PageRequest pageRequest = PageRequest.of(pageNo, pageSize);
+        if(SearchConstant.USER_DEFAULT.equals(searchType)
+                || SearchConstant.USER_FAN_COUNT_DESC.equals(searchType)){
+            return userInfoRepository.findByNickOrderByFanCountDesc(keyword, pageRequest);
+        }else if(SearchConstant.USER_FAN_COUNT_ASC.equals(searchType)){
+            return userInfoRepository.findByNickOrderByFanCountAsc(keyword, pageRequest);
+        }else{
+            return userInfoRepository.findByNickOrderByFanCountDesc(keyword, pageRequest);
         }
     }
 }
+
 

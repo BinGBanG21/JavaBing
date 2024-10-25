@@ -9,6 +9,7 @@ package com.javabing.bilibili.api;/*
 
 import com.javabing.bilibili.domain.JsonResponse;
 import com.javabing.bilibili.domain.PageResult;
+import com.javabing.bilibili.domain.UserInfo;
 import com.javabing.bilibili.domain.Video;
 import com.javabing.bilibili.service.SearchContentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,16 @@ public class SearchContentApi {
                                                           @RequestParam Integer pageNo,
                                                           @RequestParam String searchType){
         Page<Video> result = searchContentService.pageListSearchVideos(keyword, pageSize,
+                pageNo, searchType);
+        return new JsonResponse<>(result);
+    }
+
+    @GetMapping("/search-users")
+    public JsonResponse<Page<UserInfo>> pageListSearchUsers(@RequestParam String keyword,
+                                                            @RequestParam Integer pageSize,
+                                                            @RequestParam Integer pageNo,
+                                                            @RequestParam String searchType){
+        Page<UserInfo> result = searchContentService.pageListSearchUsers(keyword, pageSize,
                 pageNo, searchType);
         return new JsonResponse<>(result);
     }

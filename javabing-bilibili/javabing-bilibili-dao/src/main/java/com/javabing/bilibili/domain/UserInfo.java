@@ -41,6 +41,9 @@ public class UserInfo {
 
     private Boolean followed;
 
+    @Field(type = FieldType.Integer)
+    private Integer fanCount;
+
     public Long getId() {
         return id;
     }
@@ -120,4 +123,13 @@ public class UserInfo {
     public void setFollowed(Boolean followed) {
         this.followed = followed;
     }
+
+    public Integer getFanCount() {
+        return fanCount;
+    }
+
+    public void setFanCount(Integer fanCount) {
+        this.fanCount = fanCount;
+    }
 }
+

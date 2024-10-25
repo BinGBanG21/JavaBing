@@ -3,9 +3,10 @@ package com.javabing.bilibili.api;/*
  * Package: com.javabing.bilibili.api
  * Description:
  * @Author WangBing
- * @Create 2024/10/14/星期一 11:58
+ * @Create 2024/10/25/星期五 8:15
  * @Version 1.0
  **/
+
 import com.javabing.bilibili.domain.JsonResponse;
 import com.javabing.bilibili.domain.UserInfo;
 import com.javabing.bilibili.domain.Video;
@@ -98,5 +99,3 @@ public class DemoApi {
     }
 
 }
-
-

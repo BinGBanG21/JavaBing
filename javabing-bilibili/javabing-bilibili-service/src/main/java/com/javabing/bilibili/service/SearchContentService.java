@@ -7,6 +7,7 @@ package com.javabing.bilibili.service;/*
  * @Version 1.0
  **/
 
+import com.javabing.bilibili.domain.UserInfo;
 import com.javabing.bilibili.domain.Video;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,6 +42,13 @@ public class SearchContentService {
         Page<Video> result = elasticSearchService.pageListSearchVideos(keyword, pageSize,
                 pageNo-1, searchType);
         result.getContent().forEach(item  -> item.setThumbnail(fastdfsUrl + item.getThumbnail()));
+        return result;
+    }
+
+    public Page<UserInfo> pageListSearchUsers(String keyword, Integer pageSize,
+                                              Integer pageNo, String searchType) {
+        Page<UserInfo> result = elasticSearchService.pageListSearchUsers(keyword, pageSize,
+                pageNo-1, searchType);
         return result;
     }
 }
